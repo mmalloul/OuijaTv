@@ -2,5 +2,9 @@
 	import "virtual:windi.css";
 </script>
 
-<h1 class="p-7">Welcome to SvelteKit</h1>
+<h1 class="p-7 test">Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+
+<style lang="scss">
+    @import "../style.scss";
+</style>
