@@ -1,10 +1,11 @@
 <script lang="ts">
-	import "virtual:windi.css";
+    import { goto } from "$app/navigation";
 </script>
 
-<h1 class="p-7 test">Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<div>
+    This is the main page.
+</div>
 
-<style lang="scss">
-    @import "../style.scss";
-</style>
+<button on:click={() => goto("/profile")} class="bg-dark-400 text-white p-5">
+    Go to profile page
+</button>
