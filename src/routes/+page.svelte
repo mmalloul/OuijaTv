@@ -1,5 +1,5 @@
 <script lang="ts">
-    import 'virtual:windi.css'
+	import "virtual:windi.css";
 </script>
 
 <h1 class="p-7">Welcome to SvelteKit</h1>
