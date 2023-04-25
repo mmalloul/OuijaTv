@@ -1,5 +1,5 @@
 from fastapi import WebSocket, WebSocketDisconnect
-from .stores.games import games
+from stores.games import games
 
 
 async def join(websocket: WebSocket, pin: str) -> None:

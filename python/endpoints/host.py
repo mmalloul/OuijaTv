@@ -1,7 +1,8 @@
 from fastapi import WebSocket, WebSocketDisconnect
 from string import ascii_uppercase
 from random import choices
-from .stores.games import Game, games
+from stores.games import Game, games
+
 
 def generate_pin(length: int) -> str:
     return "".join(choices(ascii_uppercase, k=length))
