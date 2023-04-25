@@ -1,34 +1,27 @@
 from fastapi import WebSocket, WebSocketDisconnect
 from string import ascii_uppercase
-from random import choice
+from random import choices
+from typing import Dict, List
 
-games = {}
+# pin: listeners
+games: Dict[int, List[WebSocket]] = {}
 
 
 def generate_pin(length: int) -> str:
-    return "".join(choice(ascii_uppercase) for _ in range(length))
+    return "".join(choices(ascii_uppercase, k=length))
 
 
 def generate_unique(length: int = 6) -> str:
-    # this will loop until a host disconnects if all 26**6 pins are taken
+    # this will loop continuously until a host disconnects if all 26**6 pins are taken
     while pin := generate_pin(length):
         if pin not in games:
             break
     return pin
 
 
-def generate_unique(length: int = 6) -> str:
-    pin = generate_pin(length)
-    if pin not in games:
-        return pin
-    else:
-        return generate_unique(length)
-
-
-async def host(websocket: WebSocket):
-    
+async def host(websocket: WebSocket) -> None:
     pin = generate_unique()
-    games[pin] = websocket
+    games[pin] = []
 
     await websocket.accept()
     await websocket.send_text(pin)
@@ -37,5 +30,6 @@ async def host(websocket: WebSocket):
     try:
         while True:
             await websocket.receive_text()
+            await websocket.send_text(str(games))
     except WebSocketDisconnect:
         del games[pin]
