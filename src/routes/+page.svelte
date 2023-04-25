@@ -1,36 +1,34 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 
+	let pin = "";
+	let messages: string[] = [];
+
 	onMount(() => {
 		const websocket = new WebSocket("ws://localhost:8000/host");
 		websocket.onmessage = ({ data }) => {
-			console.log(data);
+			if (pin) {
+				messages = [...messages, data];
+			} else {
+				pin = data;
+			}
 		};
 	});
 </script>
 
-<div class="flex flex-col max-w-50 gap-3 absolute-center pb-8">
-	<button type="button">Host</button>
-	<button disabled type="button">Join</button>
-</div>
+{#each messages as message}
+	<div>{message}</div>
+{/each}
+
+<a
+	href={pin}
+	target="_blank"
+	class="text-7xl font-bold text-center text-gray-700 pb-18 absolute-center"
+>
+	{pin}
+</a>
 
 <style lang="scss">
-	// this CSS is scoped, so it's fine to target components directly
-	button {
-		background: #1d6589;
-		color: #fff;
-		padding: 1rem 5rem 1rem 5rem;
-		border-radius: 1rem;
-		font-size: large;
-		font-weight: 500;
-
-		&:disabled {
-			background: #ccc;
-			color: rgb(148, 148, 148);
-			cursor: not-allowed;
-		}
-	}
-
 	.absolute-center {
 		position: absolute;
 		top: 50%;
