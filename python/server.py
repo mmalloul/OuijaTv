@@ -1,4 +1,4 @@
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI
 from endpoints.host import host
 from endpoints.join import join
 
