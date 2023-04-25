@@ -1,12 +1,7 @@
 from fastapi import WebSocket, WebSocketDisconnect
 from string import ascii_uppercase
 from random import choices
-from typing import Dict
-from collections import namedtuple
-
-Game = namedtuple("Game", ["host", "players"])
-games: Dict[int, Game] = {}
-
+from .stores.games import Game, games
 
 def generate_pin(length: int) -> str:
     return "".join(choices(ascii_uppercase, k=length))
