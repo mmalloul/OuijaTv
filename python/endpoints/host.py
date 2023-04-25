@@ -1,10 +1,11 @@
 from fastapi import WebSocket, WebSocketDisconnect
 from string import ascii_uppercase
 from random import choices
-from typing import Dict, List
+from typing import Dict
+from collections import namedtuple
 
-# pin: listeners
-games: Dict[int, List[WebSocket]] = {}
+Game = namedtuple("Game", ["host", "players"])
+games: Dict[int, Game] = {}
 
 
 def generate_pin(length: int) -> str:
@@ -21,7 +22,7 @@ def generate_unique(length: int = 6) -> str:
 
 async def host(websocket: WebSocket) -> None:
     pin = generate_unique()
-    games[pin] = []
+    games[pin] = Game(websocket, [])
 
     await websocket.accept()
     await websocket.send_text(pin)
