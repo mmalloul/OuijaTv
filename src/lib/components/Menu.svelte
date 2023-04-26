@@ -1,5 +1,5 @@
 <script>
-	import menuItems from "../types/MenuItems";
+	import menuItems from "$lib/types/MenuItems";
 </script>
 
 <nav>

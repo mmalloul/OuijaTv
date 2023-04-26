@@ -1,7 +1,7 @@
 <script lang="ts">
 	import "virtual:windi.css";
 	import "../style.scss";
-	import Menu from "../lib/components/Menu.svelte";
+	import Menu from "$lib/components/Menu.svelte";
 </script>
 
 <Menu />
