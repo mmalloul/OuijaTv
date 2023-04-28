@@ -2,6 +2,7 @@ from fastapi import WebSocket, WebSocketDisconnect
 from string import ascii_uppercase
 from random import choices
 from stores.games import Game, games
+import asyncio
 
 
 def generate_pin(length: int) -> str:
@@ -26,7 +27,8 @@ async def host(websocket: WebSocket) -> None:
     # this disaster is convention; don't @ me
     try:
         while True:
-            await websocket.receive_text()
-            await websocket.send_text(str(games))
+            prompt = await websocket.receive_text()
+            tasks = (player.send_text(prompt) for player in games[pin].players)
+            await asyncio.gather(*tasks)
     except WebSocketDisconnect:
         del games[pin]
