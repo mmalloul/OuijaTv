@@ -54,7 +54,7 @@ sonarqube-check:
 deploy:
   stage: deploy
   before_script:
-  #checks if ssh-key is valid from this pipeline if yes assign rights so it can ssh into our production server
+    #checks if ssh-key is valid from this pipeline if yes assign rights so it can ssh into our production server
     - "command -v ssh-agent >/dev/null || ( apk add --update openssh )"
     - eval $(ssh-agent -s)
     - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add -
