@@ -5,18 +5,18 @@ image: node:latest
 stages: # List of stages for jobs, and their order of execution
   - build
   - test
+  - deploy
 
-## TODO:
-## 1. Cache node modules with docker file, to increase performance.
-
-build-job: # This job runs in the build stage, which runs first.
+build:
   stage: build
+  image: docker:20.10.16
   before_script:
-    - npm i
+    - echo $DOCKER_ACCESS_TOKEN | docker login -u $DOCKER_REGISTRY_USER --password-stdin
   script:
-    - echo "Compiling the code..."
-    - npm build
-    - echo "Compile complete."
+    - docker build -f Dockerfile -t $DOCKER_REPO:latest .
+    - docker push $DOCKER_REPO:latest
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'OUIJ-26-deployment'
   tags:
     - hva
 
@@ -48,5 +48,27 @@ sonarqube-check:
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
     - if: $CI_COMMIT_BRANCH == 'acceptance'
+  tags:
+    - hva
+
+deploy:
+  stage: deploy
+  before_script:
+    - "command -v ssh-agent >/dev/null || ( apk add --update openssh )"
+    - eval $(ssh-agent -s)
+    - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $SERVER_IP >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - echo $SSH_USER@$SERVER_IP
+    - ssh $SSH_USER@$SERVER_IP "
+      echo $DOCKER_ACCESS_TOKEN | docker login -u $DOCKER_REGISTRY_USER --password-stdin &&
+      cd ouijatv &&
+      docker compose pull &&
+      docker compose up -d"
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'OUIJ-26-deployment'
   tags:
     - hva
