@@ -1,73 +1,74 @@
 <script lang="ts">
-    import BoardSvg from "$lib/components/BoardSVG.svelte";
+	import BoardSvg from "$lib/components/BoardSVG.svelte";
+	import { onMount } from "svelte";
 
-    function handleClick()
-    {
-        console.log()
-    }
+	let seekerX = 0,
+		seekerY = 0;
 
-    let seekerX = 960, seekerY = 540
+	interface CircleProps {
+		pos: Vector2;
+		r: string;
+	}
 
-    function update(_progress: number) 
-    {
-        // Update the state of the world for the elapsed time since last render
-        seekerX += getRandomInt(-10, 10);
-        seekerY += getRandomInt(-10,10);
-    }
+	class Vector2 {
+		constructor(public x: number, public y: number) {}
+	}
 
-    function draw() {
-        // Draw the state of the world
-    }
+	const letterPositions: Record<string, Vector2> = {};
 
-    function getRandomInt(a: number, b: number): number {
-        const min = Math.ceil(a);
-        const max = Math.floor(b);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+	let targetLetter = "A";
 
+	onMount(() => {
+		const circleElements = document.querySelectorAll<SVGCircleElement>("circle");
 
+		circleElements.forEach((element) => {
+			const id = element.id;
+			let x = element.attributes.getNamedItem("cx")?.value;
+			let y = element.attributes.getNamedItem("cy")?.value;
+			if (x && y) {
+				letterPositions[id.charAt(id.length - 1)] = new Vector2(parseFloat(x), parseFloat(y));
+			}
+		});
 
-    function loop(timestamp: number) {
-        var progress = timestamp - lastRender
+		console.log(letterPositions[targetLetter]);
+	});
 
-        update(progress)
-        draw()
-
-        lastRender = timestamp
-        window.requestAnimationFrame(loop)
-    }
-
-    var lastRender = 0
-    window.requestAnimationFrame(loop)
+	function targetALetter(letter: string) {
+		var target = letterPositions[letter];
+		seekerX = target.x;
+		seekerY = target.y;
+	}
 </script>
 
-
-
 <div id="wrapper">
-    <label>
-        <input type="range" bind:value={seekerX} min=0 max=1920>
-        <input type="range" bind:value={seekerY} min=0 max=1080>
-    </label>
+	<label>
+		<input type="range" bind:value={seekerX} min="0" max="1920" />
+		<input type="range" bind:value={seekerY} min="0" max="1080" />
+		<input type="text" bind:value={targetLetter} />
+		<button on:click={() => targetALetter(targetLetter)}>click</button>
+	</label>
 
-    <BoardSvg>
-        <circle id="Seeker" cx={seekerX} cy={seekerY} r="76.5" stroke="#FFF7E2" stroke-width="13"/>
-    </BoardSvg>
+	<BoardSvg>
+		<circle id="Seeker" cx={seekerX} cy={seekerY} r="76.5" stroke="#FFF7E2" stroke-width="13" />
+	</BoardSvg>
 </div>
 
-
-
 <style>
-/* TODO: remove dirty override */
-:global(body) { 
-    background: radial-gradient(rgb(33, 33, 33), black) !important;
-}
+	/* TODO: remove dirty override */
+	:global(body) {
+		background: radial-gradient(rgb(33, 33, 33), black) !important;
+	}
 
-circle {
-    transition: cx .5s, cy .5s;
-}
+	button {
+		background-color: aliceblue;
+	}
 
-#wrapper {
-    height: 75%;
-    width: 75%;
-}
+	circle {
+		transition: cx 0.5s, cy 0.5s;
+	}
+
+	#wrapper {
+		height: 75%;
+		width: 75%;
+	}
 </style>
