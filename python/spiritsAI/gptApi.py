@@ -23,6 +23,6 @@ completion = openai.ChatCompletion.create(
 
 print(completion.choices[0].message)
 
-print('=======================')
+print('========================')
 
 print(completion)
