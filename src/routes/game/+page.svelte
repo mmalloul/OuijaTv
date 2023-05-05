@@ -40,7 +40,7 @@
 	}
 </script>
 
-<div id="wrapper">
+<div id="wrapper page--game">
 	<label>
 		<input type="range" bind:value={seekerX} min="0" max="1920" />
 		<input type="range" bind:value={seekerY} min="0" max="1080" />
