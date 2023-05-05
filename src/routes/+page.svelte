@@ -28,7 +28,7 @@
 	<div>{message}</div>
 {/each}
 
-<div class="absolute-center flex flex-col gap-12 pb-5">
+<div class="page absolute-center flex gap-12 pb-5">
 	<a href={pin} target="_blank" class="text-7xl text-center font-bold text-gray-700">
 		{pin}
 	</a>

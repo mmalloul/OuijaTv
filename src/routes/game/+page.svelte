@@ -54,11 +54,6 @@
 </div>
 
 <style>
-	/* TODO: remove dirty override */
-	:global(body) {
-		background: radial-gradient(rgb(33, 33, 33), black) !important;
-	}
-
 	button {
 		background-color: aliceblue;
 	}
