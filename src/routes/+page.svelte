@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { env } from "$env/static/public";
 	import { onMount } from "svelte";
 
 	let websocket: WebSocket;
@@ -7,7 +8,7 @@
 	let messages: string[] = [];
 
 	onMount(() => {
-		websocket = new WebSocket(`ws://localhost:8000/host`);
+		websocket = new WebSocket(`${env.WS_URL}/host`);
 		websocket.onmessage = ({ data }) => {
 			if (pin) {
 				messages = [...messages, data];
