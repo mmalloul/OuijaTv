@@ -2,7 +2,10 @@
 	import { quintOut } from "svelte/easing";
 	import { crossfade } from "svelte/transition";
 	import { flip } from "svelte/animate";
-
+	import { env } from '$env/dynamic/public'
+	import { Configuration, OpenAIApi } from 'openai';
+	
+	// animation for choosing personality 
 	const [send, receive] = crossfade({
 		fallback(node, params) {
 			const style = getComputedStyle(node);
@@ -25,48 +28,64 @@
 		{ id: 5, done: false, description: "Clever" }
 	];
 
-	// TODO api request needs to be made here
-	let awnser = "";
-	let question = "";
-	function openAiCall() {
-		const selectedTraits = traits.filter((t) => t.done).map((t) => t.description);
-		const selectedTraitsString = selectedTraits.join(", ");
-
-		console.log(selectedTraitsString);
-		console.log(question);
-		// return response
+	let visible = false;
+	function toggleVissible() {
+	visible = !visible
+		const button = document.querySelector('.toggle-button');
+		if (visible) {
+		button.textContent = 'Close';
+		document.querySelector('.absolute-center').style.top = '75%';
+		} else {
+		button.textContent = 'Open';
+		document.querySelector('.absolute-center').style.top = '50%';
+		}
 	}
 
-let visible = false;
+	// api request to openAI
+	let question = "";
+	let awnser:string = "";
+	async function openAiCall() {
+		const selectedTraits = traits.filter((t) => t.done).map((t) => t.description);
+		const selectedTraitsString = selectedTraits.join(', ');
+		const configuration = new Configuration({
+			apiKey: env.PUBLIC_API_KEY_OPENAI,
+		});
+		const content = "you are a ouija response spirit that takes a question in and fills the blank or gives a awnser. Your personality is " + selectedTraitsString + " and the reponse must be really short 3 words max and if you cannot awnser anything because it is limiting you as a bot just say something funny.And stick to the personality traits given to you. "
+		
+		const openai = new OpenAIApi(configuration);
+		const completion = await openai.createChatCompletion({
+			model: "gpt-3.5-turbo",
+			messages: [{role: "system", content: content},
+					{role: "user", content: question}],			
+			temperature: 0.7,
+			max_tokens: 80,
+			n: 1,
+			stop: '\n',
+		});
+		awnser = completion.data.choices[0].message?.content
+	};
+	
 
-function toggleVissible() {
-	visible = !visible
-	const button = document.querySelector('.toggle-button');
-  if (visible) {
-    button.textContent = 'Close';
-    document.querySelector('.absolute-center').style.top = '75%';
-  } else {
-    button.textContent = 'Open';
-    document.querySelector('.absolute-center').style.top = '50%';
-  }
-}
 </script>
 
+
 <div class="board">
-	<div>
-		<h2><b>SOLO Summon</b></h2>
-		<br />To select traits for the Ouija spirit, you can choose from a list of pre-defined traits
-		hat are relevant to the spirit you want to communicate with. The traits can be selected by
+	<div class="awnser">
+		<h2><b class="awnser">SOLO Summon</b></h2>
+		<br>To select traits for the Ouija spirit, you can choose from a list of pre-defined traits
+		that are relevant to the spirit you want to communicate with. The traits can be selected by
 		clicking on the corresponding checkboxes next to each trait. Once you have selected the desired
-		traits, you can click on the "summnon" button to start the communication with the spirit.
-		<button class="toggle-button bg-indigo-800 text-white rounded-r-lg px-10" on:click={toggleVissible}>
+		traits, you can click on the "summon" button to start the communication with the spirit.
+		<br>
+		<button class="awnser pd-5 toggle-button bg-indigo-800 text-white rounded px-10" on:click={toggleVissible}>
 			open
 		</button>
+	
 	</div>
 
 
-	{#if visible}
 
+	{#if visible}
 	<div class="left">
 		<h2>Traits</h2>
 		{#each traits.filter((t) => !t.done) as todo (todo.id)}
@@ -101,10 +120,19 @@ function toggleVissible() {
 		<button type="submit" class="bg-indigo-800 text-white rounded-r-lg px-10">Summon</button>
 	</form>
 
-	<div>Awnser comes here</div>
+	<div class="awnser spook ">
+		<h1><b>{awnser}</b></h1>
+	</div>
 </div>
 
 <style lang="scss">
+	.spook{
+		color: rgb(55,48,163);
+		font-size: xx-large;
+	}
+	.awnser{
+		text-align: center;
+	}
 	.absolute-center {
 		position: absolute;
 		top: 75%;
@@ -149,8 +177,10 @@ function toggleVissible() {
 	}
 
 	.right label {
-		background-color: rgb(180, 240, 100);
+		background-color: rgb(55,48,163);
+		color: white;
 	}
+	
 
 
 </style>
