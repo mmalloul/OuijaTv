@@ -2,25 +2,23 @@
 	import BoardSvg from "$lib/components/BoardSVG.svelte";
 	import { onMount } from "svelte";
 
-	let seekerX = 0,
-		seekerY = 0;
-
-	interface CircleProps {
-		pos: Vector2;
-		r: string;
-	}
-
-	class Vector2 {
-		constructor(public x: number, public y: number) {}
-	}
-
 	const letterPositions: Record<string, Vector2> = {};
 
+	let seekerX = 0,
+		seekerY = 0;
 	let targetLetter = "A";
 
 	onMount(() => {
-		const circleElements = document.querySelectorAll<SVGCircleElement>("circle");
+		initBoard();
+	});
 
+	function initBoard() {
+		loadLetterPositions();
+	}
+
+	function loadLetterPositions()
+	{
+		const circleElements = document.querySelectorAll<SVGCircleElement>("circle");
 		circleElements.forEach((element) => {
 			const id = element.id;
 			let x = element.attributes.getNamedItem("cx")?.value;
@@ -29,14 +27,16 @@
 				letterPositions[id.charAt(id.length - 1)] = new Vector2(parseFloat(x), parseFloat(y));
 			}
 		});
-
-		console.log(letterPositions[targetLetter]);
-	});
+	}
 
 	function targetALetter(letter: string) {
 		var target = letterPositions[letter.toUpperCase()];
 		seekerX = target.x;
 		seekerY = target.y;
+	}
+
+	class Vector2 {
+		constructor(public x: number, public y: number) {}
 	}
 </script>
 
