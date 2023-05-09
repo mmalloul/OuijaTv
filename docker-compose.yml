@@ -1,13 +1,37 @@
-version: "3.9"
+version: "3"
+
+networks:
+  ouijatv:
+    driver: bridge
 
 services:
   app:
+    container_name: ouijatv-app
     image: ouijatv/app
-    build: .
+    environment:
+      PUBLIC_WS_URL: ws://ouija.tv:8000
+      NODE_ENV: prod
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: on-failure
     ports:
       - 3000:3000
-      - 24678:24678
     volumes:
-      - ./:/usr/src/app
-      - /usr/src/app/node_modules
+      - /app
+    networks:
+      - ouijatv
+    depends_on:
+      - backend
+
+  backend:
+    container_name: ouijatv-backend
+    image: ouijatv/backend
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./python:/app
+    networks:
+      - ouijatv

@@ -13,8 +13,14 @@ build:
   before_script:
     - echo $DOCKER_ACCESS_TOKEN | docker login -u $DOCKER_REGISTRY_USER --password-stdin
   script:
+    - echo $ENV_FILE
+    # File is outside of build context, so make local copy.
+    - cp ${ENV_FILE} .env
     - docker build -f Dockerfile -t $DOCKER_REPO:latest .
     - docker push $DOCKER_REPO:latest
+    - cd python
+    - docker build -f Dockerfile -t $DOCKER_REPO_BACKEND:latest .
+    - docker push $DOCKER_REPO_BACKEND:latest
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
   tags:
@@ -48,6 +54,7 @@ sonarqube-check:
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
     - if: $CI_COMMIT_BRANCH == 'acceptance'
+    - if: $CI_COMMIT_BRANCH == 'prod-env-error'
   tags:
     - hva
 

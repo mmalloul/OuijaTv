@@ -1,0 +1,4 @@
+uvicorn[standard]==0.22.0
+websockets
+fastapi==0.95.1
+wsproto

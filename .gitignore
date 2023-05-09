@@ -11,3 +11,4 @@ vite.config.ts.timestamp-*
 .vscode
 .idea
 __pycache__
+docker-compose.override.yml

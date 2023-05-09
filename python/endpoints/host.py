@@ -32,3 +32,4 @@ async def host(websocket: WebSocket) -> None:
             await asyncio.gather(*tasks)
     except WebSocketDisconnect:
         del games[pin]
+    
