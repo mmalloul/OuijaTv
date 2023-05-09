@@ -34,7 +34,7 @@
 	});
 
 	function targetALetter(letter: string) {
-		var target = letterPositions[letter];
+		var target = letterPositions[letter.toUpperCase()];
 		seekerX = target.x;
 		seekerY = target.y;
 	}
