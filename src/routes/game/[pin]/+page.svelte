@@ -22,8 +22,7 @@
 		loadLetterPositions();
 	}
 
-	function loadLetterPositions()
-	{
+	function loadLetterPositions() {
 		const circleElements = document.querySelectorAll<SVGCircleElement>("circle");
 		circleElements.forEach((element) => {
 			const id = element.id;
@@ -35,8 +34,7 @@
 		});
 	}
 
-	function initSpiritSocket()
-	{
+	function initSpiritSocket() {
 		const pin = $page.params.pin;
 		const websocket = new WebSocket(`${env.PUBLIC_WS_URL}/join?pin=${pin}`);
 		websocket.onclose = () => (status = "game not found");
@@ -51,7 +49,7 @@
 	}
 
 	function targetALetter(letter: string) {
-		console.log('targeting ' + letter);
+		console.log("targeting " + letter);
 		var target = letterPositions[letter.toUpperCase()];
 		seekerX = target.x;
 		seekerY = target.y;
@@ -64,7 +62,6 @@
 
 <div id="wrapper" class="absolute-center page--game">
 	{status}
-
 
 	<label>
 		<input type="range" bind:value={seekerX} min="0" max="1920" />
