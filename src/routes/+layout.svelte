@@ -6,6 +6,6 @@
 
 <Menu />
 
-<div class="grow flex justify-center">
+<div class="grow">
 	<slot />
 </div>

@@ -1,8 +1,15 @@
 @import "$lib/fonts/fonts.css";
 
 body {
-	display: flex;
-	flex-direction: column;
 	height: 100vh;
-	background: #eee;
+	background: radial-gradient(rgb(33, 33, 33), black) !important;
+}
+
+.page {
+	max-width: 1440px;
+	margin: 0 auto;
+}
+
+.page--game {
+	margin: 0 auto;
 }

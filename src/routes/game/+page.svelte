@@ -4,7 +4,8 @@
 
 	let websocket: WebSocket;
 	let pin = "";
-	let prompt = "";
+	let input = "";
+	let question = "";
 	let messages: string[] = [];
 
 	onMount(() => {
@@ -19,30 +20,35 @@
 	});
 
 	function submit() {
-		websocket.send(prompt);
-		prompt = "";
+		websocket.send(input);
+		question = input;
+		input = "";
 	}
 </script>
 
-{#each messages as message}
-	<div>{message}</div>
-{/each}
-
 <div class="page absolute-center flex gap-12 pb-5">
-	<a href={pin} target="_blank" class="text-7xl text-center font-bold text-gray-700">
-		{pin}
-	</a>
-	<form on:submit={submit} class="flex">
-		<input
-			bind:value={prompt}
-			type="text"
-			class="p-3 max-w-200 w-70vw border-dark-50 border rounded-l-lg"
-		/>
-		<button type="submit" class="bg-indigo-800 text-white rounded-r-lg px-10">Submit</button>
-	</form>
+	<div>
+		<a href="game/{pin}" target="_blank" class="text-7xl text-center font-bold text-gray-700">
+			{pin}
+		</a>
+		<form on:submit={submit} class="flex">
+			<input
+				bind:value={input}
+				type="text"
+				class="p-3 max-w-200 w-70vw border-dark-50 border rounded-l-lg"
+			/>
+			<button type="submit" class="bg-indigo-800 text-white rounded-r-lg px-10">Submit</button>
+		</form>
+		<h1><br /><br />{question}</h1>
+	</div>
 </div>
 
 <style lang="scss">
+	p,
+	h1 {
+		color: white;
+	}
+
 	.absolute-center {
 		position: absolute;
 		top: 50%;
