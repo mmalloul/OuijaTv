@@ -40,7 +40,7 @@
 	}
 </script>
 
-<div id="wrapper page--game">
+<div id="wrapper" class="absolute-center page--game">
 	<label>
 		<input type="range" bind:value={seekerX} min="0" max="1920" />
 		<input type="range" bind:value={seekerY} min="0" max="1080" />
@@ -65,5 +65,12 @@
 	#wrapper {
 		height: 75%;
 		width: 75%;
+	}
+
+	.absolute-center {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 	}
 </style>
