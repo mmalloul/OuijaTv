@@ -13,6 +13,8 @@ FROM base as build
 
 COPY . .
 
+ENV key=value
+
 RUN npm install
 
 RUN npm run build
