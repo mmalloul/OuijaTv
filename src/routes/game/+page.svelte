@@ -1,71 +1,52 @@
 <script lang="ts">
-	import BoardSvg from "$lib/components/BoardSVG.svelte";
+	import { env } from "$env/dynamic/public";
 	import { onMount } from "svelte";
 
-	const letterPositions: Record<string, Vector2> = {};
-
-	let seekerX = 0,
-		seekerY = 0;
-	let targetLetter = "A";
+	let websocket: WebSocket;
+	let pin = "";
+    let input = "";
+	let question = "";
+	let messages: string[] = [];
 
 	onMount(() => {
-		initBoard();
+		websocket = new WebSocket(`${env.PUBLIC_WS_URL}/host`);
+		websocket.onmessage = ({ data }) => {
+			if (pin) {
+				messages = [...messages, data];
+			} else {
+				pin = data;
+			}
+		};
 	});
 
-	function initBoard() {
-		loadLetterPositions();
-	}
-
-	function loadLetterPositions()
-	{
-		const circleElements = document.querySelectorAll<SVGCircleElement>("circle");
-		circleElements.forEach((element) => {
-			const id = element.id;
-			let x = element.attributes.getNamedItem("cx")?.value;
-			let y = element.attributes.getNamedItem("cy")?.value;
-			if (x && y) {
-				letterPositions[id.charAt(id.length - 1)] = new Vector2(parseFloat(x), parseFloat(y));
-			}
-		});
-	}
-
-	function targetALetter(letter: string) {
-		var target = letterPositions[letter.toUpperCase()];
-		seekerX = target.x;
-		seekerY = target.y;
-	}
-
-	class Vector2 {
-		constructor(public x: number, public y: number) {}
+	function submit() {
+		websocket.send(input);
+        question = input;
+		input = "";
 	}
 </script>
 
-<div id="wrapper" class="absolute-center page--game">
-	<label>
-		<input type="range" bind:value={seekerX} min="0" max="1920" />
-		<input type="range" bind:value={seekerY} min="0" max="1080" />
-		<input type="text" bind:value={targetLetter} />
-		<button on:click={() => targetALetter(targetLetter)}>click</button>
-	</label>
-
-	<BoardSvg>
-		<circle id="Seeker" cx={seekerX} cy={seekerY} r="76.5" stroke="#FFF7E2" stroke-width="13" />
-	</BoardSvg>
+<div class="page absolute-center flex gap-12 pb-5">
+    <div>
+        <a href="game/{pin}" target="_blank" class="text-7xl text-center font-bold text-gray-700">
+            {pin}
+        </a>
+        <form on:submit={submit} class="flex">
+            <input
+                bind:value={input}
+                type="text"
+                class="p-3 max-w-200 w-70vw border-dark-50 border rounded-l-lg"
+            />
+            <button type="submit" class="bg-indigo-800 text-white rounded-r-lg px-10">Submit</button>
+        </form>
+        <h1><br><br>{question}</h1>
+    </div>
 </div>
 
-<style>
-	button {
-		background-color: aliceblue;
-	}
-
-	circle {
-		transition: cx 0.5s, cy 0.5s;
-	}
-
-	#wrapper {
-		height: 75%;
-		width: 75%;
-	}
+<style lang="scss">
+    p, h1 {
+        color: white;
+    }
 
 	.absolute-center {
 		position: absolute;
