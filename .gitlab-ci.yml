@@ -53,8 +53,6 @@ sonarqube-check:
   allow_failure: true
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
-    - if: $CI_COMMIT_BRANCH == 'acceptance'
-    - if: $CI_COMMIT_BRANCH == 'prod-env-error'
   tags:
     - hva
 

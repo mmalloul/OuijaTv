@@ -9,7 +9,7 @@ RUN apt-get update && \
 
 ENTRYPOINT ["dumb-init", "--"]
 
-FROM base as build
+FROM base AS build
 
 COPY . .
 
@@ -19,7 +19,7 @@ RUN npm install
 
 RUN npm run build
 
-FROM base as deploy
+FROM base AS deploy
 
 COPY --from=build /opt/app/package.json .
 COPY --from=build /opt/app/build .
