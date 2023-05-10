@@ -73,7 +73,7 @@ deploy:
     - ssh $SSH_USER@$SERVER_IP "
       echo $DOCKER_ACCESS_TOKEN | docker login -u $DOCKER_REGISTRY_USER --password-stdin &&
       cd ouijatv &&
-      docker compose pull &&
+      docker compose pull ouijatv/app:latest &&
       docker compose up -d"
   rules:
     - if: $CI_COMMIT_BRANCH == 'production'

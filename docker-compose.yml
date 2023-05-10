@@ -7,7 +7,7 @@ networks:
 services:
   app:
     container_name: ouijatv-app
-    image: ouijatv/app
+    image: ouijatv/app:latest
     environment:
       PUBLIC_WS_URL: ws://ouija.tv:8000
       NODE_ENV: prod
@@ -26,7 +26,7 @@ services:
 
   backend:
     container_name: ouijatv-backend
-    image: ouijatv/backend
+    image: ouijatv/backend:latest
     build:
       context: ../python
       dockerfile: .docker/Dockerfile
