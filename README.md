@@ -46,5 +46,6 @@ run the command `docker compose up -d`
 Deployment to production is implemented in the gitlab ci-cd pipeline when changes are merged to main.
 
 TODO:
+
 - Version control
 - Docker security on ports
