@@ -7,25 +7,6 @@ stages: # List of stages for jobs, and their order of execution
   - test
   - deploy
 
-build:
-  stage: build
-  image: docker:20.10.16
-  before_script:
-    - echo $DOCKER_ACCESS_TOKEN | docker login -u $DOCKER_REGISTRY_USER --password-stdin
-  script:
-    - echo $ENV_FILE
-    # File is outside of build context, so make local copy.
-    - cp ${ENV_FILE} .env
-    - docker build -f Dockerfile -t $DOCKER_REPO:latest .
-    - docker push $DOCKER_REPO:latest
-    - cd python
-    - docker build -f Dockerfile -t $DOCKER_REPO_BACKEND:latest .
-    - docker push $DOCKER_REPO_BACKEND:latest
-  rules:
-    - if: $CI_COMMIT_BRANCH == 'main'
-  tags:
-    - hva
-
 lint-test-job:
   stage: test # It can run at the same time as unit-test-job (in parallel).
   before_script:
@@ -53,6 +34,26 @@ sonarqube-check:
   allow_failure: true
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'production'
+  tags:
+    - hva
+
+build:
+  stage: build
+  image: docker:20.10.16
+  before_script:
+    - echo $DOCKER_ACCESS_TOKEN | docker login -u $DOCKER_REGISTRY_USER --password-stdin
+  script:
+    - echo $ENV_FILE
+    # File is outside of build context, so make local copy.
+    - cp ${ENV_FILE} .env
+    - docker build -f .docker/Dockerfile -t $DOCKER_REPO:latest .
+    - docker push $DOCKER_REPO:latest
+    - cd python
+    - docker build -f .docker/Dockerfile -t $DOCKER_REPO_BACKEND:latest .
+    - docker push $DOCKER_REPO_BACKEND:latest
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'production'
   tags:
     - hva
 
@@ -75,6 +76,6 @@ deploy:
       docker compose pull &&
       docker compose up -d"
   rules:
-    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'production'
   tags:
     - hva
