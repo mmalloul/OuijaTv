@@ -47,11 +47,11 @@ build:
     - echo $ENV_FILE
     # File is outside of build context, so make local copy.
     - cp ${ENV_FILE} .env
-    - docker build -f .docker/Dockerfile -t $DOCKER_REPO:latest .
-    - docker push $DOCKER_REPO:latest
+    - docker build -f .docker/Dockerfile -t $DOCKER_REPO:v-0.1 .
+    - docker push $DOCKER_REPO:v-0.1
     - cd python
-    - docker build -f .docker/Dockerfile -t $DOCKER_REPO_BACKEND:latest .
-    - docker push $DOCKER_REPO_BACKEND:latest
+    - docker build -f .docker/Dockerfile -t $DOCKER_REPO_BACKEND:v-0.1 .
+    - docker push $DOCKER_REPO_BACKEND:v-0.1
   rules:
     - if: $CI_COMMIT_BRANCH == 'production'
   tags:
@@ -74,7 +74,9 @@ deploy:
       echo $DOCKER_ACCESS_TOKEN | docker login -u $DOCKER_REGISTRY_USER --password-stdin &&
       cd ouijatv &&
       docker compose pull &&
-      docker compose up -d"
+      docker compose up -d &&
+      docker image prune -a -f &&
+      docker container prune -f"
   rules:
     - if: $CI_COMMIT_BRANCH == 'production'
   tags:
