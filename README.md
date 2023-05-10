@@ -1,4 +1,4 @@
-# Ouija.TV!
+# Ouija.TV
 
 ## Running Application
 
@@ -30,6 +30,7 @@ services:
   backend:
     ports:
       - 8000:8000
+
 ```
 
 run the command `docker compose up -d`
@@ -45,6 +46,5 @@ run the command `docker compose up -d`
 Deployment to production is implemented in the gitlab ci-cd pipeline when changes are merged to main.
 
 TODO:
-
 - Version control
-- Move production branch to a deployment branch
+- Docker security on ports
