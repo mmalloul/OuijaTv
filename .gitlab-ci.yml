@@ -75,7 +75,8 @@ deploy:
       cd ouijatv &&
       docker compose pull &&
       docker compose up -d &&
-      docker rmi $(docker images -f "dangling=true" -q)"
+      docker image prune -a -f &&
+      docker container prune -f"
   rules:
     - if: $CI_COMMIT_BRANCH == 'production'
   tags:
