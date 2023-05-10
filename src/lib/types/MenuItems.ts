@@ -13,12 +13,10 @@ const items: MenuItem[] = [
 		route: "/profile"
 	},
 	{
-	},
-    {
-		route: "/game"
 		name: "Game",
-    },
-    {
+		route: "/game"
+	},
+	{
 		name: "Solo",
 		route: "/solo"
 	},
