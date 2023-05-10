@@ -13,20 +13,18 @@ const items: MenuItem[] = [
 		route: "/profile"
 	},
 	{
-		name: "About",
-		route: "/about"
 	},
-	{
-		name: "Contacts",
-		route: "/contacts"
+    {
+		route: "/game"
+		name: "Game",
+    },
+    {
+		name: "Solo",
+		route: "/solo"
 	},
 	{
 		name: "Game",
 		route: "/game"
-	},
-	{
-		name: "Solo",
-		route: "/solo"
 	}
 ];
 
