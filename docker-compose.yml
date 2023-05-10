@@ -13,7 +13,7 @@ services:
       NODE_ENV: prod
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: .docker/Dockerfile
     restart: on-failure
     ports:
       - 3000:3000
@@ -28,8 +28,8 @@ services:
     container_name: ouijatv-backend
     image: ouijatv/backend
     build:
-      context: ./python
-      dockerfile: Dockerfile
+      context: ../python
+      dockerfile: .docker/Dockerfile
     restart: always
     volumes:
       - ./python:/app
