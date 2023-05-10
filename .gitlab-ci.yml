@@ -52,9 +52,7 @@ sonarqube-check:
     - sonar-scanner
   allow_failure: true
   rules:
-    - if: $CI_COMMIT_BRANCH == 'main'
-    - if: $CI_COMMIT_BRANCH == 'acceptance'
-    - if: $CI_COMMIT_BRANCH == 'prod-env-error'
+    - if: $CI_COMMIT_BRANCH == 'feature/OUIJ-33-Sonarqube'
   tags:
     - hva
 
