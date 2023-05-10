@@ -54,7 +54,6 @@ build:
     - docker push $DOCKER_REPO_BACKEND:latest
   rules:
     - if: $CI_COMMIT_BRANCH == 'production'
-    - if: $CI_COMMIT_BRANCH == 'ouij-61-move-deployment-on-production-branch'
   tags:
     - hva
 
@@ -78,6 +77,5 @@ deploy:
       docker compose up -d"
   rules:
     - if: $CI_COMMIT_BRANCH == 'production'
-    - if: $CI_COMMIT_BRANCH == 'ouij-61-move-deployment-on-production-branch'
   tags:
     - hva

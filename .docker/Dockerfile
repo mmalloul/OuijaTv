@@ -11,7 +11,7 @@ ENTRYPOINT ["dumb-init", "--"]
 
 FROM base AS build
 
-COPY . /
+COPY . .
 
 RUN npm install
 
