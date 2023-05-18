@@ -40,39 +40,47 @@
     </div>
 </div>
 
-<style lang="scss">
+.but{
+    @apply bg-accent;
+    font-family: theme(fontFamily.amatic);
+}
+.absolute-center {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	}
 
 .awnser {
     color: white;
 	text-align: center;
-    font-size: xx-large;
+    font-size: xxx-large;
     margin: 0% auto;
+    @apply text-accent; 
+    font-family: theme(fontFamily.amatic);
 }
 .subtask{
     max-width: 75%;
     text-align: center;
     margin: auto;
     color: white;
-
+    font-size: x-large;
+    font-family: theme(fontFamily.amatic);
 }
-// Variables in css
-$c_0: #cc692773;
-$c_1: #e3e3e6;
-// Basic reset
-.l-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 30px;
-  width: 100%;
-  padding: 30px;
-  justify-content: center;
 
-//   @media
-    @media screen and (max-width: 760px) {
+.l-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 30px;
+    width: 100%;
+    padding: 30px;
+    justify-content: center;
+
+    @media screen and (max-width: 1150px) {
     grid-template-columns: repeat(1, 1fr);
     }
 }
-//   hiding lore: 
+
 .b-game-card__lore {
     display: none; /* hide the lore text initially */
     position: absolute;
@@ -92,12 +100,12 @@ $c_1: #e3e3e6;
     &::after {
         transform: translateY(0%);
     }
-  }
+}
 
-  .b-game-card:hover .b-game-card__lore {
+.b-game-card:hover .b-game-card__lore {
     display: block; /* show the lore text on hover */
     transform: translateY(0%);
-  }
+}
 .b-game-card {
     cursor: pointer;
     position: relative;
@@ -105,11 +113,10 @@ $c_1: #e3e3e6;
     width: 100%;
     padding-bottom: 150%;
     
-
 .name{
     font-size: xx-large;
     font-weight: bold;
-    color: rgb(247, 245, 245);
+    color: rgb(252, 252, 252);
     text-align: center;
 }
 
@@ -120,6 +127,9 @@ $c_1: #e3e3e6;
     width: auto;
     color: black;
     font-size: large;
+    font-weight: bold;
+    @apply text-accent; 
+    font-family: theme(fontFamily.amatic);
 }
 &__cover {
     position: absolute;
@@ -146,7 +156,6 @@ $c_1: #e3e3e6;
     left: 0;
     width: 100%;
     height: 120%;
-    background: linear-gradient(226deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.4) 35%, rgba(255,255,255,0.2) 42%, rgba(255,255,255,0) 60%);
     transform: translateY(-20%);
     will-change: transform;
     transition: transform .65s cubic-bezier(0.18, 0.9, 0.58, 1);
@@ -157,32 +166,7 @@ $c_1: #e3e3e6;
     &::after {
     transform: translateY(0%);
     }
-    
 }
-// Shadows
-  
-  &::before {
-    display: block;
-    content: '';
-    position: absolute;
-    top: 5%;
-    left: 5%;
-    width: 90%;
-    height: 90%;
-    background: rgba($c_0, 0.5);
-    box-shadow: 0 6px 12px 12px rgba($c_0, 0.4);
-    will-change: opacity;
-    transform-origin: top center;
-    transform: skewX(.001deg);
-    transition: transform .35s ease-in-out, opacity .5s ease-in-out;
-}
-
-    &:hover::before {
-    opacity: 0.6;
-    transform: rotateX(7deg) translateY(-6px) scale(1.05);
-  }
-
-
 }
 
 </style>
