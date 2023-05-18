@@ -9,3 +9,5 @@
 <div class="grow">
 	<slot />
 </div>
+
+<style windi:preflights:global windi:safelist:global></style>
