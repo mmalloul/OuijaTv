@@ -27,3 +27,13 @@
 	font-family: MedievalSharp;
 	src: url(./MedievalSharp/MedievalSharp-Regular.ttf) format("truetype");
 }
+
+@font-face {
+	font-family: Amatic-SC-Regular;
+	src: url(./AmaticSC/AmaticSC-Regular.ttf) format("truetype");
+}
+
+@font-face {
+	font-family: Amatic-SC-Bold;
+	src: url(./AmaticSC/AmaticSC-Bold.ttf) format("truetype");
+}

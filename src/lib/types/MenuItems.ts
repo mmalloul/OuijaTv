@@ -19,10 +19,6 @@ const items: MenuItem[] = [
 	{
 		name: "Solo",
 		route: "/solo"
-	},
-	{
-		name: "Game",
-		route: "/game"
 	}
 ];
 

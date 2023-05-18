@@ -5,18 +5,13 @@ export default defineConfig({
 	theme: {
 		extend: {
 			colors: {
-				dark: "#121212"
+				dark: "#121212",
+				fontcolor: "#fff7e2"
 			},
 			fontFamily: {
-				title: ["MedievalSharp", "serif"],
-				text: ["Eczar-Regular", "sans-serif"]
-			},
-			spacing: {
-				padding: {
-					small: "8px",
-					medium: "16px",
-					large: "24px"
-				}
+				medieval: ["MedievalSharp", "serif"],
+				eczar: ["Eczar-Regular", "sans-serif"],
+				amatic: ["Amatic-SC-Regular", "sans-serif"]
 			},
 			borderRadius: {}
 		}
