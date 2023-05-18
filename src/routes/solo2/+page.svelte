@@ -1,27 +1,86 @@
-<script>
+<script lang="ts">
+	import { Wave } from 'svelte-loading-spinners';
+    import toast, { Toaster } from 'svelte-french-toast';
+	import BoardSvg from "$lib/components/BoardSVG.svelte";
+
     let hideCards = true;
-    let hideQuestion =  false;
+    let hideQuestion = false;
+    let hideBoard = false;
+    let hideLoader = false;
     let question = "";
     let spirit = 0;
-    // click on card method
 
-    /**
-	 * @param {number} s
-	 */
-    function goToQuestion(s) {
+    const letterPositions: Record<string, Vector2> = {};
+
+    class Vector2 {
+		constructor(public x: number, public y: number) {}
+	}
+
+	let seekerX = 0,
+		seekerY = 0;
+	let targetLetter = "A";
+    // todo move board
+    // todo add a loader
+    // todo add function to call the api
+    // make the api call
+    // todo clean up text from the bot
+
+
+    function goToQuestion(s: number) {
         spirit = s;
         hideCards = false;
         hideQuestion = true;
     }
 
     async function askQuestion () {
+        if(question == ''){
+            toast('Just tell me what you want to ask and dont waste my time.', {
+                icon: '👻',
+                style: 'border-radius: 200px; background: #333; color: #fff;',
+                duration: "600",
+            });
+            return;
+        }
+        hideLoader = true;
         console.log(question)
+        console.log(spirit)
+
+        // function call python api
+    
+        hideQuestion = false;
+        update()
+
+        // function removing all things from the string that is unwanted
     }
+
+    let elapsed = 0;
+    let timeTillLoad = 2;
+    function update (){
+        if(elapsed < timeTillLoad){
+            elapsed ++;
+            console.log(elapsed);
+            setTimeout(update, 1000)
+        } else{
+            hideLoader = false;
+            hideBoard = true;
+        }
+    }
+
+    function targetALetter(letter: string) {
+		console.log("targeting " + letter);
+		var target = letterPositions[letter.toUpperCase()];
+		seekerX = target.x;
+		seekerY = target.y;
+	}
 
 
 </script>
-{#if hideCards}
+<Toaster />
 
+<div class="page">
+
+
+{#if hideCards}
 <div>    
     <h1 class="awnser">SOLO Summon</h1>  
     <div class="subtask">
@@ -66,54 +125,81 @@
 
 {#if hideQuestion}
 <!-- question ask user for a question -->
-<div class="awnser"> Ask your Question</div>
-<form on:submit={askQuestion} class="flex">
-    <input
-        type="text"
-        class="p-3 max-w-200 w-70vw border-dark-50 border rounded-l-lg"
-        bind:value={question}
-        placeholder="Enter your question here"
-    />
-    <button type="submit" class="bg-indigo-800 text-white rounded-r-lg px-10">Ask</button>
-</form>
+<div class="absolute-center">
+    <div class="awnser"> Ask your Question</div>
+        <form on:submit={askQuestion} class="flex">
+            <input
+                type="text"
+                class="te text-3xl p-3 max-w-200 w-70vw  border rounded-l-lg"
+                bind:value={question}
+                placeholder="Enter your question here"
+            />
+            <button type="submit" class=" but text-4xl text-white rounded-r-lg px-10">Ask</button>
+        </form>
+</div>
+{/if}
+</div>
+
+{#if hideLoader}
+    <div class="absolute-center">
+        <Wave size="80" color="#FF3E00" unit="px" duration="2s" />
+    </div>
 {/if}
 
-<!-- change to board -->
+{#if hideBoard}
+<div class="awnser" > 
+	<BoardSvg>
+		<circle id="Seeker" cx={seekerX} cy={seekerY} r="76.5" stroke="#FFF7E2" stroke-width="13" />
+	</BoardSvg>
+</div>
+{/if}
 
+<style lang="postcss">  
+.te{
+    font-family: theme(fontFamily.amatic);
+}
 
-<style lang="scss">
+.but{
+    @apply bg-accent;
+    font-family: theme(fontFamily.amatic);
+}
+.absolute-center {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	}
 
 .awnser {
     color: white;
 	text-align: center;
-    font-size: xx-large;
+    font-size: xxx-large;
     margin: 0% auto;
+    @apply text-accent; 
+    font-family: theme(fontFamily.amatic);
 }
 .subtask{
     max-width: 75%;
     text-align: center;
     margin: auto;
     color: white;
-
+    font-size: x-large;
+    font-family: theme(fontFamily.amatic);
 }
-// Variables in css
-$c_0: #cc692773;
-$c_1: #e3e3e6;
-// Basic reset
-.l-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 30px;
-  width: 100%;
-  padding: 30px;
-  justify-content: center;
 
-//   @media
-    @media screen and (max-width: 760px) {
+.l-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 30px;
+    width: 100%;
+    padding: 30px;
+    justify-content: center;
+
+    @media screen and (max-width: 1150px) {
     grid-template-columns: repeat(1, 1fr);
     }
 }
-//   hiding lore: 
+
 .b-game-card__lore {
     display: none; /* hide the lore text initially */
     position: absolute;
@@ -133,12 +219,12 @@ $c_1: #e3e3e6;
     &::after {
         transform: translateY(0%);
     }
-  }
+}
 
-  .b-game-card:hover .b-game-card__lore {
+.b-game-card:hover .b-game-card__lore {
     display: block; /* show the lore text on hover */
     transform: translateY(0%);
-  }
+}
 .b-game-card {
     cursor: pointer;
     position: relative;
@@ -146,11 +232,10 @@ $c_1: #e3e3e6;
     width: 100%;
     padding-bottom: 150%;
     
-
 .name{
     font-size: xx-large;
     font-weight: bold;
-    color: rgb(247, 245, 245);
+    color: rgb(252, 252, 252);
     text-align: center;
 }
 
@@ -161,6 +246,9 @@ $c_1: #e3e3e6;
     width: auto;
     color: black;
     font-size: large;
+    font-weight: bold;
+    @apply text-accent; 
+    font-family: theme(fontFamily.amatic);
 }
 &__cover {
     position: absolute;
@@ -187,7 +275,6 @@ $c_1: #e3e3e6;
     left: 0;
     width: 100%;
     height: 120%;
-    background: linear-gradient(226deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.4) 35%, rgba(255,255,255,0.2) 42%, rgba(255,255,255,0) 60%);
     transform: translateY(-20%);
     will-change: transform;
     transition: transform .65s cubic-bezier(0.18, 0.9, 0.58, 1);
@@ -198,32 +285,7 @@ $c_1: #e3e3e6;
     &::after {
     transform: translateY(0%);
     }
-    
 }
-// Shadows
-  
-  &::before {
-    display: block;
-    content: '';
-    position: absolute;
-    top: 5%;
-    left: 5%;
-    width: 90%;
-    height: 90%;
-    background: rgba($c_0, 0.5);
-    box-shadow: 0 6px 12px 12px rgba($c_0, 0.4);
-    will-change: opacity;
-    transform-origin: top center;
-    transform: skewX(.001deg);
-    transition: transform .35s ease-in-out, opacity .5s ease-in-out;
-}
-
-    &:hover::before {
-    opacity: 0.6;
-    transform: rotateX(7deg) translateY(-6px) scale(1.05);
-  }
-
-
 }
 
 </style>
