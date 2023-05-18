@@ -6,7 +6,8 @@ export default defineConfig({
 		extend: {
 			colors: {
 				dark: "#121212",
-				fontcolor: "#fff7e2"
+				fontcolor: "#fff7e2",
+				accent: "#FB5012"
 			},
 			fontFamily: {
 				medieval: ["MedievalSharp", "serif"],

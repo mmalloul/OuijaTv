@@ -1,15 +1,21 @@
 <script>
 	import menuItems from "$lib/types/MenuItems";
+	import { page } from "$app/stores";
 </script>
 
 <nav>
 	<div class="menu">
-		<input class="" type="checkbox" id="menu-toggle" />
-		<label for="menu-toggle" class="menu-button">&#9776;</label>
+		<input class="" type="checkbox" id="menu__toggle" />
+		<label for="menu__toggle" class="menu__button">&#9776;</label>
 		<ul class="menu__list">
 			{#each menuItems as item}
 				<li>
-					<a class="menu__item" href={item.route} aria-label={item.name}>
+					<a
+						class="menu__item"
+						href={item.route}
+						aria-label={item.name}
+						class:active={$page.url.pathname == item.route}
+					>
 						{item.name}
 					</a>
 				</li>
@@ -20,7 +26,7 @@
 
 <style lang="postcss">
 	nav {
-		@apply flex justify-start bg-dark text-fontcolor md: justify-center;
+		@apply flex justify-start bg-dark md: justify-center;
 	}
 
 	.menu {
@@ -28,8 +34,8 @@
 		max-width: 1440px;
 	}
 
-	.menu-button {
-		@apply block cursor-pointer text-4xl md: hidden;
+	.menu__button {
+		@apply block cursor-pointer text-4xl text-fontcolor md: hidden;
 	}
 
 	.menu__list {
@@ -40,14 +46,19 @@
 		@apply block md:inline-block;
 	}
 
-	.menu__list li a {
-		@apply block text-fontcolor text-xl md:text-3xl
-		text-decoration: none;
-		font-family: theme(fontFamily.amatic);
+	.menu__list li a:hover,
+	.menu__button:hover {
+		@apply text-accent;
 	}
 
-	#menu-toogle {
-		@apply text-fontcolor;
+	.active {
+		@apply text-accent !important;
+	}
+
+	.menu__list li a {
+		@apply block text-fontcolor text-shadow-lg text-xl md:text-3xl
+		text-decoration: none;
+		font-family: theme(fontFamily.amatic);
 	}
 
 	/* hides checkbox */
@@ -67,8 +78,12 @@
 			padding: 10px 0;
 		}
 
-		#menu-toggle:checked ~ .menu__list {
+		#menu__toggle:checked ~ .menu__list {
 			@apply block;
+		}
+
+		#menu__toggle:checked ~ .menu__button {
+			@apply text-accent;
 		}
 	}
 </style>
