@@ -5,6 +5,7 @@
 ### Local development
 
 To run the svelte frontend in development:\
+`npm i`\
 `npm run dev`
 
 To run Python back end:\
