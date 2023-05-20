@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { env } from "$env/dynamic/public";
 	import { onMount } from "svelte";
 
@@ -49,4 +49,4 @@
 		left: 50%;
 		transform: translate(-50%, -50%);
 	}
-</style>
+</style> -->
