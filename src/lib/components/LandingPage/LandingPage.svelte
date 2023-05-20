@@ -1,5 +1,5 @@
 <script>
-  import Box from './Box.svelte';
+  import Box from './Button.svelte';
 	import LobbyList from './LobbyList.svelte';
   
     let lobbies = []; // The list of lobbies.
