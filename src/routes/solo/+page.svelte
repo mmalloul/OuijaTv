@@ -68,6 +68,7 @@
       targetALetter(split[i]);
     }
     await new Promise(resolve => setTimeout(resolve, 2000));
+    // go to goodbye on board
     seekerX = 960.5
     seekerY = 766.5
     return;
