@@ -1,20 +1,14 @@
 <script lang="ts">
-	  import { onMount } from 'svelte';
+  import { env } from "$env/dynamic/public";
+  import { onMount } from 'svelte';
   import { Wave } from 'svelte-loading-spinners';
   import toast, { Toaster } from 'svelte-french-toast';
   import BoardSvg from "$lib/components/BoardSVG.svelte";
 
-  let hideCards = true;
-  let hideQuestion = false;
-  let hideBoard = false;
-  let hideLoader = false;
-  let question = "";
+  let hideCards = true, hideQuestion = false,hideBoard = false, hideLoader = false;
+  let question = "",circleStyle = "" ,awnser="";
   const letterPositions: Record<string, Vector2> = {};
-  let seekerX = 0;
-  let seekerY = 0;
-  let spirit = 0;
-
-  let circleStyle = "";
+  let seekerX = 0,seekerY = 0, spirit = 0;
 
   function goToQuestion(s: number) {
     spirit = s;
@@ -35,18 +29,33 @@
     console.log(question);
     console.log(spirit);
     //TODO function call python api
+    callOpenAI (question,spirit);
+
 
     hideQuestion = false;
     update();
   }
 
+  async function callOpenAI(prompt: string, spirit: number) {
+  try {
+    const url = env.PUBLIC_URL +"/openai?prompt=" + encodeURIComponent(prompt) + "&spirit=" + encodeURIComponent(spirit);
+
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    let awnser1 = data.response;
+    awnser = awnser1.replace(".", "");
+    
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
   let elapsed = 0;
   let timeTillLoad = 2;
-
   function update() {
     if (elapsed < timeTillLoad) {
       elapsed++;
-      console.log(elapsed);
       setTimeout(update, 1000);
     } else {
       hideLoader = false;
@@ -56,8 +65,7 @@
       setTimeout(() => {
         loadLetterPositions();
       }, 1000);
-      printAnswer("test");
-      console.log("done");
+      printAnswer(awnser);
     }
   }
 
@@ -76,7 +84,6 @@
 
   function targetALetter(letter: string) {
     var target = letterPositions[letter.toUpperCase()];
-    console.log(target);
     seekerX = target.x;
     seekerY = target.y;
     circleStyle = `transition: cx 0.5s ease-in-out, cy 0.5s ease-in-out`;
