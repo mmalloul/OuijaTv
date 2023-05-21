@@ -6,6 +6,10 @@ from endpoints.join import join
 
 app = FastAPI()
 
+@app.get("/")
+async def root():
+    return {"message": "Hello Worstd"}
+
 app.websocket("/host")(host)
 app.websocket("/join")(join)
 
