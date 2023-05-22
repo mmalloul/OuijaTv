@@ -4,9 +4,9 @@
 	import { onMount } from "svelte";
 	const dispatch = createEventDispatcher();
 	export let show = false;
-	let numUsers: Number = 1;
-	let gameDuration: Number = 30; // in seconds
-	let lobbyName: string = "";
+	let numUsers: number = 1;
+	let gameDuration: number = 30; // in seconds
+	let lobbyName = "";
 	let lobbyNameIsValid: boolean | null = null;
 
 	let websocket: WebSocket;
