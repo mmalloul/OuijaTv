@@ -160,10 +160,6 @@
 		border: 1px solid white;
 	}
 
-	.copy-button {
-		max-width: 12.5%;
-	}
-
 	.button:hover {
 		@apply bg-accent;
 	}
