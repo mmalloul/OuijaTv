@@ -2,11 +2,10 @@
 	import { env } from "$env/dynamic/public";
 	import { createEventDispatcher } from "svelte";
 	import { onMount } from "svelte";
-	import CopyIconSvg from "../../assets/CopyIconSVG.svelte";
 	const dispatch = createEventDispatcher();
 	export let show = false;
 	let numUsers: Number = 1;
-	let gameDuration: Number = 10; // in minutes
+	let gameDuration: Number = 30; // in seconds
 	let lobbyName: string = "";
 	let lobbyNameIsValid: boolean | null = null;
 
@@ -24,10 +23,6 @@
 			}
 		};
 	});
-
-	const copyLink = () => {
-		navigator.clipboard.writeText(`${env.PUBLIC_WS_URL}/game/${pin}`);
-	};
 
 	const resetForm = () => {
 		numUsers = 1;
@@ -72,14 +67,13 @@
 				<label for="users">Number of users: {numUsers}</label>
 				<input type="range" id="users" min="1" max="100" bind:value={numUsers} />
 
-				<label for="duration">Game Duration: {gameDuration} minutes</label>
-				<input type="range" id="duration" min="10" max="120" bind:value={gameDuration} />
+				<label for="duration">Voting Time: {gameDuration} seconds</label>
+				<input type="range" id="duration" min="30" max="120" bind:value={gameDuration} />
 
 				<div class="actions">
 					<button type="submit"  class="button" on:click={() => dispatch("close")}
 						><a href="game/{pin}" >Create</a></button
 					>
-					<button class="button copy-button" on:click={copyLink}><CopyIconSvg /></button>
 				</div>
 			</form>
 		</div>
