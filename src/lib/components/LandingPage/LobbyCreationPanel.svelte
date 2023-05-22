@@ -3,7 +3,7 @@
 	import { createEventDispatcher } from "svelte";
 
 	const dispatch = createEventDispatcher();
-	export let show = false;
+	export let showLobbyCreationPanel = false;
 	let numUsers = 1;
 	let gameDuration = 30; // in seconds
 	let lobbyName = "";
@@ -14,12 +14,19 @@
 	let pin = "";
 	let messages: string[] = [];
 
+	/**
+	 * This function resets the form inputs when the lobby-creation-panel is closed by the user.
+	 */
 	const resetForm = () => {
 		numUsers = 1;
 		gameDuration = 10;
 		lobbyName = "";
 	};
 
+	/**
+	 * This functions handles the submit when pressed.
+	 * The submit won't work if the criteria of the lobbyname is not passed.
+	 */
 	function handleSubmit() {
 		if (lobbyNameIsValid) {
 			websocket = new WebSocket(`${env.PUBLIC_WS_URL}/host`);
@@ -30,13 +37,18 @@
 					pin = data;
 				}
 
-				window.location.href = `game/${pin}`
-			}
+				// Go to the game lobby.
+				window.location.href = `game/${pin}`;
+			};
 		} else if (lobbyName.length === 0) {
 			lobbyNameIsEmpty = true;
 		}
 	}
 
+	/**
+	 * This is a reactive statement, which means it constantly checks if the input for lobbyname has changed.
+	 * If it has changed it will check the requirements for the lobbyname.
+	 */
 	$: {
 		if (lobbyName !== "") {
 			const regex = /^[a-zA-Z]+$/;
@@ -48,7 +60,7 @@
 	}
 </script>
 
-{#if show}
+{#if showLobbyCreationPanel}
 	<div class="panel">
 		<div class="panel-content">
 			<div class="top-row">
@@ -56,7 +68,7 @@
 				<button
 					id="close-button"
 					on:click={resetForm}
-					on:click={() => (show = false)}
+					on:click={() => (showLobbyCreationPanel = false)}
 					on:click={() => dispatch("close")}>X</button
 				>
 			</div>

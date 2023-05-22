@@ -14,7 +14,7 @@
 				<p>Join Game</p>
 			</button>
 		{/if}
-		<LobbyCreationPanel bind:show={showLobbyCreationPanel} />
+		<LobbyCreationPanel bind:showLobbyCreationPanel />
 	</div>
 </div>
 
