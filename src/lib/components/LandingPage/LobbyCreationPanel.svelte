@@ -1,28 +1,18 @@
 <script lang="ts">
 	import { env } from "$env/dynamic/public";
 	import { createEventDispatcher } from "svelte";
-	import { onMount } from "svelte";
+
 	const dispatch = createEventDispatcher();
 	export let show = false;
 	let numUsers = 1;
 	let gameDuration = 30; // in seconds
 	let lobbyName = "";
 	let lobbyNameIsValid: boolean | null = null;
+	let lobbyNameIsEmpty: boolean | null = null;
 
 	let websocket: WebSocket;
 	let pin = "";
 	let messages: string[] = [];
-
-	onMount(() => {
-		websocket = new WebSocket(`${env.PUBLIC_WS_URL}/host`);
-		websocket.onmessage = ({ data }) => {
-			if (pin) {
-				messages = [...messages, data];
-			} else {
-				pin = data;
-			}
-		};
-	});
 
 	const resetForm = () => {
 		numUsers = 1;
@@ -32,7 +22,18 @@
 
 	function handleSubmit() {
 		if (lobbyNameIsValid) {
-			// Handle form submission
+			websocket = new WebSocket(`${env.PUBLIC_WS_URL}/host`);
+			websocket.onmessage = ({ data }) => {
+				if (pin) {
+					messages = [...messages, data];
+				} else {
+					pin = data;
+				}
+
+				window.location.href = `game/${pin}`
+			}
+		} else if (lobbyName.length === 0) {
+			lobbyNameIsEmpty = true;
 		}
 	}
 
@@ -40,6 +41,7 @@
 		if (lobbyName !== "") {
 			const regex = /^[a-zA-Z]+$/;
 			lobbyNameIsValid = regex.test(lobbyName);
+			lobbyNameIsEmpty = false;
 		} else {
 			lobbyNameIsValid = null;
 		}
@@ -63,6 +65,9 @@
 				{#if lobbyNameIsValid === false}
 					<p class="error-message">Name can only contain alphabetical characters</p>
 				{/if}
+				{#if lobbyNameIsEmpty === true}
+					<p class="error-message">Lobby needs a name</p>
+				{/if}
 				<input
 					type="text"
 					id="lobbyName"
@@ -77,9 +82,7 @@
 				<input type="range" id="duration" min="30" max="120" bind:value={gameDuration} />
 
 				<div class="actions">
-					<button type="submit" class="button" on:click={() => dispatch("close")}
-						><a href="game/{pin}">Create</a></button
-					>
+					<button type="submit" class="button">Create</button>
 				</div>
 			</form>
 		</div>
