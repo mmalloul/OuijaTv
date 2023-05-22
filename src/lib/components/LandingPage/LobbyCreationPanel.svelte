@@ -4,8 +4,8 @@
 	import { onMount } from "svelte";
 	const dispatch = createEventDispatcher();
 	export let show = false;
-	let numUsers: number = 1;
-	let gameDuration: number = 30; // in seconds
+	let numUsers = 1;
+	let gameDuration = 30; // in seconds
 	let lobbyName = "";
 	let lobbyNameIsValid: boolean | null = null;
 
@@ -33,7 +33,6 @@
 	function handleSubmit() {
 		if (lobbyNameIsValid) {
 			// Handle form submission
-		} else {
 		}
 	}
 
