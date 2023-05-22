@@ -4,6 +4,7 @@
 	import { Wave } from "svelte-loading-spinners";
 	import toast, { Toaster } from "svelte-french-toast";
 	import BoardSvg from "$lib/components/BoardSVG.svelte";
+	import { text } from "svelte/internal";
 
 	let hideCards = true,
 		hideQuestion = false,
@@ -69,8 +70,12 @@
 			setTimeout(() => {
 				loadLetterPositions();
 			}, 1000);
-			printAnswer(awnser);
+			printAnswer(cleanupAwnser(awnser));
 		}
+	}
+	function cleanupAwnser(str: string) {
+		let s = str.replace(/[\[\]&]+/g, "");
+		return s;
 	}
 
 	async function printAnswer(word: string) {
@@ -110,10 +115,9 @@
 	}
 
 	onMount(() => {
-		// Remove the transition property after the animation completes
 		setTimeout(() => {
 			circleStyle = "";
-		}, 500);
+		}, 300);
 	});
 </script>
 
