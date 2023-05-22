@@ -3,9 +3,8 @@
 
 	let showLobbyCreationPanel = false;
 
-	function redirectTo(url: string)
-	{
-		window.location.href = url
+	function redirectTo(url: string) {
+		window.location.href = url;
 	}
 </script>
 
@@ -15,7 +14,7 @@
 			<button type="button" class="custom-button" on:click={() => (showLobbyCreationPanel = true)}>
 				<p>Host Game</p>
 			</button>
-			<button type="button" class="custom-button" on:click={() => redirectTo('/join')}>
+			<button type="button" class="custom-button" on:click={() => redirectTo("/join")}>
 				<p>Join Game</p>
 			</button>
 		{/if}
