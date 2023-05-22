@@ -1,19 +1,20 @@
 <script lang="ts">
 	import { env } from "$env/dynamic/public";
 	import { createEventDispatcher } from "svelte";
-  import { onMount } from "svelte";
+	import { onMount } from "svelte";
 	import CopyIconSvg from "../../assets/CopyIconSVG.svelte";
 	const dispatch = createEventDispatcher();
 	export let show = false;
-	export let link = "";
-	let numUsers = 1;
-	let gameDuration = 10; // in minutes
+	let numUsers: Number = 1;
+	let gameDuration: Number = 10; // in minutes
+	let lobbyName: string = "";
+	let lobbyNameIsValid: boolean | null = null;
 
-  let websocket: WebSocket;
+	let websocket: WebSocket;
 	let pin = "";
-  let messages: string[] = [];
-  
-  onMount(() => {
+	let messages: string[] = [];
+
+	onMount(() => {
 		websocket = new WebSocket(`${env.PUBLIC_WS_URL}/host`);
 		websocket.onmessage = ({ data }) => {
 			if (pin) {
@@ -27,28 +28,60 @@
 	const copyLink = () => {
 		navigator.clipboard.writeText(`${env.PUBLIC_WS_URL}/game/${pin}`);
 	};
+
+	const resetForm = () => {
+		numUsers = 1;
+		gameDuration = 10;
+		lobbyName = "";
+	}
+
+	function handleSubmit() {
+        if (lobbyNameIsValid) {
+            // Handle form submission
+        } else {
+			
+		}
+    }
+
+	$: {
+		if (lobbyName !== '') {
+            const regex = /^[a-zA-Z]+$/;
+            lobbyNameIsValid = regex.test(lobbyName);
+        } else {
+            lobbyNameIsValid = null;
+        }
+	}
 </script>
 
 {#if show}
 	<div class="panel">
 		<div class="panel-content">
 			<div class="top-row">
-        <h2>Create a lobby</h2>
-				<button id="close-button" on:click={() => (show = false)} on:click={() => dispatch("close")}
+				<h2>Create a lobby</h2>
+				<button id="close-button" on:click={resetForm} on:click={() => (show = false)} on:click={() => dispatch("close")}  
 					>X</button
 				>
 			</div>
+			<form class="form" on:submit|preventDefault={handleSubmit}>
+				<label>Name of lobby: {lobbyName}</label>
+				{#if lobbyNameIsValid === false}
+					<p class="error-message">Name can only contain alphabetical characters</p>
+				{/if}
+				<input type="text" id="lobbyName" bind:value={lobbyName} class:invalid={lobbyNameIsValid === false} />
 
-			<label for="users">Number of users: {numUsers}</label>
-			<input type="range" id="users" min="1" max="100" bind:value={numUsers} />
+				<label for="users">Number of users: {numUsers}</label>
+				<input type="range" id="users" min="1" max="100" bind:value={numUsers} />
 
-			<label for="duration">Game Duration: {gameDuration} minutes</label>
-			<input type="range" id="duration" min="10" max="120" bind:value={gameDuration} />
+				<label for="duration">Game Duration: {gameDuration} minutes</label>
+				<input type="range" id="duration" min="10" max="120" bind:value={gameDuration} />
 
-			<div class="actions">
-				<button class="button" on:click={() => dispatch("close")}><a href="game/{pin}">Create</a></button>
-        <button class="button copy-button" on:click={() => copyLink()} ><CopyIconSvg /></button>
-			</div>
+				<div class="actions">
+					<button type="submit"  class="button" on:click={() => dispatch("close")}
+						><a href="game/{pin}" >Create</a></button
+					>
+					<button class="button copy-button" on:click={copyLink}><CopyIconSvg /></button>
+				</div>
+			</form>
 		</div>
 	</div>
 {/if}
@@ -58,17 +91,17 @@
 		position: absolute;
 		top: 50%;
 		left: 50%;
-    width: 75%;
+		width: 75%;
 		transform: translate(-50%, -50%);
 	}
 
-  .top-row {
+	.top-row {
 		display: flex;
 		justify-content: center;
 		width: 100%;
 	}
 
-  .panel-content {
+	.panel-content {
 		@apply pointer-events-auto bg-dark text-fontcolor text-center;
 		display: flex;
 		text-decoration: none;
@@ -82,21 +115,41 @@
 		row-gap: 20px;
 	}
 
+	.form { 
+		@apply pointer-events-auto bg-dark text-fontcolor text-center;
+		display: flex;
+		text-decoration: none;
+		font-family: theme(fontFamily.amatic);
+		flex-direction: column;
+		justify-content: center;
+		width: 100%;
+		border-radius: 6px;
+		padding: 16px;
+		row-gap: 20px;
+	}
 	h2 {
 		@apply text-6xl;
 	}
 
 	#close-button {
-		position: absolute;
-    right: 1rem;
-    
 		@apply text-fontcolor text-5xl;
+		position: absolute;
+		right: 1rem;
 		text-decoration: none;
 		font-family: theme(fontFamily.amatic);
 	}
 
 	#close-button:hover {
 		@apply text-accent;
+	}
+
+	.invalid {
+		border: 2px solid red;
+		border-radius: .25rem;
+    }
+
+	.error-message {
+		@apply text-accent text-2xl;
 	}
 
 	.button {
@@ -107,28 +160,30 @@
 		border: 1px solid white;
 	}
 
-  .copy-button {
-    width: 8.5%;
-  }
+	.copy-button {
+		max-width: 12.5%;
+	}
 
 	.button:hover {
 		@apply bg-accent;
 	}
 
-  .button > p {
-    transition: all 0.2s ease-in-out;
-  }
+	.button > p {
+		transition: all 0.2s ease-in-out;
+	}
 
-  .button:hover > p {
-    transform: scale(1.05);
-  }
+	.button:hover > p {
+		transform: scale(1.05);
+	}
 
 	label {
 		@apply text-fontcolor text-4xl;
 	}
 
 	input {
+		@apply text-accent text-4xl;
 		margin: 0 auto;
+		color: #fb5012 !important;
 	}
 
 	.actions {

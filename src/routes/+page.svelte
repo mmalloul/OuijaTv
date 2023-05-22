@@ -2,7 +2,7 @@
 	import { onMount } from "svelte";
 	import LobbyCreationPanel from "#lib/components/LandingPage/LobbyCreationPanel.svelte";
 
-	let showLobbyCreationPanel = false;
+	let showLobbyCreationPanel: boolean = false;
 
 	onMount(() => {});
 </script>
