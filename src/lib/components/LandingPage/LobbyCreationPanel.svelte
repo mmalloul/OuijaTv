@@ -90,7 +90,7 @@
 		position: absolute;
     right: 1rem;
     
-		@apply text-fontcolor text-4xl;
+		@apply text-fontcolor text-5xl;
 		text-decoration: none;
 		font-family: theme(fontFamily.amatic);
 	}
