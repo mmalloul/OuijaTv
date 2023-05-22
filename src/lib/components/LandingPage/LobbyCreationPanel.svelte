@@ -1,18 +1,31 @@
 <script lang="ts">
 	import { env } from "$env/dynamic/public";
 	import { createEventDispatcher } from "svelte";
+  import { onMount } from "svelte";
+	import CopyIconSvg from "../../assets/CopyIconSVG.svelte";
 	const dispatch = createEventDispatcher();
 	export let show = false;
 	export let link = "";
 	let numUsers = 1;
 	let gameDuration = 10; // in minutes
 
-	const generateLink = () => {
-		link = `${env.PUBLIC_WS_URL}/host`;
-	};
+  let websocket: WebSocket;
+	let pin = "";
+  let messages: string[] = [];
+  
+  onMount(() => {
+		websocket = new WebSocket(`${env.PUBLIC_WS_URL}/host`);
+		websocket.onmessage = ({ data }) => {
+			if (pin) {
+				messages = [...messages, data];
+			} else {
+				pin = data;
+			}
+		};
+	});
 
 	const copyLink = () => {
-		navigator.clipboard.writeText(link);
+		navigator.clipboard.writeText(`${env.PUBLIC_WS_URL}/game/${pin}`);
 	};
 </script>
 
@@ -33,7 +46,8 @@
 			<input type="range" id="duration" min="10" max="120" bind:value={gameDuration} />
 
 			<div class="actions">
-				<button class="button" on:click={() => dispatch("close")}><p>Create</p></button>
+				<button class="button" on:click={() => dispatch("close")}><a href="game/{pin}">Create</a></button>
+        <button class="button copy-button" on:click={() => copyLink()} ><CopyIconSvg /></button>
 			</div>
 		</div>
 	</div>
@@ -92,6 +106,10 @@
 		width: 25%;
 		border: 1px solid white;
 	}
+
+  .copy-button {
+    width: 8.5%;
+  }
 
 	.button:hover {
 		@apply bg-accent;
