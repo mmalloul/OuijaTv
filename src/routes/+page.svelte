@@ -2,10 +2,9 @@
 	import { onMount } from "svelte";
 	import LobbyCreationPanel from "#lib/components/LandingPage/LobbyCreationPanel.svelte";
 
-	onMount(() => {});
-
-	let lobbies = []; // The list of lobbies.
 	let showLobbyCreationPanel = false;
+
+	onMount(() => {});
 </script>
 
 <div class="container">
