@@ -1,52 +1,58 @@
 <script lang="ts">
-	import { env } from "$env/dynamic/public";
-	import { onMount } from "svelte";
+	import LobbyCreationPanel from "#lib/components/LandingPage/LobbyCreationPanel.svelte";
 
-	let websocket: WebSocket;
-	let pin = "";
-	let prompt = "";
-	let messages: string[] = [];
-
-	onMount(() => {
-		websocket = new WebSocket(`${env.PUBLIC_WS_URL}/host`);
-		websocket.onmessage = ({ data }) => {
-			if (pin) {
-				messages = [...messages, data];
-			} else {
-				pin = data;
-			}
-		};
-	});
-
-	function submit() {
-		websocket.send(prompt);
-		prompt = "";
-	}
+	let showLobbyCreationPanel = false;
 </script>
 
-{#each messages as message}
-	<div>{message}</div>
-{/each}
-
-<div class="page absolute-center flex gap-12 pb-5">
-	<a href={pin} target="_blank" class="text-7xl text-center font-bold text-gray-700">
-		{pin}
-	</a>
-	<form on:submit={submit} class="flex">
-		<input
-			bind:value={prompt}
-			type="text"
-			class="p-3 max-w-200 w-70vw border-dark-50 border rounded-l-lg"
-		/>
-		<button type="submit" class="bg-indigo-800 text-white rounded-r-lg px-10">Submit</button>
-	</form>
+<div class="container">
+	<div class="top-row">
+		{#if !showLobbyCreationPanel}
+			<button type="button" class="custom-button" on:click={() => (showLobbyCreationPanel = true)}>
+				<p>Host Game</p>
+			</button>
+			<button type="button" class="custom-button">
+				<p>Join Game</p>
+			</button>
+		{/if}
+		<LobbyCreationPanel bind:showLobbyCreationPanel />
+	</div>
 </div>
 
-<style lang="scss">
-	.absolute-center {
+<style lang="postcss">
+	.container {
 		position: absolute;
 		top: 50%;
 		left: 50%;
+		max-width: 50%;
 		transform: translate(-50%, -50%);
+	}
+	.top-row {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	.custom-button {
+		@apply text-fontcolor text-4xl;
+		text-decoration: none;
+		text-align: center;
+		font-family: theme(fontFamily.amatic);
+		padding: 0.75em;
+		width: 50%;
+		border: 1px solid white;
+		transition: all 0.2s ease-in-out;
+	}
+
+	.custom-button > p {
+		transition: all 0.2s ease-in-out;
+	}
+
+	.custom-button:hover {
+		@apply cursor-pointer bg-accent opacity-75;
+		transform: scale(1.01);
+	}
+
+	.custom-button:hover > p {
+		transform: scale(1.05);
 	}
 </style>
