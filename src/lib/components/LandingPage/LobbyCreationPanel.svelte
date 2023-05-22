@@ -28,23 +28,22 @@
 		numUsers = 1;
 		gameDuration = 10;
 		lobbyName = "";
-	}
+	};
 
 	function handleSubmit() {
-        if (lobbyNameIsValid) {
-            // Handle form submission
-        } else {
-			
+		if (lobbyNameIsValid) {
+			// Handle form submission
+		} else {
 		}
-    }
+	}
 
 	$: {
-		if (lobbyName !== '') {
-            const regex = /^[a-zA-Z]+$/;
-            lobbyNameIsValid = regex.test(lobbyName);
-        } else {
-            lobbyNameIsValid = null;
-        }
+		if (lobbyName !== "") {
+			const regex = /^[a-zA-Z]+$/;
+			lobbyNameIsValid = regex.test(lobbyName);
+		} else {
+			lobbyNameIsValid = null;
+		}
 	}
 </script>
 
@@ -53,8 +52,11 @@
 		<div class="panel-content">
 			<div class="top-row">
 				<h2>Create a lobby</h2>
-				<button id="close-button" on:click={resetForm} on:click={() => (show = false)} on:click={() => dispatch("close")}  
-					>X</button
+				<button
+					id="close-button"
+					on:click={resetForm}
+					on:click={() => (show = false)}
+					on:click={() => dispatch("close")}>X</button
 				>
 			</div>
 			<form class="form" on:submit|preventDefault={handleSubmit}>
@@ -62,7 +64,12 @@
 				{#if lobbyNameIsValid === false}
 					<p class="error-message">Name can only contain alphabetical characters</p>
 				{/if}
-				<input type="text" id="lobbyName" bind:value={lobbyName} class:invalid={lobbyNameIsValid === false} />
+				<input
+					type="text"
+					id="lobbyName"
+					bind:value={lobbyName}
+					class:invalid={lobbyNameIsValid === false}
+				/>
 
 				<label for="users">Number of users: {numUsers}</label>
 				<input type="range" id="users" min="1" max="100" bind:value={numUsers} />
@@ -71,8 +78,8 @@
 				<input type="range" id="duration" min="30" max="120" bind:value={gameDuration} />
 
 				<div class="actions">
-					<button type="submit"  class="button" on:click={() => dispatch("close")}
-						><a href="game/{pin}" >Create</a></button
+					<button type="submit" class="button" on:click={() => dispatch("close")}
+						><a href="game/{pin}">Create</a></button
 					>
 				</div>
 			</form>
@@ -109,7 +116,7 @@
 		row-gap: 20px;
 	}
 
-	.form { 
+	.form {
 		@apply pointer-events-auto bg-dark text-fontcolor text-center;
 		display: flex;
 		text-decoration: none;
@@ -139,8 +146,8 @@
 
 	.invalid {
 		border: 2px solid red;
-		border-radius: .25rem;
-    }
+		border-radius: 0.25rem;
+	}
 
 	.error-message {
 		@apply text-accent text-2xl;
