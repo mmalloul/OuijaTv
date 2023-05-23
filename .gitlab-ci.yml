@@ -116,7 +116,6 @@ deploy-staging:
     - echo $SSH_USER_STAGING@$SERVER_IP
     - ssh $SSH_USER_STAGING@$SERVER_IP "
       echo $DOCKER_ACCESS_TOKEN | docker login -u $DOCKER_REGISTRY_USER --password-stdin &&
-      cd ouijatv &&
       docker compose pull &&
       docker compose up -d &&
       docker image prune -a -f &&
