@@ -10,7 +10,7 @@ class Game(NamedTuple):
     host: WebSocket
     players: List[Player]
 
-    def findPlayerBySocket(self, socket: WebSocket) -> Player:
+    def find_player_by_socket(self, socket: WebSocket) -> Player:
         for player in self.players:
             if player.socket == socket:
                 return player

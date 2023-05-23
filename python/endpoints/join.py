@@ -8,7 +8,7 @@ async def connect(websocket: WebSocket, game: Game, name: str) -> None:
 
 
 async def disconnect(websocket: WebSocket, game: Game) -> None:
-    player = game.findPlayerBySocket(websocket)
+    player = game.find_player_by_socket(websocket)
     game.players.remove(player)
     await game.host.send_text(f"Player {player.name} left")
 
