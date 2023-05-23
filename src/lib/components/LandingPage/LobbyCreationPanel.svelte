@@ -64,12 +64,13 @@
 				>
 			</div>
 			<form class="form" on:submit|preventDefault={handleSubmit}>
-				<label>Name of lobby: {lobbyName}</label>
+
+				<label>Name your vessel: </label>
 				{#if lobbyNameIsValid === false}
 					<p class="error-message">Name can only contain alphabetical characters</p>
 				{/if}
 				{#if lobbyNameIsEmpty === true}
-					<p class="error-message">Lobby needs a name</p>
+					<p class="error-message">Vessel needs a name</p>
 				{/if}
 				<input
 					type="text"
@@ -78,7 +79,7 @@
 					class:invalid={lobbyNameIsValid === false}
 				/>
 
-				<label for="users">Number of users: {numUsers}</label>
+				<label for="users">Minimum number of spirits: {numUsers}</label>
 				<input type="range" id="users" min="1" max="100" bind:value={numUsers} />
 
 				<label for="duration">Voting Time: {gameDuration} seconds</label>
@@ -184,8 +185,12 @@
 
 	input {
 		@apply text-accent text-4xl;
+		@apply bg-dark
+		@apply border-1
+		@apply border-light-300
+		@apply p-3
+		@apply text-white
 		margin: 0 auto;
-		color: #fb5012 !important;
 	}
 
 	.actions {

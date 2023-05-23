@@ -7,13 +7,6 @@ from .endpoints.ai import openai_call
 
 app = FastAPI()
 
-@app.get("/")
-async def root():
-    return {"message": "Hello Worstd"}
-
-
-
-# Configure CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173","https://ouija.tv"],  # Add the origin of your Svelte application
@@ -21,10 +14,12 @@ app.add_middleware(
     allow_headers=["Content-Type"],
 )
 
+@app.get("/")
+async def root():
+    return "Ouija.TV API root"
+
 @app.get("/openai")
 async def ai_call(prompt: str, spirit:int):
-    print(prompt)
-    print(spirit)
     response = await openai_call(prompt, spirit)
     return response
 

@@ -1,11 +1,8 @@
 <script lang="ts">
 	import LobbyCreationPanel from "#lib/components/LandingPage/LobbyCreationPanel.svelte";
+	import { goto } from "$app/navigation";
 
 	let showLobbyCreationPanel = false;
-
-	function redirectTo(url: string) {
-		window.location.href = url;
-	}
 </script>
 
 <div class="container">
@@ -14,7 +11,7 @@
 			<button type="button" class="custom-button" on:click={() => (showLobbyCreationPanel = true)}>
 				<p>Host Game</p>
 			</button>
-			<button type="button" class="custom-button" on:click={() => redirectTo("/join")}>
+			<button type="button" class="custom-button" on:click={() => goto("/join")}>
 				<p>Join Game</p>
 			</button>
 		{/if}
