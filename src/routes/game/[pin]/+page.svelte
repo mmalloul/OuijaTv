@@ -39,12 +39,21 @@
 		const websocket = new WebSocket(`${env.PUBLIC_WS_URL}/join?pin=${pin}`);
 		websocket.onclose = () => (status = "game not found");
 		websocket.onmessage = ({ data }) => {
-			if (status) {
+			// Wrapped with try-catch, because if websocket sends string instead of JSON it will raise an error.
+			// Now every other message that isn't JSON will still be received.
+			try {
+				let parsedData = JSON.parse(data);
+
+				if (parsedData.action) {
+					if (parsedData.action === "restart_game") {
+						seekerX = 0;
+						seekerY = 0;
+					}
+				}
+			} catch (e) {
 				messages = [...messages, data];
-			} else {
-				status = "connected!";
+				targetALetter(messages[messages.length - 1]);
 			}
-			targetALetter(messages[messages.length - 1]);
 		};
 	}
 

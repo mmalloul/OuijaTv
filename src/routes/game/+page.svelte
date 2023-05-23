@@ -7,6 +7,7 @@
 	let input = "";
 	let question = "";
 	let messages: string[] = [];
+	let isHost = false;
 
 	onMount(() => {
 		websocket = new WebSocket(`${env.PUBLIC_WS_URL}/host`);
@@ -15,6 +16,7 @@
 				messages = [...messages, data];
 			} else {
 				pin = data;
+				isHost = true;
 			}
 		};
 	});
@@ -23,6 +25,13 @@
 		websocket.send(input);
 		question = input;
 		input = "";
+	}
+
+	function restart() {		
+		if (isHost) {
+			websocket.send(JSON.stringify({ action: 'restart_game' }));
+			question = ""
+		}
 	}
 </script>
 
@@ -39,6 +48,9 @@
 			/>
 			<button type="submit" class="bg-indigo-800 text-white rounded-r-lg px-10">Submit</button>
 		</form>
+		{#if isHost}
+			<button on:click={restart} class="bg-red-600 text-white rounded-lg px-10">Restart</button>
+		{/if}
 		<h1><br /><br />{question}</h1>
 	</div>
 </div>
