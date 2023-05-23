@@ -1,6 +1,5 @@
 <script lang="ts">
-	import ClipboardSvg from "#lib/assets/ClipboardSVG.svelte";
-import { env } from "$env/dynamic/public";
+	import { env } from "$env/dynamic/public";
 	import { onMount } from "svelte";
 	import toast, { Toaster } from "svelte-french-toast";
 
@@ -65,13 +64,17 @@ import { env } from "$env/dynamic/public";
 </div>
 {#if isHost}
 	<div class="flex gap-2 host-options">
-		<div class="flex justify-center link-share rounded-lg px-10">
-			<p>{window.location.href}/{pin}</p>
-			<button class="link-share-button"><ClipboardSvg/></button>
+		<div class="flex justify-end link-share rounded-lg">
+			<span>
+				{window.location.href}/{pin}
+			</span>
+			<button class="link-share-button ml-4 px-3 opacity-100">
+				<img src="src\lib\assets\copy.svg" alt="copy" width=30 height="30"/>
+			</button>
 		</div>
-		<button on:click={restart} class="restart-button bg-red-600 rounded-lg px-10"
-			><p>Restart</p></button
-		>
+		<button on:click={restart} class="restart-button bg-red-600 rounded-lg px-10">
+			<p>Restart</p>
+		</button>
 	</div>
 {/if}
 
@@ -101,17 +104,23 @@ import { env } from "$env/dynamic/public";
 		border: 1px solid white;
 		margin: 0 0 1rem 0;
 		text-align: center;
+		padding-left: 10px;
 	}
 
-	.link-share > p {
-		@apply text-fontcolor text-4xl; 
+	.link-share > span {
+		@apply text-fontcolor text-4xl;
 		text-decoration: none;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);
 	}
 
 	.link-share-button {
-		background-color: red;
+		background-color: #3e3f3b;
+		float: right;
+	}
+
+	.link-share-button:hover {
+		@apply cursor-pointer bg-accent opacity-85;
 	}
 
 	.submit-button,
