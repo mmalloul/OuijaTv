@@ -54,18 +54,18 @@
 				type="text"
 				class="p-3 max-w-200 w-70vw border-dark-50 border rounded-l-lg"
 			/>
-			<button type="submit" class="bg-indigo-800 text-white rounded-r-lg px-10 submit-button"
-				>Submit</button
-			>
+			<button type="submit" class="bg-indigo-800 text-white rounded-r-lg px-10 submit-button">
+				Submit
+			</button>
 		</form>
 
 		<h1><br /><br />{question}</h1>
 	</div>
 </div>
 {#if isHost}
-	<button on:click={restart} class="restart-button bg-red-600 text-white rounded-lg px-10"
-		><p>Restart</p></button
-	>
+	<button on:click={restart} class="restart-button bg-red-600 text-white rounded-lg px-10">
+		<p>Restart</p>
+	</button>
 {/if}
 
 <Toaster />
