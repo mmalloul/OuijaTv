@@ -22,11 +22,22 @@
 			case PlayerState.Host:
 				socket = new WebSocket(`${env.PUBLIC_WS_URL}/host`);
 				socket.onmessage = ({ data }) => {
-					// pin
-					goto(`play/${data}`);
-					socket.onmessage = ({ data }) => {
-						console.log(data);
-					};
+
+					const parsed = JSON.parse(data);
+
+					switch (parsed["type"]) {
+						case "pin":
+							goto(`play/${parsed["content"]}`);
+							break;
+						case "connect":
+							const message = `${parsed["username"]} has joined the game 👻!`
+							toast.success(message, {
+								position: "bottom-center",
+								style: "border-radius: 200px; background: #333; color: #fff; f"
+							});
+						default:
+							break;
+					}
 				};
 				break;
 
@@ -45,7 +56,7 @@
 
 	function restart() {
 		if (confirm("Do you want to restart the game?") === true) {
-			socket.send(JSON.stringify({ action: "restart_game" }));
+			socket.send(JSON.stringify({ type: "restart" }));
 			toast.success("Game has been restarted!", {
 				position: "bottom-center",
 				style: "border-radius: 200px; background: #333; color: #fff; f"
@@ -92,10 +103,10 @@
 					<Icon icon="mingcute:copy-line" color="white" width="25"/>
 				</button>
 			</div>
-			<button on:click={restart} class="restart-button bg-red-600 rounded-lg px-10">
-				<p>Restart</p>
-			</button>
 		</div>
+		<button on:click={restart} class="restart-button p-2 rounded-md absolute left-5 bottom-0">
+			<Icon icon="mdi:restart" />
+		</button>
 	{/if}
 {/if}
 
@@ -123,7 +134,7 @@
 	.host-options {
 		position: absolute;
 		bottom: 0;
-		right: 0;
+		right: 1.5rem;
 	}
 
 	.link-share {
@@ -168,7 +179,7 @@
 	}
 
 	.restart-button:hover {
-		@apply cursor-pointer bg-accent opacity-75;
+		@apply cursor-pointer bg-accent;
 		transform: scale(1.03);
 	}
 
