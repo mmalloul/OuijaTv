@@ -20,7 +20,7 @@ async def root():
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173","https://ouija.tv"],  # Add the origin of your Svelte application
+    allow_origins=["http://localhost:5173","https://ouija.tv","http://localhost:8001","http://localhost:8000"],  # Add the origin of your Svelte application
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["Content-Type"],
 )
