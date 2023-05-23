@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
 	import { onMount } from "svelte";
 
 	const username_max = 18;
@@ -8,9 +9,7 @@
 	let roomCode = "";
 
 	onMount(() => {
-		const urlParams = new URLSearchParams(window.location.search);
-		const code = urlParams.get("code");
-		if (code) roomCode = code;
+		username = localStorage.getItem("username") || "";
 	});
 
 	function inputValid(name: string, code: string): boolean {
@@ -34,21 +33,22 @@
 
 	function joinRoom(code: string) {
 		localStorage.setItem("username", username);
-		window.location.href = "/game/" + code;
+		goto(`/play/${code}`);
 	}
 </script>
 
 <div class="container">
 	<div class="flex-container">
-		<form class="column">
+		<form class="column" on:submit|preventDefault>
 			<label for="username">Username:</label><br />
 			<input bind:value={username} type="text" id="username" name="username" />
-			<br />
+			<br /><br />
 			<label for="room-code">Room code:</label><br />
 			<input bind:value={roomCode} type="text" id="room-code" name="room-code" />
 			<br />
 			<button
 				class="custom-button"
+				type="submit"
 				on:click={() => joinRoom(roomCode)}
 				disabled={!inputValid(username, roomCode)}>Join</button
 			>

@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .endpoints.host import host
 from .endpoints.join import join
 from .endpoints.ai import openai_call
+from .stores.games import games
 
 app = FastAPI()
 
@@ -22,6 +23,10 @@ async def root():
 async def ai_call(prompt: str, spirit:int):
     response = await openai_call(prompt, spirit)
     return response
+
+@app.get("/games")
+async def get_games():
+    return {pin: [player.name for player in game.players] for pin, game in games.items()}
 
 app.websocket("/host")(host)
 app.websocket("/join")(join)
