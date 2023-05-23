@@ -74,7 +74,7 @@
 		}
 	}
 	function cleanupAwnser(str: string) {
-		let s = str.replace(/[\[\]&]+/g, "");
+		let s = str.replace(/\[\[]&]+/g, "");
 		return s;
 	}
 
