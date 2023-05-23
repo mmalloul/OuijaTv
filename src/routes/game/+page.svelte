@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { env } from "$env/dynamic/public";
 	import { onMount } from "svelte";
+	import toast, { Toaster } from "svelte-french-toast";
+
 
 	let websocket: WebSocket;
 	let pin = "";
@@ -47,16 +49,17 @@
 				type="text"
 				class="p-3 max-w-200 w-70vw border-dark-50 border rounded-l-lg"
 			/>
-			<button type="submit" class="bg-indigo-800 text-white rounded-r-lg px-10">Submit</button>
+			<button type="submit" class="bg-indigo-800 text-white rounded-r-lg px-10 submit-button">Submit</button>
 		</form>
-		{#if isHost}
-			<button on:click={restart} class="bg-red-600 text-white rounded-lg px-10">Restart</button>
-		{/if}
+		
 		<h1><br /><br />{question}</h1>
 	</div>
 </div>
+{#if isHost}
+	<button on:click={restart} class="restart-button bg-red-600 text-white rounded-lg px-10"><p>Restart</p></button>
+{/if}
 
-<style lang="scss">
+<style lang="postcss">
 	p,
 	h1 {
 		color: white;
@@ -68,4 +71,40 @@
 		left: 50%;
 		transform: translate(-50%, -50%);
 	}
+
+	.submit-button, .restart-button {
+		@apply text-fontcolor text-4xl;
+		text-decoration: none;
+		text-align: center;
+		font-family: theme(fontFamily.amatic);
+		transition: all 0.2s ease-in-out;
+	}
+
+	.restart-button {
+		position: absolute;
+    	bottom: 0;
+    	right: 0;
+		margin: 0 1rem 1rem 0
+	}
+
+	.restart-button:hover{
+		@apply cursor-pointer bg-accent opacity-75;
+		transform: scale(1.03);
+	}
+
+
+	.restart-button > p {
+		transition: all 0.2s ease-in-out;
+	}
+
+	.restart-button:hover > p {
+		transform: scale(1.02);
+	}
+
+	.submit-button:hover {
+		@apply cursor-pointer bg-indigo-500 opacity-75;
+		transform: scale(1.01);
+	}
+
+	
 </style>
