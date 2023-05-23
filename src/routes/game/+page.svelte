@@ -41,6 +41,14 @@
 			}
 		}
 	}
+
+	function copyToClipBoard() {
+		navigator.clipboard.writeText(`${window.location.href}/${pin}`);
+		toast.success("Lobby url has been copied!", {
+			position: "bottom-center",
+			style: "border-radius: 200px; background: #333; color: #fff; f"
+		});
+	}
 </script>
 
 <div class="page absolute-center flex gap-12 pb-5">
@@ -63,9 +71,19 @@
 	</div>
 </div>
 {#if isHost}
-	<button on:click={restart} class="restart-button bg-red-600 text-white rounded-lg px-10">
-		<p>Restart</p>
-	</button>
+	<div class="flex gap-2 host-options">
+		<div class="flex justify-end link-share rounded-lg">
+			<span>
+				{window.location.href}/{pin}
+			</span>
+			<button on:click={copyToClipBoard} class="link-share-button ml-4 px-3 opacity-100">
+				<img src="src\lib\assets\copy.svg" alt="copy" width="30" height="30" />
+			</button>
+		</div>
+		<button on:click={restart} class="restart-button bg-red-600 rounded-lg px-10">
+			<p>Restart</p>
+		</button>
+	</div>
 {/if}
 
 <Toaster />
@@ -83,6 +101,40 @@
 		transform: translate(-50%, -50%);
 	}
 
+	.host-options {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+	}
+
+	.link-share {
+		@apply opacity-50;
+		border: 1px solid white;
+		margin: 0 0 1rem 0;
+		text-align: center;
+		padding-left: 10px;
+	}
+
+	.link-share > span {
+		@apply text-fontcolor text-4xl;
+		text-decoration: none;
+		text-align: center;
+		font-family: theme(fontFamily.amatic);
+	}
+
+	.link-share-button {
+		background-color: #3e3f3b;
+		border-radius: 0 7px 7px 0;
+	}
+
+	.link-share-button > img {
+		color: white;
+	}
+
+	.link-share-button:hover {
+		@apply cursor-pointer bg-accent opacity-85;
+	}
+
 	.submit-button,
 	.restart-button {
 		@apply text-fontcolor text-4xl;
@@ -93,9 +145,6 @@
 	}
 
 	.restart-button {
-		position: absolute;
-		bottom: 0;
-		right: 0;
 		margin: 0 1rem 1rem 0;
 	}
 
