@@ -4,13 +4,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from .endpoints.host import host
 from .endpoints.join import join
 from .endpoints.ai import openai_call
-import os
 from dotenv import load_dotenv
-from pathlib import Path
-load_dotenv()
 from .stores.games import games
 
 app = FastAPI()
+load_dotenv()
 
 app.add_middleware(
     CORSMiddleware,
