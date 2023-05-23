@@ -26,7 +26,7 @@ async def restart_game(pin: str) -> None:
         
         # Loop over the players in the game and send a message to each one
         for player in game.players:
-            await player.send_text(json.dumps({"action": "restart_game"}))
+            await player.socket.send_text(json.dumps({"action": "restart_game"}))
 
 async def host(websocket: WebSocket) -> None:
     pin = generate_unique()
@@ -47,7 +47,7 @@ async def host(websocket: WebSocket) -> None:
                     await restart_game(pin)
             except json.JSONDecodeError:
                 print("Received an empty response or invalid JSON")
-                tasks = (player.send_text(prompt) for player in games[pin].players)
+                tasks = (player.socket.send_text(prompt) for player in games[pin].players)
                 await asyncio.gather(*tasks)
     except WebSocketDisconnect:
         del games[pin]
