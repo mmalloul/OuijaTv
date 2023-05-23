@@ -3,6 +3,7 @@
 	import { page } from "$app/stores";
 	import { env } from "$env/dynamic/public";
 	import BoardSvg from "$lib/components/BoardSVG.svelte";
+	import toast, { Toaster } from "svelte-french-toast";
 
 	let status = "";
 	let messages: string[] = [];
@@ -39,12 +40,27 @@
 		const websocket = new WebSocket(`${env.PUBLIC_WS_URL}/join?pin=${pin}`);
 		websocket.onclose = () => (status = "game not found");
 		websocket.onmessage = ({ data }) => {
-			if (status) {
+			// Wrapped with try-catch, because if websocket sends string instead of JSON it will raise an error.
+			// Now every other message that isn't JSON will still be received.
+			try {
+				let parsedData = JSON.parse(data);
+
+				if (parsedData.action) {
+					if (parsedData.action === "restart_game") {
+						seekerX = 0;
+						seekerY = 0;
+						toast("The host has restarted the game!", {
+							icon: "👻",
+							position: "bottom-center",
+							style: "border-radius: 200px; background: #333; color: #fff;",
+							duration: 3000
+						});
+					}
+				}
+			} catch (e) {
 				messages = [...messages, data];
-			} else {
-				status = "connected!";
+				targetALetter(messages[messages.length - 1]);
 			}
-			targetALetter(messages[messages.length - 1]);
 		};
 	}
 
@@ -74,6 +90,8 @@
 		<circle id="Seeker" cx={seekerX} cy={seekerY} r="76.5" stroke="#FFF7E2" stroke-width="13" />
 	</BoardSvg>
 </div>
+
+<Toaster />
 
 <style>
 	button {

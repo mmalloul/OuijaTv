@@ -29,17 +29,8 @@
 	 */
 	function handleSubmit() {
 		if (lobbyNameIsValid) {
-			websocket = new WebSocket(`${env.PUBLIC_WS_URL}/host`);
-			websocket.onmessage = ({ data }) => {
-				if (pin) {
-					messages = [...messages, data];
-				} else {
-					pin = data;
-				}
-
-				// Go to the game lobby.
-				window.location.href = `game/${pin}`;
-			};
+			// Go to the game lobby.
+			window.location.href = `game/${pin}`;
 		} else if (lobbyName.length === 0) {
 			lobbyNameIsEmpty = true;
 		}
