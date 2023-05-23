@@ -26,7 +26,7 @@
 
 <style lang="postcss">
 	nav {
-		@apply flex justify-start bg-dark md: justify-center;
+		@apply flex justify-start md: justify-center;
 	}
 
 	.menu {

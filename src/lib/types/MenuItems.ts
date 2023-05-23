@@ -5,20 +5,16 @@ interface MenuItem {
 
 const items: MenuItem[] = [
 	{
-		name: "Home",
+		name: "Conjure",
 		route: "/"
 	},
 	{
-		name: "Profile",
-		route: "/profile"
-	},
-	{
-		name: "Game",
+		name: "Visit",
 		route: "/game"
 	},
 	{
 		name: "Solo",
-		route: "/solo2"
+		route: "/solo"
 	}
 ];
 
