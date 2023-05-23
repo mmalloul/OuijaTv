@@ -34,12 +34,11 @@
 				websocket.send(JSON.stringify({ action: "restart_game" }));
 				toast.success("Game has been restarted!", {
 					position: "bottom-center",
-					style: "border-radius: 200px; background: #333; color: #fff; f",
+					style: "border-radius: 200px; background: #333; color: #fff; f"
 				});
 
 				question = "";
 			}
-				
 		}
 	}
 </script>
@@ -70,6 +69,7 @@
 {/if}
 
 <Toaster />
+
 <style lang="postcss">
 	p,
 	h1 {

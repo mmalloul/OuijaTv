@@ -5,7 +5,6 @@
 	import BoardSvg from "$lib/components/BoardSVG.svelte";
 	import toast, { Toaster } from "svelte-french-toast";
 
-
 	let status = "";
 	let messages: string[] = [];
 
@@ -55,7 +54,7 @@
 							position: "bottom-center",
 							style: "border-radius: 200px; background: #333; color: #fff;",
 							duration: 3000
-							});
+						});
 					}
 				}
 			} catch (e) {
