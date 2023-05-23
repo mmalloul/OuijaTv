@@ -25,7 +25,7 @@
 
 		if (code.length === 0) {
 			warnings.push("Enter a roomcode!");
-		} else if (!/^[a-zA-Z]{5}$/.test(roomCode)) {
+		} else if (!/^[a-zA-Z]{6}$/.test(roomCode)) {
 			warnings.push("Enter a valid roomcode!");
 		}
 
@@ -34,7 +34,7 @@
 		return warnings.length === 0;
 	}
 
-	function joinRoom(code: string) {
+	function joinRoom(code: string) { 
 		console.log(code);
 		window.location.href = "/game/" + code;
 	}
