@@ -29,8 +29,9 @@
 
 	function restart() {		
 		if (isHost) {
-			websocket.send(JSON.stringify({ action: 'restart_game' }));
-			question = ""
+			if (confirm("Do you want to restart the game?") == true)
+				websocket.send(JSON.stringify({ action: 'restart_game' }));
+				question = ""
 		}
 	}
 </script>
