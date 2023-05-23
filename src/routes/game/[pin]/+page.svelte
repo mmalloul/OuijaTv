@@ -8,8 +8,8 @@
 	let status = "";
 	let messages: string[] = [];
 
-	const placeholder_username = "USERNAME_NOT_SET";
-	let username = placeholder_username;
+	const placeholderUsername = "USERNAME_NOT_SET";
+	let username = placeholderUsername;
 
 	const letterPositions: Record<string, Vector2> = {};
 
@@ -18,7 +18,7 @@
 	let targetLetter = "A";
 
 	onMount(() => {
-		username = localStorage.getItem("username") || placeholder_username;
+		username = localStorage.getItem("username") || placeholderUsername;
 		initBoard();
 		initSpiritSocket();
 	});
