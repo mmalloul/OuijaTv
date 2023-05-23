@@ -1,9 +1,19 @@
 <script lang="ts">
+
+	import { onMount } from "svelte";
+
 	const username_max = 18;
 
 	let warning = "";
 	let username = "";
 	let roomCode = "";
+
+	onMount(() => {
+		const urlParams = new URLSearchParams(window.location.search);
+		const code = urlParams.get("code");
+		if (code)
+			roomCode = code
+	});
 
 	function inputValid(name: string, code: string): boolean {
 		let warnings = [];
@@ -28,6 +38,7 @@
 		console.log(code);
 		window.location.href = "/game/" + code;
 	}
+
 </script>
 
 <div class="container">
