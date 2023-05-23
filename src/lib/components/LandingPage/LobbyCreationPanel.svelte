@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { env } from "$env/dynamic/public";
 	import { createEventDispatcher } from "svelte";
 
 	const dispatch = createEventDispatcher();
@@ -64,7 +63,7 @@
 				>
 			</div>
 			<form class="form" on:submit|preventDefault={handleSubmit}>
-				<label>Name of lobby: {lobbyName}</label>
+				<label id="lobby-name">Name of lobby: {lobbyName}</label>
 				{#if lobbyNameIsValid === false}
 					<p class="error-message">Name can only contain alphabetical characters</p>
 				{/if}
@@ -73,6 +72,7 @@
 				{/if}
 				<input
 					type="text"
+					aria-labelledby="lobby-name"
 					id="lobbyName"
 					bind:value={lobbyName}
 					class:invalid={lobbyNameIsValid === false}
