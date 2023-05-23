@@ -43,7 +43,7 @@ async def host(websocket: WebSocket) -> None:
                 await restart_game(pin)
             else: 
                 tasks = (player.send_text(prompt) for player in games[pin].players)
-            await asyncio.gather(*tasks)
+                await asyncio.gather(*tasks)
     except WebSocketDisconnect:
         del games[pin]
     
