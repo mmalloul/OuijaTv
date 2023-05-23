@@ -39,9 +39,14 @@ async def host(websocket: WebSocket) -> None:
     try:
         while True:
             prompt = await websocket.receive_text()
-            if prompt == '{"action":"restart_game"}':
-                await restart_game(pin)
-            else: 
+            
+            try:
+                # Attempt to parse JSON string into Python dict (Object).
+                parsed_prompt = json.loads(prompt)
+                if parsed_prompt["action"] == "restart_game":
+                    await restart_game(pin)
+            except json.JSONDecodeError:
+                print("Received an empty response or invalid JSON")
                 tasks = (player.send_text(prompt) for player in games[pin].players)
                 await asyncio.gather(*tasks)
     except WebSocketDisconnect:
