@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { env } from "$env/dynamic/public";
+	import ClipboardSvg from "#lib/assets/ClipboardSVG.svelte";
+import { env } from "$env/dynamic/public";
 	import { onMount } from "svelte";
 	import toast, { Toaster } from "svelte-french-toast";
 
@@ -63,9 +64,15 @@
 	</div>
 </div>
 {#if isHost}
-	<button on:click={restart} class="restart-button bg-red-600 text-white rounded-lg px-10"
-		><p>Restart</p></button
-	>
+	<div class="flex gap-2 host-options">
+		<div class="flex justify-center link-share rounded-lg px-10">
+			<p>{window.location.href}/{pin}</p>
+			<button class="link-share-button"><ClipboardSvg/></button>
+		</div>
+		<button on:click={restart} class="restart-button bg-red-600 rounded-lg px-10"
+			><p>Restart</p></button
+		>
+	</div>
 {/if}
 
 <Toaster />
@@ -83,6 +90,30 @@
 		transform: translate(-50%, -50%);
 	}
 
+	.host-options {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+	}
+
+	.link-share {
+		@apply opacity-50;
+		border: 1px solid white;
+		margin: 0 0 1rem 0;
+		text-align: center;
+	}
+
+	.link-share > p {
+		@apply text-fontcolor text-4xl; 
+		text-decoration: none;
+		text-align: center;
+		font-family: theme(fontFamily.amatic);
+	}
+
+	.link-share-button {
+		background-color: red;
+	}
+
 	.submit-button,
 	.restart-button {
 		@apply text-fontcolor text-4xl;
@@ -93,9 +124,6 @@
 	}
 
 	.restart-button {
-		position: absolute;
-		bottom: 0;
-		right: 0;
 		margin: 0 1rem 1rem 0;
 	}
 
