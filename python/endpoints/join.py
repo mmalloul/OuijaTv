@@ -18,7 +18,7 @@ async def join(websocket: WebSocket, pin: str, name: str) -> None:
 
     if pin in games:
         await connect(websocket, games[pin], name)
-        await websocket.send_text("You are here, {username}!".format(username = name))
+        await websocket.send_text(f"You are here, {name}!")
 
         # terrible syntax, but a context manager would be too verbose
         try:
