@@ -7,6 +7,7 @@
 	let pin = "";
 	let input = "";
 	let question = "";
+	const joinPath = 'join?code='
 	let messages: string[] = [];
 	let isHost = false;
 
@@ -43,7 +44,7 @@
 	}
 
 	function copyToClipBoard() {
-		navigator.clipboard.writeText(`${window.location.href}/${pin}`);
+		navigator.clipboard.writeText(`${window.location.host}/${joinPath}${pin}`);
 		toast.success("Lobby url has been copied!", {
 			position: "bottom-center",
 			style: "border-radius: 200px; background: #333; color: #fff; f"
@@ -53,7 +54,7 @@
 
 <div class="page absolute-center flex gap-12 pb-5">
 	<div>
-		<a href="game/{pin}" target="_blank" class="text-7xl text-center font-bold text-gray-700">
+		<a href="{window.location.host}/{joinPath}{pin}" target="_blank" class="text-7xl text-center font-bold text-gray-700">
 			{pin}
 		</a>
 		<form on:submit={submit} class="flex">
@@ -74,7 +75,7 @@
 	<div class="flex gap-2 host-options">
 		<div class="flex justify-end link-share rounded-lg">
 			<span>
-				{window.location.href}/{pin}
+				{window.location.host}/{joinPath}{pin}
 			</span>
 			<button on:click={copyToClipBoard} class="link-share-button ml-4 px-3 opacity-100">
 				<img src="src\lib\assets\copy.svg" alt="copy" width="30" height="30" />
