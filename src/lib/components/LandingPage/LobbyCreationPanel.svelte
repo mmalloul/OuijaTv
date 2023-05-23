@@ -1,8 +1,11 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
 	import { env } from "$env/dynamic/public";
-	import { createEventDispatcher } from "svelte";
+	import { createEventDispatcher, getContext } from "svelte";
+	import type { Writable } from "svelte/store";
 
 	const dispatch = createEventDispatcher();
+	const isHost = getContext<Writable<boolean>>("isHost");
 	export let showLobbyCreationPanel = false;
 	let numUsers = 1;
 	let gameDuration = 30; // in seconds
@@ -30,7 +33,8 @@
 	function handleSubmit() {
 		if (lobbyNameIsValid) {
 			// Go to the game lobby.
-			window.location.href = `game/${pin}`;
+			isHost.set(true);
+			goto("/play");
 		} else if (lobbyName.length === 0) {
 			lobbyNameIsEmpty = true;
 		}
@@ -52,10 +56,10 @@
 </script>
 
 {#if showLobbyCreationPanel}
-	<div class="panel">
+	<div class="panel mt-5">
 		<div class="panel-content">
 			<div class="top-row">
-				<h2>Create a lobby</h2>
+				<h2>Provide</h2>
 				<button
 					id="close-button"
 					on:click={resetForm}

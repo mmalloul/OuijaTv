@@ -15,6 +15,7 @@
 						href={item.route}
 						aria-label={item.name}
 						class:active={$page.url.pathname == item.route}
+						class:opacity-50={!item.route}
 					>
 						{item.name}
 					</a>

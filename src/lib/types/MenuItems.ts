@@ -9,13 +9,13 @@ const items: MenuItem[] = [
 		route: "/"
 	},
 	{
-		name: "Visit",
-		route: "/game"
-	},
-	{
 		name: "Solo",
 		route: "/solo"
-	}
+	},
+	{
+		name: "Browse",
+		route: ""
+	},
 ];
 
 export default items;
