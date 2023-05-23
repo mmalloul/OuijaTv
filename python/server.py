@@ -37,5 +37,4 @@ app.websocket("/join")(join)
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv('BACKEND_PORT')))
-    
+    uvicorn.run(app, host="0.0.0.0", port=8000)
