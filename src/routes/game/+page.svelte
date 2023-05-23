@@ -13,6 +13,7 @@
 	let isHost = false;
 
 	onMount(() => {
+		
 		websocket = new WebSocket(`${env.PUBLIC_WS_URL}/host`);
 		websocket.onmessage = ({ data }) => {
 			if (pin) {

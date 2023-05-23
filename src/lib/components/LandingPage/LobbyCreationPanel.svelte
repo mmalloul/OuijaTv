@@ -70,7 +70,7 @@
 					<p class="error-message">Name can only contain alphabetical characters</p>
 				{/if}
 				{#if lobbyNameIsEmpty === true}
-					<p class="error-message">Vessel needs a name</p>
+					<p class="error-message">A vessel needs a name</p>
 				{/if}
 				<input
 					type="text"
@@ -184,12 +184,7 @@
 	}
 
 	input {
-		@apply text-accent text-4xl;
-		@apply bg-dark
-		@apply border-1
-		@apply border-light-300
-		@apply p-3
-		@apply text-white
+		@apply text-accent text-4xl bg-dark border-1 border-light-300 p-3 text-white;
 		margin: 0 auto;
 	}
 
