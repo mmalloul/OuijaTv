@@ -3,13 +3,13 @@ import LobbyCreationPanel from "../components/LandingPage/LobbyCreationPanel.sve
 
 describe("Test LobbyCreationPanel.svelte", async () => {
 	test("Lobby name input is empty when rendered", async () => {
+		// Arrange
 		render(LobbyCreationPanel, { showLobbyCreationPanel: true });
 
+		// Act
 		const input = await screen.getByLabelText("Name of lobby:", { selector: "input" });
-		// const lobbyName = await screen.getByText("Name of lobby: ");
 
-		// const lobbyNameInput = screen.getByText("Create")
-
+		// Assert
 		expect(input).toHaveValue("");
 	});
 });
