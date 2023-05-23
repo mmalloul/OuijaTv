@@ -45,9 +45,9 @@
 	function copyToClipBoard() {
 		navigator.clipboard.writeText(`${window.location.href}/${pin}`);
 		toast.success("Lobby url has been copied!", {
-					position: "bottom-center",
-					style: "border-radius: 200px; background: #333; color: #fff; f"
-				});
+			position: "bottom-center",
+			style: "border-radius: 200px; background: #333; color: #fff; f"
+		});
 	}
 </script>
 
@@ -77,7 +77,7 @@
 				{window.location.href}/{pin}
 			</span>
 			<button on:click={copyToClipBoard} class="link-share-button ml-4 px-3 opacity-100">
-				<img src="src\lib\assets\copy.svg" alt="copy" width=30 height="30"/>
+				<img src="src\lib\assets\copy.svg" alt="copy" width="30" height="30" />
 			</button>
 		</div>
 		<button on:click={restart} class="restart-button bg-red-600 rounded-lg px-10">
@@ -130,7 +130,6 @@
 	.link-share-button > img {
 		color: white;
 	}
-
 
 	.link-share-button:hover {
 		@apply cursor-pointer bg-accent opacity-85;
