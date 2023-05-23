@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { env } from "$env/dynamic/public";
 	import { onMount } from "svelte";
+	import { page } from "$app/stores";
 	import toast, { Toaster } from "svelte-french-toast";
 
 	let websocket: WebSocket;
@@ -44,17 +45,20 @@
 	}
 
 	function copyToClipBoard() {
-		navigator.clipboard.writeText(`${window.location.host}/${joinPath}${pin}`);
+		navigator.clipboard.writeText(shareableURL);
 		toast.success("Lobby url has been copied!", {
 			position: "bottom-center",
 			style: "border-radius: 200px; background: #333; color: #fff; f"
 		});
 	}
+
+	$: host = $page.url.origin;
+	$: shareableURL = `${host}/${joinPath}${pin}`
 </script>
 
 <div class="page absolute-center flex gap-12 pb-5">
 	<div>
-		<a href="{window.location.host}/{joinPath}{pin}" target="_blank" class="text-7xl text-center font-bold text-gray-700">
+		<a href="{shareableURL}" target="_blank" class="text-7xl text-center font-bold text-gray-700">
 			{pin}
 		</a>
 		<form on:submit={submit} class="flex">
@@ -75,7 +79,7 @@
 	<div class="flex gap-2 host-options">
 		<div class="flex justify-end link-share rounded-lg">
 			<span>
-				{window.location.host}/{joinPath}{pin}
+				{shareableURL}
 			</span>
 			<button on:click={copyToClipBoard} class="link-share-button ml-4 px-3 opacity-100">
 				<img src="src\lib\assets\copy.svg" alt="copy" width="30" height="30" />
