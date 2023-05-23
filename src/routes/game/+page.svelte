@@ -4,11 +4,11 @@
 	import { page } from "$app/stores";
 	import toast, { Toaster } from "svelte-french-toast";
 
+	const joinPath = "join?code=";
 	let websocket: WebSocket;
 	let pin = "";
 	let input = "";
 	let question = "";
-	const joinPath = "join?code=";
 	let messages: string[] = [];
 	let isHost = false;
 

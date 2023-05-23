@@ -4,8 +4,9 @@
 	import Menu from "$lib/components/Menu.svelte";
 	import { writable } from "svelte/store";
 	import { setContext } from "svelte";
+	import { PlayerState } from "#lib/types/PlayerState";
 
-	setContext("isHost", writable(false));
+	setContext("playerState", writable(PlayerState.None));
 </script>
 
 <Menu />

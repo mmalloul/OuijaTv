@@ -1,11 +1,12 @@
 <script lang="ts">
+	import { PlayerState } from "#lib/types/PlayerState";
 	import { goto } from "$app/navigation";
 	import { env } from "$env/dynamic/public";
 	import { createEventDispatcher, getContext } from "svelte";
 	import type { Writable } from "svelte/store";
 
 	const dispatch = createEventDispatcher();
-	const isHost = getContext<Writable<boolean>>("isHost");
+	const playerState = getContext<Writable<PlayerState>>("playerState");
 	export let showLobbyCreationPanel = false;
 	let numUsers = 1;
 	let gameDuration = 30; // in seconds
@@ -33,7 +34,7 @@
 	function handleSubmit() {
 		if (lobbyNameIsValid) {
 			// Go to the game lobby.
-			isHost.set(true);
+			playerState.set(PlayerState.Host);
 			goto("/play");
 		} else if (lobbyName.length === 0) {
 			lobbyNameIsEmpty = true;
