@@ -8,6 +8,9 @@
 	let status = "";
 	let messages: string[] = [];
 
+	const placeholder_username = "USERNAME_NOT_SET"
+	let username = placeholder_username;
+
 	const letterPositions: Record<string, Vector2> = {};
 
 	let seekerX = 0,
@@ -15,6 +18,7 @@
 	let targetLetter = "A";
 
 	onMount(() => {
+		username = localStorage.getItem('username') || placeholder_username;
 		initBoard();
 		initSpiritSocket();
 	});
@@ -37,7 +41,7 @@
 
 	function initSpiritSocket() {
 		const pin = $page.params.pin;
-		const websocket = new WebSocket(`${env.PUBLIC_WS_URL}/join?pin=${pin}&name=john`);
+		const websocket = new WebSocket(`${env.PUBLIC_WS_URL}/join?pin=${pin}&name=${username}`);
 		websocket.onclose = () => (status = "game not found");
 		websocket.onmessage = ({ data }) => {
 			// Wrapped with try-catch, because if websocket sends string instead of JSON it will raise an error.
