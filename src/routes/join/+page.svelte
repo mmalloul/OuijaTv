@@ -34,8 +34,8 @@
 		return warnings.length === 0;
 	}
 
-	function joinRoom(code: string) { 
-		console.log(code);
+	function joinRoom(code: string) {
+		localStorage.setItem('username', username);
 		window.location.href = "/game/" + code;
 	}
 
