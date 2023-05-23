@@ -3,6 +3,8 @@
 	import { page } from "$app/stores";
 	import { env } from "$env/dynamic/public";
 	import BoardSvg from "$lib/components/BoardSVG.svelte";
+	import toast, { Toaster } from "svelte-french-toast";
+
 
 	let status = "";
 	let messages: string[] = [];
@@ -48,6 +50,12 @@
 					if (parsedData.action === "restart_game") {
 						seekerX = 0;
 						seekerY = 0;
+						toast("The host has restarted the game!", {
+							icon: "👻",
+							position: "bottom-center",
+							style: "border-radius: 200px; background: #333; color: #fff;",
+							duration: 3000
+							});
 					}
 				}
 			} catch (e) {
@@ -83,6 +91,8 @@
 		<circle id="Seeker" cx={seekerX} cy={seekerY} r="76.5" stroke="#FFF7E2" stroke-width="13" />
 	</BoardSvg>
 </div>
+
+<Toaster />
 
 <style>
 	button {
