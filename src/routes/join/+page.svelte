@@ -1,9 +1,17 @@
 <script lang="ts">
+	import { onMount } from "svelte";
+
 	const username_max = 18;
 
 	let warning = "";
 	let username = "";
 	let roomCode = "";
+
+	onMount(() => {
+		const urlParams = new URLSearchParams(window.location.search);
+		const code = urlParams.get("code");
+		if (code) roomCode = code;
+	});
 
 	function inputValid(name: string, code: string): boolean {
 		let warnings = [];
@@ -15,7 +23,7 @@
 
 		if (code.length === 0) {
 			warnings.push("Enter a roomcode!");
-		} else if (!/^[a-zA-Z]{5}$/.test(roomCode)) {
+		} else if (!/^[a-zA-Z]{6}$/.test(roomCode)) {
 			warnings.push("Enter a valid roomcode!");
 		}
 
@@ -25,7 +33,7 @@
 	}
 
 	function joinRoom(code: string) {
-		console.log(code);
+		localStorage.setItem("username", username);
 		window.location.href = "/game/" + code;
 	}
 </script>
