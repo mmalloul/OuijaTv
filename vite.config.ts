@@ -6,8 +6,8 @@ export default defineConfig({
 	plugins: [sveltekit(), WindiCSS()],
 	test: {
 		globals: true,
-		environment: 'jsdom',
+		environment: "jsdom",
 		include: ["src/**/*.{test,spec}.{js,ts}"],
-		setupFiles: ['./setupTest.js']
+		setupFiles: ["./setupTest.js"]
 	}
 });
