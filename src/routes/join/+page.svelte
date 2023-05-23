@@ -1,5 +1,4 @@
 <script lang="ts">
-
 	import { onMount } from "svelte";
 
 	const username_max = 18;
@@ -11,8 +10,7 @@
 	onMount(() => {
 		const urlParams = new URLSearchParams(window.location.search);
 		const code = urlParams.get("code");
-		if (code)
-			roomCode = code
+		if (code) roomCode = code;
 	});
 
 	function inputValid(name: string, code: string): boolean {
@@ -35,10 +33,9 @@
 	}
 
 	function joinRoom(code: string) {
-		localStorage.setItem('username', username);
+		localStorage.setItem("username", username);
 		window.location.href = "/game/" + code;
 	}
-
 </script>
 
 <div class="container">

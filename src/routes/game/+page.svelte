@@ -8,7 +8,7 @@
 	let pin = "";
 	let input = "";
 	let question = "";
-	const joinPath = 'join?code='
+	const joinPath = "join?code=";
 	let messages: string[] = [];
 	let isHost = false;
 
@@ -53,12 +53,12 @@
 	}
 
 	$: host = $page.url.origin;
-	$: shareableURL = `${host}/${joinPath}${pin}`
+	$: shareableURL = `${host}/${joinPath}${pin}`;
 </script>
 
 <div class="page absolute-center flex gap-12 pb-5">
 	<div>
-		<a href="{shareableURL}" target="_blank" class="text-7xl text-center font-bold text-gray-700">
+		<a href={shareableURL} target="_blank" class="text-7xl text-center font-bold text-gray-700">
 			{pin}
 		</a>
 		<form on:submit={submit} class="flex">
