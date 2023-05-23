@@ -45,17 +45,15 @@
 			try {
 				let parsedData = JSON.parse(data);
 
-				if (parsedData.action) {
-					if (parsedData.action === "restart_game") {
-						seekerX = 0;
-						seekerY = 0;
-						toast("The host has restarted the game!", {
-							icon: "👻",
-							position: "bottom-center",
-							style: "border-radius: 200px; background: #333; color: #fff;",
-							duration: 3000
-						});
-					}
+				if (parsedData && parsedData.action === "restart_game") {
+					seekerX = 0;
+					seekerY = 0;
+					toast("The host has restarted the game!", {
+						icon: "👻",
+						position: "bottom-center",
+						style: "border-radius: 200px; background: #333; color: #fff;",
+						duration: 3000
+					});
 				}
 			} catch (e) {
 				messages = [...messages, data];
