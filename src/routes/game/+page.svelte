@@ -41,6 +41,14 @@
 			}
 		}
 	}
+
+	function copyToClipBoard() {
+		navigator.clipboard.writeText(`${window.location.href}/${pin}`);
+		toast.success("Lobby url has been copied!", {
+					position: "bottom-center",
+					style: "border-radius: 200px; background: #333; color: #fff; f"
+				});
+	}
 </script>
 
 <div class="page absolute-center flex gap-12 pb-5">
@@ -68,7 +76,7 @@
 			<span>
 				{window.location.href}/{pin}
 			</span>
-			<button class="link-share-button ml-4 px-3 opacity-100">
+			<button on:click={copyToClipBoard} class="link-share-button ml-4 px-3 opacity-100">
 				<img src="src\lib\assets\copy.svg" alt="copy" width=30 height="30"/>
 			</button>
 		</div>
@@ -116,8 +124,13 @@
 
 	.link-share-button {
 		background-color: #3e3f3b;
-		float: right;
+		border-radius: 0 7px 7px 0;
 	}
+
+	.link-share-button > img {
+		color: white;
+	}
+
 
 	.link-share-button:hover {
 		@apply cursor-pointer bg-accent opacity-85;
