@@ -37,7 +37,7 @@
 
 	function initSpiritSocket() {
 		const pin = $page.params.pin;
-		const websocket = new WebSocket(`${env.PUBLIC_WS_URL}/join?pin=${pin}`);
+		const websocket = new WebSocket(`${env.PUBLIC_WS_URL}/join?pin=${pin}&name=john`);
 		websocket.onclose = () => (status = "game not found");
 		websocket.onmessage = ({ data }) => {
 			// Wrapped with try-catch, because if websocket sends string instead of JSON it will raise an error.
