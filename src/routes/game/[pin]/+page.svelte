@@ -66,9 +66,12 @@
 		};
 	}
 
+	function vote(on: string) {
+
+	}
+
 	function targetALetter(letter: string) {
-		console.log("targeting " + letter);
-		var target = letterPositions[letter.toUpperCase()];
+		const target = letterPositions[letter.toUpperCase()];
 		seekerX = target.x;
 		seekerY = target.y;
 	}
@@ -85,7 +88,7 @@
 		<input type="range" bind:value={seekerX} min="0" max="1920" />
 		<input type="range" bind:value={seekerY} min="0" max="1080" />
 		<input type="text" bind:value={targetLetter} />
-		<button on:click={() => targetALetter(targetLetter)}>click</button>
+		<button on:click={() => vote(targetLetter)}>click</button>
 	</label>
 
 	<BoardSvg>

@@ -8,12 +8,21 @@
 	import { PlayerState } from "#lib/types/PlayerState";
 	import toast, { Toaster } from "svelte-french-toast";
 	import Icon from "@iconify/svelte";
+	import items from "#lib/types/MenuItems";
+
+	class Vector2 {
+		constructor(public x: number, public y: number) {}
+	}
 
 	const playerState: Writable<PlayerState> = getContext("playerState");
+	const letterPositions: Record<string, Vector2> = {};
+
+	let prompt: string = "";
 	let username: string;
 	let socket: WebSocket;
 	let seekerX: number;
 	let seekerY: number;
+	let votes: object = {};
 
 	onMount(() => {
 		username = localStorage.getItem("username") ?? "anonymous";
@@ -22,7 +31,6 @@
 			case PlayerState.Host:
 				socket = new WebSocket(`${env.PUBLIC_WS_URL}/host`);
 				socket.onmessage = ({ data }) => {
-
 					const parsed = JSON.parse(data);
 
 					switch (parsed["type"]) {
@@ -30,11 +38,15 @@
 							goto(`play/${parsed["content"]}`);
 							break;
 						case "connect":
-							const message = `${parsed["username"]} has joined the game 👻!`
+							const message = `${parsed["username"]} has joined the game 👻!`;
 							toast.success(message, {
 								position: "bottom-center",
 								style: "border-radius: 200px; background: #333; color: #fff; f"
 							});
+						case "votes":
+							votes = Object.assign({}, parsed["content"]);
+							targetALetter(getTargetLetter());
+							break;
 						default:
 							break;
 					}
@@ -43,6 +55,19 @@
 
 			case PlayerState.Player:
 				socket = new WebSocket(`${env.PUBLIC_WS_URL}/join?pin=${pin}&name=${username}`);
+
+				socket.onmessage = ({ data }) => {
+					const parsed = JSON.parse(data);
+
+					switch (parsed["type"]) {
+						case "prompt":
+							prompt = parsed["content"];
+							break;
+						default:
+							break;
+					}
+				};
+
 				break;
 
 			case PlayerState.None:
@@ -52,7 +77,33 @@
 			default:
 				break;
 		}
+
+		loadLetterPositions();
 	});
+
+	function vote(on: string) {
+		if ($playerState === PlayerState.Player) {
+			socket.send(JSON.stringify({ type: "vote", content: on }));
+		}
+	}
+
+	function getTargetLetter() {
+		const target = Object.keys(votes).reduce((a, b) => (votes[a] > votes[b] ? a : b));
+		return target;
+	}
+
+	function loadLetterPositions() {
+		const circleElements = document.querySelectorAll<SVGCircleElement>("circle");
+		circleElements.forEach((element) => {
+			const id = element.id;
+
+			let x = element.attributes.getNamedItem("cx")?.value;
+			let y = element.attributes.getNamedItem("cy")?.value;
+			if (x && y) {
+				letterPositions[id.charAt(id.length - 1)] = new Vector2(parseFloat(x), parseFloat(y));
+			}
+		});
+	}
 
 	function restart() {
 		if (confirm("Do you want to restart the game?") === true) {
@@ -64,6 +115,15 @@
 		}
 	}
 
+	function targetALetter(letter: string) {
+		let target = letterPositions[letter.toUpperCase()];
+
+		if (target) {
+			seekerX = target.x;
+			seekerY = target.y;
+		}
+	}
+
 	function copyToClipBoard() {
 		navigator.clipboard.writeText(shareableURL);
 		toast.success("Lobby url has been copied!", {
@@ -72,6 +132,10 @@
 		});
 	}
 
+	$: socket &&
+		socket.readyState == socket.OPEN &&
+		socket.send(JSON.stringify({ type: "prompt", content: prompt }));
+
 	$: pin = $page.params.pin;
 	$: host = $page.url.origin;
 	$: shareableURL = `${host}/join/${pin}`;
@@ -79,15 +143,25 @@
 
 <Toaster />
 
-{#if $playerState === PlayerState.Host || $playerState === PlayerState.Player}
-	<div class="h-90vh flex flex-col items-center gap-5 pt-10">
-		{#if $playerState == PlayerState.Host}
-			<form class="flex">
-				<input type="text" placeholder="STATE YOUR INTENTION" />
-			</form>
-		{/if}
+<div class="absolute left-0 top-30 text-white grid grid-cols-4 opacity-50">
+	{#each Object.entries(votes) as [letter, count]}
+		<span>{letter}: {count}</span>
+	{/each}
+</div>
 
-		<BoardSvg>
+{#if $playerState === PlayerState.Host || $playerState === PlayerState.Player}
+	{@const isHost = $playerState == PlayerState.Host}
+	<div class="h-90vh flex flex-col items-center gap-5 pt-10">
+		<form class="flex">
+			<input
+				bind:value={prompt}
+				disabled={!isHost}
+				type="text"
+				placeholder={isHost ? "STATE YOUR INTENTION" : "WAIT TO BE CALLED UPON..."}
+			/>
+		</form>
+
+		<BoardSvg on:click={({ detail: { target } }) => vote(target.id)}>
 			{#if seekerX && seekerY}
 				<circle id="Seeker" cx={seekerX} cy={seekerY} r="76.5" stroke="#FFF7E2" stroke-width="13" />
 			{/if}
@@ -100,7 +174,7 @@
 					{shareableURL}
 				</span>
 				<button on:click={copyToClipBoard} class="link-share-button ml-4 px-3 opacity-100">
-					<Icon icon="mingcute:copy-line" color="white" width="25"/>
+					<Icon icon="mingcute:copy-line" color="white" width="22" />
 				</button>
 			</div>
 		</div>
@@ -146,10 +220,11 @@
 	}
 
 	.link-share > span {
-		@apply text-fontcolor text-4xl;
+		@apply text-fontcolor text-4xl py-2 px-6;
 		text-decoration: none;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);
+		font-size: 1.55rem;
 	}
 
 	.link-share-button {
@@ -194,5 +269,9 @@
 	.submit-button:hover {
 		@apply cursor-pointer bg-indigo-500 opacity-75;
 		transform: scale(1.01);
+	}
+
+	circle {
+		transition: cx 0.5s, cy 0.5s;
 	}
 </style>

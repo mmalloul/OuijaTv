@@ -21,11 +21,10 @@ async def restart_game(pin: str) -> None:
     if pin in games:
         game = games[pin]
 
-        # Send a message to the host.
-        await game.host.send_json({"type": "restart"})
-        
         for vote in game.votes:
             game.votes[vote] = 0
+
+        await game.host.send_json({"type": "votes", "content": game.votes})
         
         # Loop over the players in the game and send a message to each one
         for player in game.players:
@@ -33,7 +32,7 @@ async def restart_game(pin: str) -> None:
 
 async def host(websocket: WebSocket) -> None:
     pin = generate_unique()
-    games[pin] = Game(websocket, [])
+    games[pin] = Game(websocket, [], {})
 
     await websocket.accept()
     await websocket.send_json({"type": "pin", "content": pin})

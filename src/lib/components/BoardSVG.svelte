@@ -1,3 +1,38 @@
+<script lang="ts">
+	import { createEventDispatcher } from "svelte";
+
+	const dispatch = createEventDispatcher();
+
+	function handleClick(event: MouseEvent) {
+		
+		// select closest target to mouseclick
+		
+		const targets = window.document.querySelectorAll<HTMLElement>("g")!;
+		
+		let closestTarget: HTMLElement | null = null;
+		let closestDistance = Number.MAX_VALUE;
+
+		targets.forEach((target) => {
+			const rect = target.getBoundingClientRect();
+			const distance = Math.sqrt(Math.pow(rect.x - event.clientX, 2) + Math.pow(rect.y - event.clientY, 2));
+			if (distance < closestDistance) {
+				closestTarget = target;
+				closestDistance = distance;
+			}
+		});
+
+		dispatch("click", { target: closestTarget });
+	}
+</script>
+
+<style>
+	svg:hover {
+		cursor: pointer;
+	}
+</style>
+
+<svelte:window on:click={handleClick} />
+
 <svg viewBox="0 0 1920 937" fill="none" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
 	<g id="Ouija Board Seeker Positions">
 		<slot />
