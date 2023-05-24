@@ -107,6 +107,7 @@
 
 	function restart() {
 		if (confirm("Do you want to restart the game?") === true) {
+			prompt = "";
 			socket.send(JSON.stringify({ type: "restart" }));
 			toast.success("Game has been restarted!", {
 				position: "bottom-center",
