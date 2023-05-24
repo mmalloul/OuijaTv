@@ -40,7 +40,7 @@
 		font-family: theme(fontFamily.amatic);
 		padding: 0.75em;
 		width: 50%;
-		border-color: #DDDDDD;
+		border-color: #dddddd;
 		transition: all 0.2s ease-in-out;
 	}
 
@@ -54,7 +54,7 @@
 	}
 
 	.custom-button:hover > p {
-		@apply text-accent
+		@apply text-accent;
 	}
 
 	.custom-button:hover > p {

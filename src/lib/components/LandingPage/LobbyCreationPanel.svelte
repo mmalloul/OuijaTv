@@ -69,7 +69,6 @@
 				>
 			</div>
 			<form class="form" on:submit|preventDefault={handleSubmit}>
-
 				<label>Name your vessel: </label>
 				{#if lobbyNameIsValid === false}
 					<p class="error-message">Name can only contain alphabetical characters</p>

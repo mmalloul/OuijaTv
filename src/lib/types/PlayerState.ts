@@ -1,5 +1,5 @@
 export enum PlayerState {
-    Host,
-    Player,
-    None
+	Host,
+	Player,
+	None
 }
