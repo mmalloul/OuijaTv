@@ -26,6 +26,8 @@ services:
   app:
     environment:
       PUBLIC_WS_URL: ws://localhost:8000
+      PUBLIC_URL: http://localhost:8000
+      PUBLIC_API_KEY_OPENAI: <YOUR_API_KEY>
       NODE_ENV: dev
 
   backend:

@@ -28,7 +28,7 @@ services:
     container_name: ouijatv-backend
     image: ouijatv/backend:latest
     build:
-      context: ../python
+      context: ./python
       dockerfile: .docker/Dockerfile
     restart: always
     volumes:
