@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { PlayerState } from "#lib/types/PlayerState";
 	import { goto } from "$app/navigation";
-	import { env } from "$env/dynamic/public";
 	import { createEventDispatcher, getContext } from "svelte";
 	import type { Writable } from "svelte/store";
 	const dispatch = createEventDispatcher();
@@ -12,10 +11,6 @@
 	let lobbyName = "";
 	let lobbyNameIsValid: boolean | null = null;
 	let lobbyNameIsEmpty: boolean | null = null;
-
-	let websocket: WebSocket;
-	let pin = "";
-	let messages: string[] = [];
 
 	/**
 	 * This function resets the form inputs when the lobby-creation-panel is closed by the user.
@@ -68,17 +63,18 @@
 				>
 			</div>
 			<form class="form" on:submit|preventDefault={handleSubmit}>
-				<label>Name your vessel: </label>
+				<label id="lobby-name">Name your vessel: </label>
 				{#if lobbyNameIsValid === false}
 					<p class="error-message">Name can only contain alphabetical characters</p>
 				{/if}
+
 				{#if lobbyNameIsEmpty === true}
 					<p class="error-message">A vessel needs a name</p>
 				{/if}
+
 				<input
 					type="text"
 					aria-labelledby="lobby-name"
-					id="lobbyName"
 					bind:value={lobbyName}
 					class:invalid={lobbyNameIsValid === false}
 				/>

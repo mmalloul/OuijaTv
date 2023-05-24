@@ -1,19 +1,17 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .endpoints.host import host
-from .endpoints.join import join
-from .endpoints.ai import openai_call
-from dotenv import load_dotenv
-from .stores.games import games
-load_dotenv()
+from endpoints.host import host
+from endpoints.join import join
+from endpoints.ai import openai_call
 
 app = FastAPI()
-load_dotenv()
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173","https://ouija.tv","http://localhost:8001","http://localhost:8000"],  # Add the origin of your Svelte application
+    # TODO ONLY ALLOW OUR ORIGINS. THIS TEMPORARY ALLOWS ALL, BUT HAS SECURITY RISKS
+    allow_origins=["*"], 
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["Content-Type"],
 )

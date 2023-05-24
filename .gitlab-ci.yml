@@ -49,7 +49,7 @@ sonarqube-check:
   tags:
     - hva
 
-build:
+build-production:
   stage: build
   image: docker:20.10.16
   before_script:
@@ -64,7 +64,7 @@ build:
     - docker build -f .docker/Dockerfile -t $DOCKER_REPO_BACKEND:v-0.1 .
     - docker push $DOCKER_REPO_BACKEND:v-0.1
   rules:
-    - if: $CI_COMMIT_BRANCH != 'staging'
+    - if: $CI_COMMIT_BRANCH == 'production'
   tags:
     - hva
 
@@ -87,7 +87,7 @@ build-staging:
   tags:
     - hva
 
-deploy:
+deploy-production:
   stage: deploy
   before_script:
     #checks if ssh-key is valid from this pipeline if yes assign rights so it can ssh into our production server
