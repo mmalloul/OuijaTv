@@ -6,11 +6,9 @@ import os
 # Load variables from .env file
 load_dotenv('../.env')
 
-
 class Bot(commands.Bot):
     client_id = os.getenv('TWITCH_CLIENT_ID')
     refresh_token = os.getenv('TWITCH_REFRESH_TOKEN')
-
 
     def __init__(self):
         super().__init__(token=os.getenv('TWITCH_TOKEN'), prefix='!', initial_channels=['thimsie'])
@@ -36,10 +34,6 @@ class Bot(commands.Bot):
             vote_option = vote[1:]  # Remove the exclamation mark
             self.vote_handler.updateVotes(vote_option)
 
-    @commands.command()
-    async def display_votes(self, ctx: commands.Context):
-        # Display vote counts
-        self.vote_handler.displayVotes()
 
 bot = Bot()
 bot.run()
