@@ -1,8 +1,8 @@
 from fastapi import WebSocket
-from python.library.model import Game, Player
 from string import ascii_uppercase
 from random import choices
-from python.library.model import Game
+from library.model import Game, Player
+from library.model import Game
 
 # use this module as a singleton
 
@@ -32,4 +32,3 @@ def remove(pin: str, player: Player | None = None) -> None:
         items[pin].players.remove(player)
     else:
         del items[pin]
-        

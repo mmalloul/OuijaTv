@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field
 from fastapi import WebSocket
 from string import ascii_uppercase, digits
-from python.library.model.MessageType import ServerMessageType
-from python.library.model.Player import Player
-from python.library.model.Message import ServerMessage
+from library.model.MessageType import ServerMessageType
+from library.model.Player import Player
+from library.model.Message import ServerMessage
 
 
 @dataclass

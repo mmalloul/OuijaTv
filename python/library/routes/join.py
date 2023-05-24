@@ -1,8 +1,8 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
-from python.library.model.MessageType import ServerMessageType, ClientMessageType
-from python.library.model import Player
-from python.library.stores import games
-from python.library.model import ServerMessage, ClientMessage
+from library.model.MessageType import ServerMessageType, ClientMessageType
+from library.model import Player
+from library.stores import games
+from library.model import ServerMessage, ClientMessage
 
 
 router = APIRouter()

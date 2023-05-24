@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import Any
-from python.library.model.MessageType import ClientMessageType, ServerMessageType
+from library.model.MessageType import ClientMessageType, ServerMessageType
 
 # Python generics aren't viable, sadly
 
