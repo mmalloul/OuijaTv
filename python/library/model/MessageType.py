@@ -6,9 +6,13 @@ class MessageType(Enum):
 
 
 class ClientMessageType(MessageType):
-    VOTE = 0
+    VOTE = "vote"
+    RESTART = "restart"
+    PROMPT = "prompt"
 
 
 class ServerMessageType(MessageType):
-    PROMPT = 0
-    RESTART = 1
+    PIN = "pin"
+    PROMPT = "prompt"
+    RESTART = "restart"
+    ERROR = "error"
