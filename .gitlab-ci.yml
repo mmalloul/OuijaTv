@@ -10,6 +10,7 @@ stages: # List of stages for jobs, and their order of execution
 lint-test-job:
   stage: test # It can run at the same time as unit-test-job (in parallel).
   before_script:
+    - cd svelte
     - npm i
   script:
     - echo "Linting code... This will take about 10 seconds."
@@ -21,6 +22,7 @@ lint-test-job:
 vitest-test-job:
   stage: test # It can run at the same time as unit-test-job (in parallel).
   before_script:
+    - cd svelte
     - npm i
   script:
     - echo "Running Vitest tests..."
@@ -58,11 +60,17 @@ build-production:
     - echo $ENV_FILE
     # File is outside of build context, so make local copy.
     - cp ${ENV_FILE} .env
-    - docker build -f .docker/Dockerfile -t $DOCKER_REPO:v-0.1 .
+    - cd svelte
+    - docker build -f Dockerfile -t $DOCKER_REPO:v-0.1 .
     - docker push $DOCKER_REPO:v-0.1
+    - cd ..
     - cd python
-    - docker build -f .docker/Dockerfile -t $DOCKER_REPO_BACKEND:v-0.1 .
+    - docker build -f Dockerfile -t $DOCKER_REPO_BACKEND:v-0.1 .
     - docker push $DOCKER_REPO_BACKEND:v-0.1
+    - cd ..
+    - cd chatbot
+    - docker build -f Dockerfile -t $DOCKER_REPO_CHATBOT:v-0.1 .
+    - docker push $DOCKER_REPO_CHATBOT:v-0.1
   rules:
     - if: $CI_COMMIT_BRANCH == 'production'
   tags:
@@ -77,11 +85,17 @@ build-staging:
     - echo $ENV_FILE
     # File is outside of build context, so make local copy.
     - cp ${ENV_FILE} .env
-    - docker build -f .docker/Dockerfile -t $DOCKER_REPO_STAGING:v-0.1 .
+    - cd svelte
+    - docker build -f Dockerfile -t $DOCKER_REPO_STAGING:v-0.1 .
     - docker push $DOCKER_REPO_STAGING:v-0.1
+    - cd ..
     - cd python
-    - docker build -f .docker/Dockerfile -t $DOCKER_REPO_BACKEND_STAGING:v-0.1 .
-    - docker push $DOCKER_REPO_BACKEND_STAGING:v-0.1
+    - docker build -f Dockerfile -t $DOCKER_REPO_BACKEND_STAGING:v-0.1 .
+    - docker push $DOCKER_REPO_BACKEND:v-0.1
+    - cd ..
+    - cd chatbot
+    - docker build -f Dockerfile -t $DOCKER_REPO_CHATBOT_STAGING:v-0.1 .
+    - docker push $DOCKER_REPO_CHATBOT_STAGING:v-0.1
   rules:
     - if: $CI_COMMIT_BRANCH == 'staging'
   tags:
