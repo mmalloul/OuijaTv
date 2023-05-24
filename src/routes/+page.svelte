@@ -1,21 +1,18 @@
 <script lang="ts">
 	import LobbyCreationPanel from "#lib/components/LandingPage/LobbyCreationPanel.svelte";
+	import { goto } from "$app/navigation";
 
 	let showLobbyCreationPanel = false;
-
-	function redirectTo(url: string) {
-		window.location.href = url;
-	}
 </script>
 
 <div class="container">
 	<div class="top-row">
 		{#if !showLobbyCreationPanel}
 			<button type="button" class="custom-button" on:click={() => (showLobbyCreationPanel = true)}>
-				<p>Host Game</p>
+				<p>Provide</p>
 			</button>
-			<button type="button" class="custom-button" on:click={() => redirectTo("/join")}>
-				<p>Join Game</p>
+			<button type="button" class="custom-button" on:click={() => goto("/join")}>
+				<p>Visit</p>
 			</button>
 		{/if}
 		<LobbyCreationPanel bind:showLobbyCreationPanel />
@@ -37,13 +34,13 @@
 	}
 
 	.custom-button {
-		@apply text-fontcolor text-4xl;
+		@apply text-fontcolor text-4xl m-2 border-1;
 		text-decoration: none;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);
 		padding: 0.75em;
 		width: 50%;
-		border: 1px solid white;
+		border-color: #dddddd;
 		transition: all 0.2s ease-in-out;
 	}
 
@@ -52,8 +49,12 @@
 	}
 
 	.custom-button:hover {
-		@apply cursor-pointer bg-accent opacity-75;
-		transform: scale(1.01);
+		@apply cursor-pointer bg-dark opacity-75;
+		border-style: solid;
+	}
+
+	.custom-button:hover > p {
+		@apply text-accent;
 	}
 
 	.custom-button:hover > p {

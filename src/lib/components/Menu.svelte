@@ -15,6 +15,7 @@
 						href={item.route}
 						aria-label={item.name}
 						class:active={$page.url.pathname == item.route}
+						class:opacity-50={!item.route}
 					>
 						{item.name}
 					</a>
@@ -26,7 +27,7 @@
 
 <style lang="postcss">
 	nav {
-		@apply flex justify-start bg-dark md: justify-center;
+		@apply flex justify-start md: justify-center;
 	}
 
 	.menu {

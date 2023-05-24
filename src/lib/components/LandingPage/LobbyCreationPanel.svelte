@@ -1,7 +1,11 @@
 <script lang="ts">
-	import { createEventDispatcher } from "svelte";
-
+	import { PlayerState } from "#lib/types/PlayerState";
+	import { goto } from "$app/navigation";
+	import { env } from "$env/dynamic/public";
+	import { createEventDispatcher, getContext } from "svelte";
+	import type { Writable } from "svelte/store";
 	const dispatch = createEventDispatcher();
+	const playerState = getContext<Writable<PlayerState>>("playerState");
 	export let showLobbyCreationPanel = false;
 	let numUsers = 1;
 	let gameDuration = 30; // in seconds
@@ -29,7 +33,8 @@
 	function handleSubmit() {
 		if (lobbyNameIsValid) {
 			// Go to the game lobby.
-			window.location.href = `game/${pin}`;
+			playerState.set(PlayerState.Host);
+			goto("/play");
 		} else if (lobbyName.length === 0) {
 			lobbyNameIsEmpty = true;
 		}
@@ -51,10 +56,10 @@
 </script>
 
 {#if showLobbyCreationPanel}
-	<div class="panel">
+	<div class="panel mt-5">
 		<div class="panel-content">
 			<div class="top-row">
-				<h2>Create a lobby</h2>
+				<h2>Provide</h2>
 				<button
 					id="close-button"
 					on:click={resetForm}
@@ -63,12 +68,12 @@
 				>
 			</div>
 			<form class="form" on:submit|preventDefault={handleSubmit}>
-				<label id="lobby-name">Name of lobby: {lobbyName}</label>
+				<label>Name your vessel: </label>
 				{#if lobbyNameIsValid === false}
 					<p class="error-message">Name can only contain alphabetical characters</p>
 				{/if}
 				{#if lobbyNameIsEmpty === true}
-					<p class="error-message">Lobby needs a name</p>
+					<p class="error-message">A vessel needs a name</p>
 				{/if}
 				<input
 					type="text"
@@ -78,7 +83,7 @@
 					class:invalid={lobbyNameIsValid === false}
 				/>
 
-				<label for="users">Number of users: {numUsers}</label>
+				<label for="users">Minimum number of spirits: {numUsers}</label>
 				<input type="range" id="users" min="1" max="100" bind:value={numUsers} />
 
 				<label for="duration">Voting Time: {gameDuration} seconds</label>
@@ -183,9 +188,8 @@
 	}
 
 	input {
-		@apply text-accent text-4xl;
+		@apply text-accent text-4xl bg-dark border-1 border-light-300 p-3 text-white;
 		margin: 0 auto;
-		color: #fb5012 !important;
 	}
 
 	.actions {
