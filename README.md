@@ -33,7 +33,13 @@ services:
     ports:
       - 8000:8000
     environment:
-      PUBLIC_API_KEY_OPENAI: <PRIVATE KEY>
+      PUBLIC_API_KEY_OPENAI: <SECRET>
+  
+  chatbot:
+    environment:
+      TWITCH_CLIENT_ID: <SECRET>
+      TWITCH_REFRESH_TOKEN: <SECRET>
+      TWITCH_TOKEN: <SECRET>
 
 ```
 
