@@ -17,7 +17,7 @@
 	const playerState: Writable<PlayerState> = getContext("playerState");
 	const letterPositions: Record<string, Vector2> = {};
 
-	let prompt: string = "";
+	let prompt: = "";
 	let username: string;
 	let socket: WebSocket;
 	let seekerX: number;
@@ -34,21 +34,26 @@
 					const parsed = JSON.parse(data);
 
 					switch (parsed["type"]) {
-						case "pin":
+						case "pin": {
 							goto(`play/${parsed["content"]}`);
 							break;
-						case "connect":
+						}
+						case "connect": {
 							const message = `${parsed["username"]} has joined the game 👻!`;
 							toast.success(message, {
 								position: "bottom-center",
 								style: "border-radius: 200px; background: #333; color: #fff; f"
 							});
-						case "votes":
+							break;
+						}
+						case "votes": {
 							votes = Object.assign({}, parsed["content"]);
 							targetALetter(getTargetLetter());
 							break;
-						default:
+						}
+						default: {
 							break;
+						}
 					}
 				};
 				break;
