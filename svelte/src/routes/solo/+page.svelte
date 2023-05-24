@@ -34,7 +34,7 @@
 		}
 
 		hideLoader = true;
-		callOpenAI(question, spirit);
+		await callOpenAI(question, spirit);
 		hideQuestion = false;
 		update();
 	}

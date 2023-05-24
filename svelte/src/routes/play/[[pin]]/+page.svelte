@@ -38,15 +38,15 @@
 							goto(`play/${parsed["content"]}`);
 							break;
 						}
-						case "connect": {
-							const message = `${parsed["username"]} has joined the game 👻!`;
+						case "joined": {
+							const message = `${parsed["content"]} has joined the game 👻!`;
 							toast.success(message, {
 								position: "bottom-center",
 								style: "border-radius: 200px; background: #333; color: #fff; f"
 							});
 							break;
 						}
-						case "votes": {
+						case "vote": {
 							votes = Object.assign({}, parsed["content"]);
 							targetALetter(getTargetLetter());
 							break;
@@ -59,7 +59,7 @@
 				break;
 
 			case PlayerState.Player:
-				socket = new WebSocket(`${env.PUBLIC_WS_URL}/join?pin=${pin}&name=${username}`);
+				socket = new WebSocket(`${env.PUBLIC_WS_URL}/join?pin=${pin}&username=${username}`);
 
 				socket.onmessage = ({ data }) => {
 					const parsed = JSON.parse(data);

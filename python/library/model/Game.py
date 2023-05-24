@@ -40,14 +40,16 @@ class Game:
     async def restart(self) -> None:
         """Set all votes to 0, clear prompt, and notify players."""
 
-        # prepare message
-        message_restart = ServerMessage(ServerMessageType.RESTART)
-
         # reset votes
         for vote in self.votes:
             self.votes[vote] = 0
 
+        # prepare messages
+        message_restart = ServerMessage(ServerMessageType.RESTART)
+        message_votes = ServerMessage(ServerMessageType.VOTE, self.votes)
+
         await self.broadcast(message_restart)
+        await self.broadcast(message_votes)
 
 
     async def notify_host(self, message: ServerMessage) -> None:
