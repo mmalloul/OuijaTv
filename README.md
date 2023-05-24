@@ -26,11 +26,14 @@ services:
   app:
     environment:
       PUBLIC_WS_URL: ws://localhost:8000
+      PUBLIC_URL: http://localhost:8000
       NODE_ENV: dev
 
   backend:
     ports:
       - 8000:8000
+    environment:
+      PUBLIC_API_KEY_OPENAI: <PRIVATE KEY>
 
 ```
 

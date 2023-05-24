@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 load_dotenv()
 
-async def openai_call(question: str, spirit: int) -> 'dict[str, Any]':
+def openai_call(question: str, spirit: int) -> 'dict[str, Any]':
     dotenv_path = Path('..env')
     openai.api_key = os.getenv('PUBLIC_API_KEY_OPENAI')
 
