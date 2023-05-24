@@ -10,11 +10,24 @@ stages: # List of stages for jobs, and their order of execution
 lint-test-job:
   stage: test # It can run at the same time as unit-test-job (in parallel).
   before_script:
+    - cd svelte
     - npm i
   script:
     - echo "Linting code... This will take about 10 seconds."
     - npm run lint
     - echo "Lint check is completed."
+  tags:
+    - hva
+
+vitest-test-job:
+  stage: test # It can run at the same time as unit-test-job (in parallel).
+  before_script:
+    - cd svelte
+    - npm i
+  script:
+    - echo "Running Vitest tests..."
+    - npm run test:unit
+    - echo "Running Vitest tests is completed."
   tags:
     - hva
 
@@ -38,7 +51,7 @@ sonarqube-check:
   tags:
     - hva
 
-build:
+build-production:
   stage: build
   image: docker:20.10.16
   before_script:
@@ -47,17 +60,48 @@ build:
     - echo $ENV_FILE
     # File is outside of build context, so make local copy.
     - cp ${ENV_FILE} .env
-    - docker build -f .docker/Dockerfile -t $DOCKER_REPO:v-0.1 .
+    - cd svelte
+    - docker build -f Dockerfile -t $DOCKER_REPO:v-0.1 .
     - docker push $DOCKER_REPO:v-0.1
+    - cd ..
     - cd python
-    - docker build -f .docker/Dockerfile -t $DOCKER_REPO_BACKEND:v-0.1 .
+    - docker build -f Dockerfile -t $DOCKER_REPO_BACKEND:v-0.1 .
     - docker push $DOCKER_REPO_BACKEND:v-0.1
+    - cd ..
+    - cd chatbot
+    - docker build -f Dockerfile -t $DOCKER_REPO_CHATBOT:v-0.1 .
+    - docker push $DOCKER_REPO_CHATBOT:v-0.1
   rules:
     - if: $CI_COMMIT_BRANCH == 'production'
   tags:
     - hva
 
-deploy:
+build-staging:
+  stage: build
+  image: docker:20.10.16
+  before_script:
+    - echo $DOCKER_ACCESS_TOKEN | docker login -u $DOCKER_REGISTRY_USER --password-stdin
+  script:
+    - echo $ENV_FILE
+    # File is outside of build context, so make local copy.
+    - cp ${ENV_FILE} .env
+    - cd svelte
+    - docker build -f Dockerfile -t $DOCKER_REPO_STAGING:v-0.1 .
+    - docker push $DOCKER_REPO_STAGING:v-0.1
+    - cd ..
+    - cd python
+    - docker build -f Dockerfile -t $DOCKER_REPO_BACKEND_STAGING:v-0.1 .
+    - docker push $DOCKER_REPO_BACKEND:v-0.1
+    - cd ..
+    - cd chatbot
+    - docker build -f Dockerfile -t $DOCKER_REPO_CHATBOT_STAGING:v-0.1 .
+    - docker push $DOCKER_REPO_CHATBOT_STAGING:v-0.1
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'staging'
+  tags:
+    - hva
+
+deploy-production:
   stage: deploy
   before_script:
     #checks if ssh-key is valid from this pipeline if yes assign rights so it can ssh into our production server
@@ -79,5 +123,29 @@ deploy:
       docker container prune -f"
   rules:
     - if: $CI_COMMIT_BRANCH == 'production'
+  tags:
+    - hva
+
+deploy-staging:
+  stage: deploy
+  before_script:
+    #checks if ssh-key is valid from this pipeline if yes assign rights so it can ssh into our production server
+    - "command -v ssh-agent >/dev/null || ( apk add --update openssh )"
+    - eval $(ssh-agent -s)
+    - echo "${SSH_PRIVATE_KEY_STAGING}" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $SERVER_IP >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - echo $SSH_USER_STAGING@$SERVER_IP
+    - ssh $SSH_USER_STAGING@$SERVER_IP "
+      echo $DOCKER_ACCESS_TOKEN | docker login -u $DOCKER_REGISTRY_USER --password-stdin &&
+      docker compose pull &&
+      docker compose up -d &&
+      docker image prune -a -f &&
+      docker container prune -f"
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'staging'
   tags:
     - hva

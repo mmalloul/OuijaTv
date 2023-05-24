@@ -1,0 +1,16 @@
+@import "$lib/fonts/fonts.css";
+
+body {
+	height: 100vh;
+	background: radial-gradient(rgb(33, 33, 33), black) !important;
+	overflow: hidden;
+}
+
+.page {
+	max-width: 1440px;
+	margin: 0 auto;
+}
+
+.page--game {
+	margin: 0 auto;
+}

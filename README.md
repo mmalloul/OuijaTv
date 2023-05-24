@@ -5,6 +5,7 @@
 ### Local development
 
 To run the svelte frontend in development:\
+`npm i`\
 `npm run dev`
 
 To run Python back end:\
@@ -25,27 +26,27 @@ services:
   app:
     environment:
       PUBLIC_WS_URL: ws://localhost:8000
+      PUBLIC_URL: http://localhost:8000
       NODE_ENV: dev
 
   backend:
     ports:
       - 8000:8000
+    environment:
+      PUBLIC_API_KEY_OPENAI: <SECRET>
+  
+  chatbot:
+    environment:
+      TWITCH_CLIENT_ID: <SECRET>
+      TWITCH_REFRESH_TOKEN: <SECRET>
+      TWITCH_TOKEN: <SECRET>
 
 ```
 
-run the command `docker compose up -d`
+run the command `docker compose up -d`\
+
+for a fresh build run the command `docker compose up --build -d`
 
 ## Deployment
-
-### Staging
-
-**Currently there is no staging environment**
-
-### Production
-
-Deployment to production is implemented in the gitlab ci-cd pipeline when changes are merged to main.
-
-TODO:
-
-- Version control
-- Docker security on ports
+This stage deploys the application to the target environment. It includes two jobs: deploy-production and deploy-staging. These jobs deploy the application to the production and staging environments, respectively.
+Each job is configured with specific settings, such as the Docker image used, script commands to execute, and any additional configuration required.
