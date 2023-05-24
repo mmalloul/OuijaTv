@@ -32,15 +32,26 @@ async def join_game(websocket: WebSocket, pin: str, username: str):
                 message = await websocket.receive_json()
                 message = ClientMessage.from_dictionary(message)
 
-                if message.type == ClientMessageType.VOTE and (vote := message.content):
-                    if vote in game.votes:
-                        # might get overwhelming with many players
-                        game.votes[vote] += 1
+                match message.type:
 
-                        await game.notify_host(
+                    case ClientMessageType.VOTE:
+                        if (vote := message.content) and vote in game.votes:
+                            # might get overwhelming with many players
+                            game.votes[vote] += 1
+
+                            await game.notify_host(
+                                ServerMessage(
+                                    ServerMessageType.VOTE, 
+                                    str(game.votes),
+                                ),
+                            )
+                            
+                    case _:
+                        await game.notify_player(
+                            player,
                             ServerMessage(
-                                ServerMessageType.VOTE, 
-                                str(game.votes),
+                                ServerMessageType.ERROR, 
+                                "Invalid request type",
                             ),
                         )
                 

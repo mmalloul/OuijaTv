@@ -43,7 +43,7 @@ async def create_game(host: WebSocket):
                     await game.notify_host(
                         ServerMessage(
                             ServerMessageType.ERROR, 
-                            "Invalid request",
+                            "Invalid request type",
                         ),
                     )
                     
