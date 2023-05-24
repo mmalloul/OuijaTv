@@ -11,8 +11,6 @@ describe("Test LobbyCreationPanel.svelte", async () => {
 
 		// // Assert
 		// expect(input).toHaveValue("");
-		expect(true)
+		expect(true);
 	});
 });
-
-
