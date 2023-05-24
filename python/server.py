@@ -1,9 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from endpoints.host import host
-from endpoints.join import join
-from endpoints.ai import openai_call
+from library import routes
 
 app = FastAPI()
 
@@ -16,20 +14,10 @@ app.add_middleware(
     allow_headers=["Content-Type"],
 )
 
-@app.get("/")
-async def root():
-    return "Ouija.TV API root"
 
-@app.get("/openai")
-async def ai_call(prompt: str, spirit:int):
-    return openai_call(prompt, spirit)
-
-@app.get("/games")
-async def get_games():
-    return {pin: [player.name for player in game.players] for pin, game in games.items()}
-
-app.websocket("/host")(host)
-app.websocket("/join")(join)
+app.include_router(routes.host)
+app.include_router(routes.join)
+app.include_router(routes.openai)
 
 
 if __name__ == "__main__":
