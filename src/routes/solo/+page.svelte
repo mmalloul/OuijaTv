@@ -4,7 +4,6 @@
 	import { Wave } from "svelte-loading-spinners";
 	import toast, { Toaster } from "svelte-french-toast";
 	import BoardSvg from "$lib/components/BoardSVG.svelte";
-	import { text } from "svelte/internal";
 
 	let hideCards = true,
 		hideQuestion = false,
@@ -29,10 +28,11 @@
 			toast("Just tell me what you want to ask and dont waste my time.", {
 				icon: "👻",
 				style: "border-radius: 200px; background: #333; color: #fff;",
-				duration: "600"
+				duration: 600
 			});
 			return;
 		}
+
 		hideLoader = true;
 		callOpenAI(question, spirit);
 		hideQuestion = false;
@@ -58,6 +58,7 @@
 
 	let elapsed = 0;
 	let timeTillLoad = 2;
+
 	function update() {
 		if (elapsed < timeTillLoad) {
 			elapsed++;
@@ -70,10 +71,11 @@
 			setTimeout(() => {
 				loadLetterPositions();
 			}, 1000);
-			printAnswer(cleanupAwnser(awnser));
+			printAnswer(cleanupAnswer(awnser));
 		}
 	}
-	function cleanupAwnser(str: string) {
+
+	function cleanupAnswer(str: string) {
 		let s = str.replace(/\[\[]&]+/g, "");
 		return s;
 	}
@@ -92,10 +94,12 @@
 	}
 
 	function targetALetter(letter: string) {
-		var target = letterPositions[letter.toUpperCase()];
-		seekerX = target.x;
-		seekerY = target.y;
-		circleStyle = `transition: cx 0.5s ease-in-out, cy 0.5s ease-in-out`;
+		let target = letterPositions[letter.toUpperCase()];
+
+		if (target) {
+			seekerX = target.x;
+			seekerY = target.y;
+		}
 	}
 
 	function loadLetterPositions() {
@@ -390,5 +394,9 @@
 				transform: translateY(0%);
 			}
 		}
+	}
+
+	circle {
+		transition: cx 0.5s, cy 0.5s;
 	}
 </style>
