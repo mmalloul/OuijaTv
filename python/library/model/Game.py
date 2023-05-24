@@ -47,8 +47,7 @@ class Game:
         for vote in self.votes:
             self.votes[vote] = 0
 
-        await self.broadcast_players(message_restart)
-        await self.notify_host(message_restart)
+        await self.broadcast(message_restart)
 
 
     async def notify_host(self, message: ServerMessage) -> None:
@@ -57,8 +56,16 @@ class Game:
         await self.host.send_json(message.json)
 
 
-    async def broadcast_players(self, message: ServerMessage) -> None:
-        """Send a message to all players in the game."""
+    async def notify_player(self, player: Player, message: ServerMessage) -> None:
+        """Send a message to a player."""
+
+        await player.socket.send_json(message.json)
+    
+
+    async def broadcast(self, message: ServerMessage) -> None:
+        """Send a message to all sockets."""
 
         for player in self.players:
             await player.socket.send_json(message.json)
+
+        await self.host.send_json(message.json)

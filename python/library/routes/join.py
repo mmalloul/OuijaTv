@@ -18,11 +18,12 @@ async def join_game(websocket: WebSocket, pin: str, username: str):
         player = Player(websocket, username)
         game.join(player)
 
-        await websocket.send_json(
+        await game.notify_player(
+            player,
             ServerMessage(
                 ServerMessageType.PROMPT, 
                 game.prompt,
-            ).json,
+            ),
         )
 
         # terrible syntax, but a context manager would be too verbose

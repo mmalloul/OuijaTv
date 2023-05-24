@@ -32,3 +32,4 @@ def remove(pin: str, player: Player | None = None) -> None:
         items[pin].players.remove(player)
     else:
         del items[pin]
+        

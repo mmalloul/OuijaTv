@@ -24,7 +24,7 @@ class ClientMessage(Message):
     def from_dictionary(dictionary: dict[str, Any]) -> "ClientMessage":
         return ClientMessage(
             ClientMessageType(dictionary["type"]),
-            dictionary["content"],
+            dictionary.get("content", ""),
         )
     
 
@@ -34,5 +34,5 @@ class ServerMessage(Message):
     def from_dictionary(dictionary: dict[str, Any]) -> "ServerMessage":
         return ServerMessage(
             ServerMessageType(dictionary["type"]),
-            dictionary["content"],
+            dictionary.get("content", ""),
         )
