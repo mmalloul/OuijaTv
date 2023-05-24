@@ -1,5 +1,5 @@
-import { render, fireEvent, screen } from "@testing-library/svelte";
-import LobbyCreationPanel from "../src/lib/components/LandingPage/LobbyCreationPanel.svelte";
+import { render, screen } from "@testing-library/svelte";
+import LobbyCreationPanel from "$lib/components/LandingPage/LobbyCreationPanel.svelte";
 
 describe("Test LobbyCreationPanel.svelte", async () => {
 	test("Lobby name input is empty when rendered", async () => {
