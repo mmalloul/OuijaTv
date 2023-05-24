@@ -1,12 +1,9 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .endpoints.host import host
-from .endpoints.join import join
-from .endpoints.ai import openai_call
-from dotenv import load_dotenv
-from .stores.games import games
-load_dotenv()
+from endpoints.host import host
+from endpoints.join import join
+from endpoints.ai import openai_call
 
 app = FastAPI()
 load_dotenv()
