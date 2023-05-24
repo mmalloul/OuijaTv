@@ -64,7 +64,7 @@ build:
     - docker build -f .docker/Dockerfile -t $DOCKER_REPO_BACKEND:v-0.1 .
     - docker push $DOCKER_REPO_BACKEND:v-0.1
   rules:
-    - if: $CI_COMMIT_BRANCH == 'production'
+    - if: $CI_COMMIT_BRANCH != 'staging'
   tags:
     - hva
 
