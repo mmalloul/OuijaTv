@@ -43,19 +43,10 @@ services:
 
 ```
 
-run the command `docker compose up -d`
+run the command `docker compose up -d`\
+
+for a fresh build run the command `docker compose up --build -d`
 
 ## Deployment
-
-### Staging
-
-**Currently there is no staging environment**
-
-### Production
-
-Deployment to production is implemented in the gitlab ci-cd pipeline when changes are merged to main.
-
-TODO:
-
-- Version control
-- Docker security on ports
+This stage deploys the application to the target environment. It includes two jobs: deploy-production and deploy-staging. These jobs deploy the application to the production and staging environments, respectively.
+Each job is configured with specific settings, such as the Docker image used, script commands to execute, and any additional configuration required.
