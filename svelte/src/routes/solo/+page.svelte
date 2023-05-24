@@ -60,7 +60,6 @@
 	let timeTillLoad = 2;
 
 	function update() {
-
 		if (elapsed < timeTillLoad) {
 			elapsed++;
 			setTimeout(update, 1000);
