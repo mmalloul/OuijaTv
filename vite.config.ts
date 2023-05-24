@@ -5,6 +5,9 @@ import WindiCSS from "vite-plugin-windicss";
 export default defineConfig({
 	plugins: [sveltekit(), WindiCSS()],
 	test: {
-		include: ["src/**/*.{test,spec}.{js,ts}"]
+		globals: true,
+		environment: "jsdom",
+		include: ["src/**/*.{test,spec}.{js,ts}"],
+		setupFiles: ["./setupTest.js"]
 	}
 });

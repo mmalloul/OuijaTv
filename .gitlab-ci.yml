@@ -18,6 +18,17 @@ lint-test-job:
   tags:
     - hva
 
+vitest-test-job:
+  stage: test # It can run at the same time as unit-test-job (in parallel).
+  before_script:
+    - npm i
+  script:
+    - echo "Running Vitest tests..."
+    - npm run test:unit
+    - echo "Running Vitest tests is completed."
+  tags:
+    - hva
+
 sonarqube-check:
   image:
     name: sonarsource/sonar-scanner-cli:latest

@@ -6,6 +6,7 @@ from .endpoints.join import join
 from .endpoints.ai import openai_call
 from dotenv import load_dotenv
 from .stores.games import games
+load_dotenv()
 
 app = FastAPI()
 load_dotenv()

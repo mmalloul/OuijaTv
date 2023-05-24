@@ -4,6 +4,7 @@
 	import { env } from "$env/dynamic/public";
 	import { createEventDispatcher, getContext } from "svelte";
 	import type { Writable } from "svelte/store";
+	import { createEventDispatcher } from "svelte";
 
 	const dispatch = createEventDispatcher();
 	const playerState = getContext<Writable<PlayerState>>("playerState");
@@ -79,6 +80,7 @@
 				{/if}
 				<input
 					type="text"
+					aria-labelledby="lobby-name"
 					id="lobbyName"
 					bind:value={lobbyName}
 					class:invalid={lobbyNameIsValid === false}
