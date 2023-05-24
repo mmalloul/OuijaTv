@@ -1,7 +1,7 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from python.library.model.MessageType import ServerMessageType, ClientMessageType
 from python.library.stores import games
-from python.library.model import Message
+from python.library.model import ServerMessage, ClientMessage
 
 
 router = APIRouter()
@@ -14,7 +14,7 @@ async def create_game(host: WebSocket):
 
     await host.accept()
     await game.notify_host(
-        Message[ServerMessageType](
+        ServerMessage(
             ServerMessageType.PIN, 
             pin,
         ),
@@ -23,7 +23,8 @@ async def create_game(host: WebSocket):
     # this disaster is convention; don't @ me
     try:
         while True:
-            prompt: Message[ClientMessageType] = await host.receive_json()
+            prompt = await host.receive_json()
+            prompt = ClientMessage.from_dictionary(prompt)
 
             match prompt.type:
 
@@ -32,7 +33,7 @@ async def create_game(host: WebSocket):
                 
                 case ClientMessageType.PROMPT:
                     await game.notify_host(
-                        Message[ServerMessageType](
+                        ServerMessage(
                             ServerMessageType.PROMPT, 
                             prompt.content,
                         ),
@@ -40,7 +41,7 @@ async def create_game(host: WebSocket):
 
                 case _:
                     await game.notify_host(
-                        Message[ServerMessageType](
+                        ServerMessage(
                             ServerMessageType.ERROR, 
                             "Invalid request",
                         ),

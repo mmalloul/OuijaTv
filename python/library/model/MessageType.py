@@ -1,18 +1,15 @@
 from enum import Enum
 
 
-class MessageType(Enum):
-    pass
-
-
-class ClientMessageType(MessageType):
+class ClientMessageType(Enum):
     VOTE = "vote"
     RESTART = "restart"
     PROMPT = "prompt"
 
 
-class ServerMessageType(MessageType):
+class ServerMessageType(Enum):
     PIN = "pin"
     PROMPT = "prompt"
     RESTART = "restart"
     ERROR = "error"
+    VOTE = "vote"

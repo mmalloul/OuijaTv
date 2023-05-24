@@ -1,5 +1,5 @@
 from fastapi import WebSocket
-from python.library.model import Game
+from python.library.model import Game, Player
 from string import ascii_uppercase
 from random import choices
 from python.library.model import Game
@@ -26,5 +26,9 @@ def new(host: WebSocket, length: int = 6) -> tuple[str, Game]:
     return pin, game
 
 
-def remove(pin: str) -> None:
-    del items[pin]
+def remove(pin: str, player: Player | None = None) -> None:
+
+    if player:
+        items[pin].players.remove(player)
+    else:
+        del items[pin]

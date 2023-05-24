@@ -3,7 +3,7 @@ from fastapi import WebSocket
 from string import ascii_uppercase, digits
 from python.library.model.MessageType import ServerMessageType
 from python.library.model.Player import Player
-from python.library.model.Message import Message
+from python.library.model.Message import ServerMessage
 
 
 @dataclass
@@ -24,7 +24,7 @@ class Game:
             self.votes = {option: 0 for option in options}
 
 
-    def subscribe(self, player: Player) -> None:
+    def join(self, player: Player) -> None:
         """Add a player to the game."""
 
         self.players.append(player)
@@ -41,7 +41,7 @@ class Game:
         """Set all votes to 0, clear prompt, and notify players."""
 
         # prepare message
-        message_restart = Message[ServerMessageType](ServerMessageType.RESTART)
+        message_restart = ServerMessage(ServerMessageType.RESTART)
 
         # reset votes
         for vote in self.votes:
@@ -51,13 +51,13 @@ class Game:
         await self.notify_host(message_restart)
 
 
-    async def notify_host(self, message: Message[ServerMessageType]) -> None:
+    async def notify_host(self, message: ServerMessage) -> None:
         """Send a message to the host."""
 
         await self.host.send_json(message.json)
 
 
-    async def broadcast_players(self, message: Message[ServerMessageType]) -> None:
+    async def broadcast_players(self, message: ServerMessage) -> None:
         """Send a message to all players in the game."""
 
         for player in self.players:
