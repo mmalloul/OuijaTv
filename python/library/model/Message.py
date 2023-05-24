@@ -8,7 +8,7 @@ from library.model.MessageType import ClientMessageType, ServerMessageType
 @dataclass
 class Message:
     type: ClientMessageType | ServerMessageType
-    content: str = ""
+    content: str | dict = ""
 
     @property
     def json(self) -> dict[str, Any]:

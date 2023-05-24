@@ -10,7 +10,7 @@ router = APIRouter()
 
 
 @router.get("/openai")
-def openai_call(question: str, spirit: int) -> dict[str, Any]:
+def openai_call(prompt: str, spirit: int) -> dict[str, Any]:
 
     openai.api_key = os.getenv("PUBLIC_API_KEY_OPENAI")
 
@@ -35,7 +35,7 @@ def openai_call(question: str, spirit: int) -> dict[str, Any]:
         },
         {
             "role": "system", 
-            "content": question,
+            "content": prompt,
         }
     ]
 

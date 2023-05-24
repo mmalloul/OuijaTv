@@ -34,7 +34,7 @@
 		}
 
 		hideLoader = true;
-		callOpenAI(question, spirit);
+		await callOpenAI(question, spirit);
 		hideQuestion = false;
 		update();
 	}
@@ -60,6 +60,7 @@
 	let timeTillLoad = 2;
 
 	function update() {
+
 		if (elapsed < timeTillLoad) {
 			elapsed++;
 			setTimeout(update, 1000);

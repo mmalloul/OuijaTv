@@ -23,19 +23,19 @@ async def create_game(host: WebSocket):
     # this disaster is convention; don't @ me
     try:
         while True:
-            prompt = await host.receive_json()
-            prompt = ClientMessage.from_dictionary(prompt)
+            message = await host.receive_json()
+            message = ClientMessage.from_dictionary(message)
 
-            match prompt.type:
+            match message.type:
 
                 case ClientMessageType.RESTART:
                     await game.restart()
                 
                 case ClientMessageType.PROMPT:
-                    await game.notify_host(
+                    await game.broadcast(
                         ServerMessage(
                             ServerMessageType.PROMPT, 
-                            prompt.content,
+                            message.content,
                         ),
                     )
 

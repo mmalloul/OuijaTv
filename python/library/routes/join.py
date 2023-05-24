@@ -18,6 +18,13 @@ async def join_game(websocket: WebSocket, pin: str, username: str):
         player = Player(websocket, username)
         game.join(player)
 
+        await game.notify_host(
+            ServerMessage(
+                ServerMessageType.JOINED,
+                player.name,
+            ),
+        )
+
         await game.notify_player(
             player,
             ServerMessage(
@@ -42,7 +49,7 @@ async def join_game(websocket: WebSocket, pin: str, username: str):
                             await game.notify_host(
                                 ServerMessage(
                                     ServerMessageType.VOTE, 
-                                    str(game.votes),
+                                    game.votes,
                                 ),
                             )
                             
