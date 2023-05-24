@@ -16,6 +16,7 @@ class Game:
     host: WebSocket
     players: List[Player]
     votes: Dict[str, int]
+    prompt: str = ""
 
     def __post_init__(self):
         self.votes = {option: 0 for option in options}

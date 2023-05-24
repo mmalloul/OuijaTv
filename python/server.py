@@ -22,8 +22,7 @@ async def root():
 
 @app.get("/openai")
 async def ai_call(prompt: str, spirit:int):
-    response = await openai_call(prompt, spirit)
-    return response
+    return openai_call(prompt, spirit)
 
 @app.get("/games")
 async def get_games():

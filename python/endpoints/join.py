@@ -18,6 +18,7 @@ async def join(websocket: WebSocket, pin: str, name: str) -> None:
 
     if pin in games:
         await connect(websocket, games[pin], name)
+        await websocket.send_json({"type": "prompt", "content": games[pin].prompt})
 
         # terrible syntax, but a context manager would be too verbose
         try:
