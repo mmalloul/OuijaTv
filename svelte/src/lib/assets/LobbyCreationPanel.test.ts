@@ -15,13 +15,13 @@ describe("Test LobbyCreationPanel.svelte", async () => {
 
 	test("Lobby name input changes value", async () => {
 		// Arrange
-        render(LobbyCreationPanel, {showLobbyCreationPanel: true});
+		render(LobbyCreationPanel, { showLobbyCreationPanel: true });
 
 		// Act
-        const input = await screen.getByLabelText("Name your vessel:", {selector: "input"});
-        await fireEvent.change(input, { target: { value: "Test" }});
+		const input = await screen.getByLabelText("Name your vessel:", { selector: "input" });
+		await fireEvent.change(input, { target: { value: "Test" } });
 
 		// Assert
-        expect(input).toHaveValue("Test");
-    });
+		expect(input).toHaveValue("Test");
+	});
 });
