@@ -4,7 +4,6 @@
 	import { env } from "$env/dynamic/public";
 	import { createEventDispatcher, getContext } from "svelte";
 	import type { Writable } from "svelte/store";
-	import { createEventDispatcher } from "svelte";
 	const dispatch = createEventDispatcher();
 	const playerState = getContext<Writable<PlayerState>>("playerState");
 	export let showLobbyCreationPanel = false;
