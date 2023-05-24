@@ -17,7 +17,7 @@
 	const playerState: Writable<PlayerState> = getContext("playerState");
 	const letterPositions: Record<string, Vector2> = {};
 
-	let prompt: = "";
+	let prompt: string;
 	let username: string;
 	let socket: WebSocket;
 	let seekerX: number;
