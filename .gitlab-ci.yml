@@ -91,7 +91,7 @@ build-staging:
     - cd ..
     - cd python
     - docker build -f Dockerfile -t $DOCKER_REPO_BACKEND_STAGING:v-0.1 .
-    - docker push $DOCKER_REPO_BACKEND:v-0.1
+    - docker push $DOCKER_REPO_BACKEND_STAGING:v-0.1
     - cd ..
     - cd chatbot
     - docker build -f Dockerfile -t $DOCKER_REPO_CHATBOT_STAGING:v-0.1 .
