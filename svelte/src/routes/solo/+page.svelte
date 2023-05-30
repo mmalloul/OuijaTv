@@ -165,7 +165,6 @@
         @apply text-3xl pt-2;
         font-family: theme(fontFamily.amatic);
         width: 250px;
-		margin 5px;
 		text-align: center;
     }
 	.l-container {

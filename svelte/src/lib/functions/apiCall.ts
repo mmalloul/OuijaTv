@@ -10,7 +10,7 @@ export async function openApiCall(prompt: string, spirit: number): Promise<strin
 			encodeURIComponent(spirit);
 		const response = await fetch(url);
 		const data = await response.json();
-		let awnser1 = data.response;
+		const awnser1 = data.response;
 		i = awnser1.replace(".", "");
 		a = cleanupAnswer(i);
 	} catch (error) {
@@ -20,6 +20,6 @@ export async function openApiCall(prompt: string, spirit: number): Promise<strin
 }
 
 function cleanupAnswer(str: string) {
-	let s = str.replace(/\[\[]&]+/g, "");
+	const s = str.replace(/\[\[]&]+/g, "");
 	return s;
 }
