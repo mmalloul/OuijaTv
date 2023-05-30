@@ -155,18 +155,18 @@
 {/if}
 
 <style lang="postcss">
-	.te{
-		@apply text-accent
+	.te {
+		@apply text-accent;
 	}
-	.white{
+	.white {
 		color: white;
 	}
-    .char{
-        @apply text-3xl pt-2;
-        font-family: theme(fontFamily.amatic);
-        width: 250px;
+	.char {
+		@apply text-3xl pt-2;
+		font-family: theme(fontFamily.amatic);
+		width: 250px;
 		text-align: center;
-    }
+	}
 	.l-container {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
@@ -178,7 +178,7 @@
 			grid-template-columns: repeat(1, 1fr);
 		}
 	}
-    .awnser {
+	.awnser {
 		color: white;
 		text-align: center;
 		font-size: xxx-large;
@@ -201,7 +201,7 @@
 		color: rgba(255, 255, 255, 0.9);
 		background-color: transparent;
 	}
-    .custom-button {
+	.custom-button {
 		@apply text-fontcolor text-4xl  border-1;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);
@@ -227,7 +227,7 @@
 		transform: scale(1.05);
 	}
 
-    circle {
+	circle {
 		transition: cx 0.5s, cy 0.5s;
 	}
 </style>
