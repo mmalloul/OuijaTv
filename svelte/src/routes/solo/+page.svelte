@@ -16,9 +16,9 @@
 	let circleStyle = "",
 		prompt = "";
 	let sp = 0;
-	let answer: string = "",
-		name = "",
-		tags = "";
+	let answer: string = "";
+	let	name = "",
+	tags = "";
 	const letterPositions: Record<string, Vector2> = {};
 	class Vector2 {
 		constructor(public x: number, public y: number) {}
