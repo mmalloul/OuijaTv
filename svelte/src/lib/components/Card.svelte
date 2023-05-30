@@ -1,4 +1,5 @@
 <script lang="ts">
+	export let spirit: string;
 	export let name: string;
 	export let backgroundImage: string;
 	export let tag: string;
@@ -6,34 +7,18 @@
 	export let goToQuestion: (spirit: number, name: string, tags: string) => void;
 
 	function handleClick() {
-		let spirit = 0;
-		let tags = "";
-		switch (name) {
-			case "Sgt. Sabrina":
-				spirit = 1;
-				tags = "Friendly, Scary";
-				break;
-			case "Asta":
-				spirit = 2;
-				tags = "Clever, Funny";
-
-				break;
-			case "Miko Mana":
-				tags = "Funny, Rich, Clever";
-				spirit = 3;
-				break;
-			default:
-				tags = "Dark, Scary";
-				spirit = 4;
-				break;
+		let numberSprit = parseInt(spirit);
+		goToQuestion(numberSprit, name, tag);
+	}
+	function handleKeyDown(event: KeyboardEvent) {
+		if (event.key === "Enter" || event.key === " ") {
+			const numberSprit = parseInt(spirit);
+			goToQuestion(numberSprit, name, tag);
 		}
-		// console.log(spirit)
-		goToQuestion(spirit, name, tags);
 	}
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="b-game-card" on:click={handleClick}>
+<div class="b-game-card" on:click={handleClick} on:keydown={handleKeyDown} tabindex="0">
 	<div class="b-game-card__cover" style={`background-image: url(${backgroundImage});`}>
 		<div class="name">{name}</div>
 		<div class="tag">{tag}</div>

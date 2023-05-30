@@ -1,25 +1,26 @@
 import { env } from "$env/dynamic/public";
-let i, a: string;
+
+let falseData: string, cleanString: string;
+
 export async function openApiCall(prompt: string, spirit: number): Promise<string> {
 	try {
-		const url =
-			env.PUBLIC_URL +
-			"/openai?prompt=" +
-			encodeURIComponent(prompt) +
-			"&spirit=" +
-			encodeURIComponent(spirit);
+		const promptEncoded = encodeURIComponent(prompt);
+		const spiritEncoded = encodeURIComponent(spirit.toString());
+
+		const url = `${env.PUBLIC_URL}/openai?prompt=${promptEncoded}&spirit=${spiritEncoded}`;
+
 		const response = await fetch(url);
 		const data = await response.json();
-		const awnser1 = data.response;
-		i = awnser1.replace(".", "");
-		a = cleanupAnswer(i);
+		const repoData = data.response;
+		falseData = repoData.replace(".", "");
+		cleanString = cleanupAnswer(falseData);
 	} catch (error) {
 		console.error("Error:", error);
 	}
-	return a;
+	return cleanString;
 }
 
-function cleanupAnswer(str: string) {
-	const s = str.replace(/\[\[]&]+/g, "");
-	return s;
+function cleanupAnswer(str: string): string {
+	const cleanedUpAnswer = str.replace(/\[\[]&]+/g, "");
+	return cleanedUpAnswer;
 }

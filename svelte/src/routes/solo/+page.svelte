@@ -3,21 +3,21 @@
 	import toast, { Toaster } from "svelte-french-toast";
 	import BoardSvg from "$lib/components/BoardSVG.svelte";
 	import Card from "$lib/components/Card.svelte";
-	import spirit1 from "$lib/assets/spirit1.jpg";
-	import spirit2 from "$lib/assets/spirit2.jpg";
-	import spirit3 from "$lib/assets/spirit3.jpg";
-	import spirit4 from "$lib/assets/spirit4.jpg";
+	import spirit1 from "$lib/assets/spirit1.webp";
+	import spirit2 from "$lib/assets/spirit2.webp";
+	import spirit3 from "$lib/assets/spirit3.webp";
+	import spirit4 from "$lib/assets/spirit4.webp";
 
 	let showCards = true,
 		showBoard = false,
 		showInput = true;
 	let seekerX: number;
 	let seekerY: number;
-	let circleStyle = "",
-		prompt = "",
-		answer = "",
-		name = "",
-		tags = "";
+	let circleStyle = "";
+	let prompt = "";
+	let answer = "";
+	let name = "";
+	let tags = "";
 	let sp = 0;
 
 	const letterPositions: Record<string, Vector2> = {};
@@ -92,6 +92,7 @@
 	</div>
 	<div class="l-container">
 		<Card
+			spirit="1"
 			goToQuestion={handleGoToQuestion}
 			name="Sgt. Sabrina"
 			backgroundImage={spirit1}
@@ -99,6 +100,7 @@
 			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
 		/>
 		<Card
+			spirit="2"
 			goToQuestion={handleGoToQuestion}
 			name="Asta"
 			backgroundImage={spirit2}
@@ -106,6 +108,7 @@
 			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
 		/>
 		<Card
+			spirit="3"
 			goToQuestion={handleGoToQuestion}
 			name="Miko Mana"
 			backgroundImage={spirit3}
@@ -113,6 +116,7 @@
 			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
 		/>
 		<Card
+			spirit="4"
 			goToQuestion={handleGoToQuestion}
 			name="The Crow"
 			backgroundImage={spirit4}
@@ -159,9 +163,6 @@
 	.te {
 		@apply text-accent;
 	}
-	.white {
-		color: white;
-	}
 	.char {
 		@apply text-3xl pt-2;
 		font-family: theme(fontFamily.amatic);
@@ -176,7 +177,7 @@
 		padding: 30px;
 		justify-content: center;
 		@media screen and (max-width: 1150px) {
-			grid-template-columns: repeat(1, 1fr);
+			grid-template-columns: repeat(2, 2fr);
 		}
 	}
 	.awnser {
