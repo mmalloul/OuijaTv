@@ -14,11 +14,12 @@
 	let seekerX: number;
 	let seekerY: number;
 	let circleStyle = "",
-		prompt = "";
-	let sp = 0;
-	let answer: string = "";
-	let name = "",
+		prompt = "",
+		answer: "",
+		name = "",
 		tags = "";
+	let sp = 0;
+
 	const letterPositions: Record<string, Vector2> = {};
 	class Vector2 {
 		constructor(public x: number, public y: number) {}
