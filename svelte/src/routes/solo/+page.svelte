@@ -15,7 +15,7 @@
 	let seekerY: number;
 	let circleStyle = "",
 		prompt = "",
-		answer: "",
+		answer = "",
 		name = "",
 		tags = "";
 	let sp = 0;
