@@ -15,6 +15,10 @@ const items: MenuItem[] = [
 	{
 		name: "Browse",
 		route: ""
+	},
+	{
+		name: "solo2",
+		route: "solo2"
 	}
 ];
 
