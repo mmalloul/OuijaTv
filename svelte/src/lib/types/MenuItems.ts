@@ -15,7 +15,7 @@ const items: MenuItem[] = [
 	{
 		name: "Browse",
 		route: ""
-	},
+	}
 ];
 
 export default items;

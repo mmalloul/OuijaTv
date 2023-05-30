@@ -1,45 +1,47 @@
 <script lang="ts">
-    export let name:string;
-    export let backgroundImage:string;
-    export let tag:string;
-    export let lore:string;
-    export let goToQuestion: (spirit: number, name:string,tags:string) => void;
+	export let name: string;
+	export let backgroundImage: string;
+	export let tag: string;
+	export let lore: string;
+	export let goToQuestion: (spirit: number, name: string, tags: string) => void;
 
-    function handleClick() {
-        let spirit = 0;
-		let tags=""
-        switch (name) {
-            case "Sgt. Sabrina":
-            spirit = 1;
-			tags="Friendly, Scary" 
-            break;
-        case "Asta":
-            spirit = 2;
-			tags="Clever, Funny" 
+	function handleClick() {
+		let spirit = 0;
+		let tags = "";
+		switch (name) {
+			case "Sgt. Sabrina":
+				spirit = 1;
+				tags = "Friendly, Scary";
+				break;
+			case "Asta":
+				spirit = 2;
+				tags = "Clever, Funny";
 
-            break;
-        case "Miko Mana":
-				tags="Funny, Rich, Clever" 
-            spirit = 3;
-            break;
-        default:
-			tags="Dark, Scary" 
-            spirit = 4
-            break;
-    }
-        // console.log(spirit)
-        goToQuestion(spirit,name,tags);     }
-
+				break;
+			case "Miko Mana":
+				tags = "Funny, Rich, Clever";
+				spirit = 3;
+				break;
+			default:
+				tags = "Dark, Scary";
+				spirit = 4;
+				break;
+		}
+		// console.log(spirit)
+		goToQuestion(spirit, name, tags);
+	}
 </script>
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="b-game-card" on:click={handleClick}>
-    <div class="b-game-card__cover" style={`background-image: url(${backgroundImage});`}>
-      <div class="name">{name}</div>
-      <div class="tag">{tag}</div>
-      <div class="b-game-card__lore">{lore}</div>
-    </div>
-  </div>
-  <style lang="postcss">
+
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<div class="b-game-card" on:click={handleClick}>
+	<div class="b-game-card__cover" style={`background-image: url(${backgroundImage});`}>
+		<div class="name">{name}</div>
+		<div class="tag">{tag}</div>
+		<div class="b-game-card__lore">{lore}</div>
+	</div>
+</div>
+
+<style lang="postcss">
 	.b-game-card__lore {
 		display: none; /* hide the lore text initially */
 		position: absolute;
@@ -128,6 +130,4 @@
 			}
 		}
 	}
-
-
 </style>

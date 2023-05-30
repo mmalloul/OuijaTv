@@ -1,51 +1,51 @@
 <script lang="ts">
-import { openApiCall } from "#lib/functions/apiCall";
-import toast, { Toaster } from "svelte-french-toast";
-import BoardSvg from "$lib/components/BoardSVG.svelte";
-import Card from "$lib/components/Card.svelte"
-import spirit1 from "$lib/assets/spirit1.jpg"
-import spirit2 from "$lib/assets/spirit2.jpg"
-import spirit3 from "$lib/assets/spirit3.jpg"
-import spirit4 from "$lib/assets/spirit4.jpg"
+	import { openApiCall } from "#lib/functions/apiCall";
+	import toast, { Toaster } from "svelte-french-toast";
+	import BoardSvg from "$lib/components/BoardSVG.svelte";
+	import Card from "$lib/components/Card.svelte";
+	import spirit1 from "$lib/assets/spirit1.jpg";
+	import spirit2 from "$lib/assets/spirit2.jpg";
+	import spirit3 from "$lib/assets/spirit3.jpg";
+	import spirit4 from "$lib/assets/spirit4.jpg";
 
-let showCards = true,
-    showBoard = false,
-	showInput = true
-let seekerX: number;
-let seekerY: number;
-let circleStyle = "",
-    prompt =""
-let sp = 0
-let answer:string ="",
-    name= "",
-    tags = ""
-const letterPositions: Record<string, Vector2> = {};
-class Vector2 {
-	constructor(public x: number, public y: number) {}
-}
+	let showCards = true,
+		showBoard = false,
+		showInput = true;
+	let seekerX: number;
+	let seekerY: number;
+	let circleStyle = "",
+		prompt = "";
+	let sp = 0;
+	let answer: string = "",
+		name = "",
+		tags = "";
+	const letterPositions: Record<string, Vector2> = {};
+	class Vector2 {
+		constructor(public x: number, public y: number) {}
+	}
 
-function handleGoToQuestion(spirit: number,nm:string,tag:string) {
-    showCards = false,showBoard = true
-    name = nm, sp = spirit ,tags = tag
-}
+	function handleGoToQuestion(spirit: number, nm: string, tag: string) {
+		(showCards = false), (showBoard = true);
+		(name = nm), (sp = spirit), (tags = tag);
+	}
 
-async function ask(){
-    if(prompt === ""){
-        toast("Just tell me what you want to ask and dont waste my time.", {
+	async function ask() {
+		if (prompt === "") {
+			toast("Just tell me what you want to ask and dont waste my time.", {
 				icon: "👻",
 				style: "border-radius: 200px; background: #333; color: #fff;",
 				duration: 2000
 			});
 			return;
-    }else{
-		showInput = false;
-        readBoard()
-        answer = await openApiCall(prompt,sp)
-        printWord(answer)
-    }
-}
+		} else {
+			showInput = false;
+			readBoard();
+			answer = await openApiCall(prompt, sp);
+			printWord(answer);
+		}
+	}
 	function readBoard() {
-        const circleElements = document.querySelectorAll<SVGCircleElement>("circle");
+		const circleElements = document.querySelectorAll<SVGCircleElement>("circle");
 		circleElements.forEach((element) => {
 			const id = element.id;
 			let x = element.attributes.getNamedItem("cx")?.value;
@@ -67,9 +67,9 @@ async function ask(){
 		seekerY = 766.5;
 		showInput = true;
 		return;
-	}	
+	}
 
-    function targetALetter(letter: string) {
+	function targetALetter(letter: string) {
 		let target = letterPositions[letter.toUpperCase()];
 		if (target) {
 			seekerX = target.x;
@@ -77,85 +77,81 @@ async function ask(){
 		}
 	}
 </script>
+
 <Toaster />
 {#if showCards}
-    <div>
-        <h1 class="awnser">SOLO Summon</h1>
-        <div class="subtask">
-            As you navigate to the website and click on the Ouija board feature, a sense of apprehension
-            washes over you. You know that this virtual board may not be as innocuous as it seems, and
-            that you could be inviting something dark and powerful into your life. Select the dark
-            spirit that you desire and use him by <b>clicking</b> on the card.
-        </div>
-    </div>
-    <div class="l-container">
-        <Card 
-        goToQuestion={handleGoToQuestion}
-        name="Sgt. Sabrina"
-        backgroundImage={spirit1}
-        tag="Friendly, Scary"
-        lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
-        />
-        <Card
-        goToQuestion={handleGoToQuestion}
-        name="Asta"
-        backgroundImage={spirit2}
-        tag="Clever, Funny"
-        lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
-        />
-        <Card
-        goToQuestion={handleGoToQuestion}
-        name="Miko Mana"
-        backgroundImage={spirit3}
-        tag="Funny, Rich, Clever"
-        lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
-        />
-        <Card
-        goToQuestion={handleGoToQuestion}
-        name="The Crow"
-        backgroundImage={spirit4}
-        tag="Dark, Scary"
-        lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
-        />
-    </div>
+	<div>
+		<h1 class="awnser">SOLO Summon</h1>
+		<div class="subtask">
+			As you navigate to the website and click on the Ouija board feature, a sense of apprehension
+			washes over you. You know that this virtual board may not be as innocuous as it seems, and
+			that you could be inviting something dark and powerful into your life. Select the dark spirit
+			that you desire and use him by <b>clicking</b> on the card.
+		</div>
+	</div>
+	<div class="l-container">
+		<Card
+			goToQuestion={handleGoToQuestion}
+			name="Sgt. Sabrina"
+			backgroundImage={spirit1}
+			tag="Friendly, Scary"
+			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+		/>
+		<Card
+			goToQuestion={handleGoToQuestion}
+			name="Asta"
+			backgroundImage={spirit2}
+			tag="Clever, Funny"
+			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+		/>
+		<Card
+			goToQuestion={handleGoToQuestion}
+			name="Miko Mana"
+			backgroundImage={spirit3}
+			tag="Funny, Rich, Clever"
+			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+		/>
+		<Card
+			goToQuestion={handleGoToQuestion}
+			name="The Crow"
+			backgroundImage={spirit4}
+			tag="Dark, Scary"
+			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+		/>
+	</div>
 {/if}
 
-{#if showBoard}   
-<div class="h-90vh flex flex-col items-center  ">
-<form class="flex">
-    <input
-        bind:value={prompt}
-        type="text"
-        placeholder="STATE YOUR INTENTION"
-    />
-</form>
-{#if showInput}
-	{#if prompt != ""}
-	<button type="button" class="custom-button" on:click={() => ask() }>
-		<p>Ask</p>
-	</button> 
-	{/if}
-{/if}
+{#if showBoard}
+	<div class="h-90vh flex flex-col items-center">
+		<form class="flex">
+			<input bind:value={prompt} type="text" placeholder="STATE YOUR INTENTION" />
+		</form>
+		{#if showInput}
+			{#if prompt != ""}
+				<button type="button" class="custom-button" on:click={() => ask()}>
+					<p>Ask</p>
+				</button>
+			{/if}
+		{/if}
 
-<div class="char" >
-	<span class="text-light-50"> Name:</span>
-	<span class="te"> {name} <br></span>
-	<span class="text-light-50"> Tags:</span>
-	<span class="te"> {tags}</span>
- 
-</div>
-<BoardSvg>
-    <circle
-        id="Seeker"
-        style={circleStyle}
-        cx={seekerX}
-        cy={seekerY}
-        r="76.5"
-        stroke="#FFF7E2"
-        stroke-width="13"
-    />
-</BoardSvg>
-</div>
+		<div class="char">
+			<span class="text-light-50"> Name:</span>
+			<span class="te"> {name} <br /></span>
+			<span class="text-light-50"> Tags:</span>
+			<span class="te"> {tags}</span>
+		</div>
+		<BoardSvg>
+			<circle
+				id="Seeker"
+				style={circleStyle}
+				cx={seekerX}
+				cy={seekerY}
+				r="76.5"
+				stroke="#FFF7E2"
+				stroke-width="13"
+			/>
+		</BoardSvg>
+	</div>
 {/if}
 
 <style lang="postcss">
@@ -236,4 +232,3 @@ async function ask(){
 		transition: cx 0.5s, cy 0.5s;
 	}
 </style>
-
