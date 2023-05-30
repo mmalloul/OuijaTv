@@ -1,33 +1,34 @@
 <script lang="ts">
-    import { createEventDispatcher } from 'svelte';
-
     export let name:string;
     export let backgroundImage:string;
     export let tag:string;
     export let lore:string;
-    export let goToQuestion: (spirit: number) => void;
-
-
-    const dispatch = createEventDispatcher();
+    export let goToQuestion: (spirit: number, name:string,tags:string) => void;
 
     function handleClick() {
         let spirit = 0;
+		let tags=""
         switch (name) {
             case "Sgt. Sabrina":
             spirit = 1;
+			tags="Friendly, Scary" 
             break;
         case "Asta":
             spirit = 2;
+			tags="Clever, Funny" 
+
             break;
         case "Miko Mana":
+				tags="Funny, Rich, Clever" 
             spirit = 3;
             break;
         default:
+			tags="Dark, Scary" 
             spirit = 4
             break;
     }
         // console.log(spirit)
-        goToQuestion(spirit);     }
+        goToQuestion(spirit,name,tags);     }
 
 </script>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
