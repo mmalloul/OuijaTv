@@ -20,8 +20,8 @@
 		}
 	}
 
-    function dispatchVote(letterId: string) {
-        dispatch('voteOnLetter', {
+    function onClickLetter(letterId: string) {
+        dispatch('letterClicked', {
             id: letterId
         });
     }
@@ -44,7 +44,7 @@
 	}
 </script>
 
-<BoardSvg on:click={({ detail: { target } }) => dispatchVote(target.id)}>
+<BoardSvg on:click={({ detail: { target } }) => onClickLetter(target.id)}>
     {#if seekerPos && seekerPos.x && seekerPos.y}
         <circle id="Seeker" cx={seekerPos.x} cy={seekerPos.y} r="76.5" stroke="#FFF7E2" stroke-width="13" />
     {/if}

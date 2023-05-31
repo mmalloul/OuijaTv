@@ -9,4 +9,4 @@
 	}
 </script>
 
-<BoardComponent bind:this={boardComponent} on:voteOnLetter={onVoteLetter} />
+<BoardComponent bind:this={boardComponent} on:letterClicked={onVoteLetter} />
