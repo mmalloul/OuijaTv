@@ -12,9 +12,7 @@
         loadLetterPositions();
     })
 
-    export const targetALetter = (letter: string) => targetLetter(letter)
-
-	function targetLetter(letter: string) {
+	export function targetLetter(letter: string) {
 		let target = letterPositions[letter.toUpperCase()];
 
 		if (target) {
@@ -22,7 +20,7 @@
 		}
 	}
 
-    function voteLetter(letterId: string) {
+    function dispatchVote(letterId: string) {
         dispatch('voteOnLetter', {
             id: letterId
         });
@@ -46,7 +44,7 @@
 	}
 </script>
 
-<BoardSvg on:click={({ detail: { target } }) => voteLetter(target.id)}>
+<BoardSvg on:click={({ detail: { target } }) => dispatchVote(target.id)}>
     {#if seekerPos && seekerPos.x && seekerPos.y}
         <circle id="Seeker" cx={seekerPos.x} cy={seekerPos.y} r="76.5" stroke="#FFF7E2" stroke-width="13" />
     {/if}
