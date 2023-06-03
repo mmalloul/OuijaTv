@@ -74,9 +74,7 @@ dependency-scanning-frontend:
     paths:
       - snyk_results.html
   rules:
-    - if: $CI_PIPELINE_SOURCE == "staging"
-      when: manual
-        rules:
+    - if: $CI_PIPELINE_SOURCE == 'staging'
     - if: $CI_COMMIT_BRANCH == 'staging'
 
 
