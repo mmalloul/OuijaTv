@@ -39,6 +39,12 @@
 		});
 	}
 
+	//TODO type
+	function getTargetLetter(votes: any) {
+		const target = Object.keys(votes).reduce((a, b) => (votes[a] > votes[b] ? a : b));
+		return target;
+	}
+
     class Vector2 {
 		constructor(public x: number, public y: number) {}
 	}
