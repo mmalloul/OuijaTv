@@ -58,10 +58,10 @@ dependency_scanning_frontend:
   image: node:latest
   stage: test
   script:
+    - cd /builds/sluitmc/ouija.tv/svelte
     - npm install -g npm@latest
     - npm install -g snyk
     - npm install snyk-to-html -g
-    - cd /builds/sluitmc/ouija.tv/svelte
     - snyk --help
     - snyk auth $SNYK_TOKEN
     - snyk monitor --project-name=$CI_PROJECT_NAME
