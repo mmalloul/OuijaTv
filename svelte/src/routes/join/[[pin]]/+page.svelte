@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { PlayerState } from "$lib/types/PlayerState";
+	import { PlayerType } from "#lib/types/PlayerType";
 	import { goto } from "$app/navigation";
 	import { page } from "$app/stores";
 	import { getContext, onMount } from "svelte";
 	import type { Writable } from "svelte/store";
 
 	const username_max = 18;
-	const playerState = getContext<Writable<PlayerState>>("playerState");
+	const playerType = getContext<Writable<PlayerType>>("playerType");
 
 	let warning = "";
 	let username = "";
@@ -37,7 +37,7 @@
 
 	function joinRoom(code: string) {
 		localStorage.setItem("username", username);
-		playerState.set(PlayerState.Player);
+		playerType.set(PlayerType.Player);
 		goto(`/play/${code}`);
 	}
 </script>

@@ -5,7 +5,7 @@
 	import { getContext, onMount } from "svelte";
 	import { page } from "$app/stores";
 	import type { Writable } from "svelte/store";
-	import { PlayerState } from "#lib/types/PlayerState";
+	import { PlayerType } from "#lib/types/PlayerType";
 	import toast, { Toaster } from "svelte-french-toast";
 	import Icon from "@iconify/svelte";
 	import items from "#lib/types/MenuItems";
@@ -14,7 +14,7 @@
 		constructor(public x: number, public y: number) {}
 	}
 
-	const playerState: Writable<PlayerState> = getContext("playerState");
+	const playerType: Writable<PlayerType> = getContext("playerType");
 	const letterPositions: Record<string, Vector2> = {};
 
 	let prompt: string;
@@ -27,8 +27,8 @@
 	onMount(() => {
 		username = localStorage.getItem("username") ?? "anonymous";
 
-		switch ($playerState) {
-			case PlayerState.Host:
+		switch ($playerType) {
+			case PlayerType.Host:
 				socket = new WebSocket(`${env.PUBLIC_WS_URL}/host`);
 				socket.onmessage = ({ data }) => {
 					const parsed = JSON.parse(data);
@@ -58,7 +58,7 @@
 				};
 				break;
 
-			case PlayerState.Player:
+			case PlayerType.Player:
 				socket = new WebSocket(`${env.PUBLIC_WS_URL}/join?pin=${pin}&username=${username}`);
 
 				socket.onmessage = ({ data }) => {
@@ -75,7 +75,7 @@
 
 				break;
 
-			case PlayerState.None:
+			case PlayerType.None:
 				goto(`/join/${pin}`);
 				break;
 
@@ -87,7 +87,7 @@
 	});
 
 	function vote(on: string) {
-		if ($playerState === PlayerState.Player) {
+		if ($playerType === PlayerType.Player) {
 			socket.send(JSON.stringify({ type: "vote", content: on }));
 		}
 	}
@@ -155,8 +155,8 @@
 	{/each}
 </div>
 
-{#if $playerState === PlayerState.Host || $playerState === PlayerState.Player}
-	{@const isHost = $playerState == PlayerState.Host}
+{#if $playerType === PlayerType.Host || $playerType === PlayerType.Player}
+	{@const isHost = $playerType == PlayerType.Host}
 	<div class="h-90vh flex flex-col items-center gap-5 pt-10">
 		<form class="flex">
 			<input
@@ -173,7 +173,7 @@
 			{/if}
 		</BoardSvg>
 	</div>
-	{#if $playerState == PlayerState.Host && pin}
+	{#if $playerType == PlayerType.Host && pin}
 		<div class="flex gap-2 host-options">
 			<div class="flex justify-end link-share rounded-lg">
 				<span>
