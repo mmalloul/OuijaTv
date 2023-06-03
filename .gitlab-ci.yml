@@ -78,9 +78,13 @@ dependency-scanning-python:
   image: python:latest
   stage: test
   script:
-    - pip install snyk
+    - pip install snyk-to-html
+    - curl -sL https://deb.nodesource.com/setup_14.x | bash -
+    - apt-get install -y nodejs
     - cd /builds/sluitmc/ouija.tv/python
-    - snyk --help
+    - curl -L https://github.com/snyk/snyk/releases/latest/download/snyk-linux -o snyk
+    - chmod +x snyk
+    - snyk --version
     - snyk auth $SNYK_TOKEN
     - snyk test --all-projects --file=requirements.txt --json | snyk-to-html -o snyk_python_results.html
   tags:
