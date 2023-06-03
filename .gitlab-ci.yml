@@ -7,6 +7,7 @@ stages: # List of stages for jobs, and their order of execution
   - test
   - deploy
 
+
 lint-test-job:
   stage: test # It can run at the same time as unit-test-job (in parallel).
   before_script:
@@ -51,30 +52,43 @@ sonarqube-check:
   tags:
     - hva
 
-build-production:
-  stage: build
-  image: docker:20.10.16
-  before_script:
-    - echo $DOCKER_ACCESS_TOKEN | docker login -u $DOCKER_REGISTRY_USER --password-stdin
+
+dependency_scanning:
+  image: node:latest
+  stage: test
   script:
-    - echo $ENV_FILE
-    # File is outside of build context, so make local copy.
-    - cp ${ENV_FILE} .env
-    - cd svelte
-    - docker build -f Dockerfile -t $DOCKER_REPO:v-0.1 .
-    - docker push $DOCKER_REPO:v-0.1
-    - cd ..
-    - cd python
-    - docker build -f Dockerfile -t $DOCKER_REPO_BACKEND:v-0.1 .
-    - docker push $DOCKER_REPO_BACKEND:v-0.1
-    - cd ..
-    - cd chatbot
-    - docker build -f Dockerfile -t $DOCKER_REPO_CHATBOT:v-0.1 .
-    - docker push $DOCKER_REPO_CHATBOT:v-0.1
-  rules:
-    - if: $CI_COMMIT_BRANCH == 'production'
+    - npm install -g npm@latest
+    - npm install -g snyk
+    - npm install snyk-to-html -g
+    - snyk --help
+    - snyk auth $SNYK_TOKEN
+    - snyk monitor --project-name=$CI_PROJECT_NAME
+    - snyk test --json | snyk-to-html -o snyk_results.html
   tags:
     - hva
+
+dependency_scanning:
+  image: node:latest
+  stage: test
+  script:
+    - npm install -g npm@latest
+    - npm install -g snyk
+    - npm install snyk-to-html -g
+    - snyk --help
+    - snyk auth $SNYK_TOKEN
+    - snyk monitor --project-name=$CI_PROJECT_NAME
+    - snyk test --json | snyk-to-html -o snyk_results.html
+  tags:
+    - hva
+  only:
+    - staging
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'staging'
+    - if: $CI_COMMIT_BRANCH == 'feature/OUIJA-93'
+  artifacts:
+    when: always
+    paths: 
+      - snyk_results.html
 
 build-staging:
   stage: build
