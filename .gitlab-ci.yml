@@ -74,26 +74,6 @@ dependency-scanning-frontend:
     paths:
       - snyk_results.html
 
-dependency-scanning-python:
-  image: python:latest
-  stage: test
-  script:
-    - pip install --upgrade pip
-    - pip install snyk-to-html
-    - curl -sL https://deb.nodesource.com/setup_14.x | bash -
-    - apt-get install -y nodejs
-    - cd /builds/sluitmc/ouija.tv/python
-    - curl -L https://github.com/snyk/snyk/releases/latest/download/snyk-linux -o snyk
-    - chmod +x snyk
-    - snyk --version
-    - snyk auth $SNYK_TOKEN
-    - snyk test --all-projects --file=requirements.txt --json | snyk-to-html -o snyk_python_results.html
-  tags:
-    - hva
-  artifacts:
-    when: always
-    paths:
-      - snyk_python_results.html
 
 
 build-staging:
