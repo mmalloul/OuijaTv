@@ -82,9 +82,10 @@ dependency_scanning:
     - hva
   only:
     - staging
+    - feature/OUIJA-93
   rules:
     - if: $CI_COMMIT_BRANCH == 'staging'
-    - if: $CI_COMMIT_BRANCH == 'feature/OUIJA-93'
+    - if: $CI_COMMIT_BRANCH == 'feature/OUIJA-93
   artifacts:
     when: always
     paths: 
