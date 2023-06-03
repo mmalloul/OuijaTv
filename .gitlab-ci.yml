@@ -54,7 +54,7 @@ sonarqube-check:
 
 
 
-dependency_scanning_frontend:
+dependency-scanning-frontend:
   image: node:latest
   stage: test
   script:
@@ -73,6 +73,22 @@ dependency_scanning_frontend:
     when: always
     paths:
       - snyk_results.html
+
+dependency-scanning-python:
+  image: python:latest
+  stage: test
+  script:
+    - pip install snyk
+    - cd /builds/sluitmc/ouija.tv/python
+    - snyk --help
+    - snyk auth $SNYK_TOKEN
+    - snyk test --json | snyk-to-html -o snyk_python_results.html
+  tags:
+    - hva
+  artifacts:
+    when: always
+    paths:
+      - snyk_python_results.html
 
 
 build-staging:
