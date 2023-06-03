@@ -73,6 +73,11 @@ dependency-scanning-frontend:
     when: always
     paths:
       - snyk_results.html
+  rules:
+    - exists:
+      - $CI_COMMIT_REF_NAME
+    changes:
+      - feature/*
 
 
 
