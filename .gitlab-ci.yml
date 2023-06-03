@@ -74,10 +74,8 @@ dependency-scanning-frontend:
     paths:
       - snyk_results.html
   rules:
-    - exists:
-      - $CI_COMMIT_REF_NAME
-    changes:
-      - feature/*
+    - if: $CI_PIPELINE_SOURCE == "staging"
+      when: manual
 
 
 
