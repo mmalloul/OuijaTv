@@ -78,6 +78,7 @@ dependency-scanning-python:
   image: python:latest
   stage: test
   script:
+    - pip install --upgrade pip
     - pip install snyk-to-html
     - curl -sL https://deb.nodesource.com/setup_14.x | bash -
     - apt-get install -y nodejs
