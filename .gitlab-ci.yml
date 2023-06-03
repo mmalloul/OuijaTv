@@ -53,19 +53,6 @@ sonarqube-check:
     - hva
 
 
-dependency_scanning:
-  image: node:latest
-  stage: test
-  script:
-    - npm install -g npm@latest
-    - npm install -g snyk
-    - npm install snyk-to-html -g
-    - snyk --help
-    - snyk auth $SNYK_TOKEN
-    - snyk monitor --project-name=$CI_PROJECT_NAME
-    - snyk test --json | snyk-to-html -o snyk_results.html
-  tags:
-    - hva
 
 dependency_scanning:
   image: node:latest
