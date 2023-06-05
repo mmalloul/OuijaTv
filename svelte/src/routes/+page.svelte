@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LobbyCreationPanel from "#lib/components/LandingPage/LobbyCreationPanel.svelte";
+	import LobbyCreationPanel from "#lib/components/landing-page/LobbyCreationPanel.svelte";
 	import { goto } from "$app/navigation";
 
 	let showLobbyCreationPanel = false;
