@@ -84,7 +84,9 @@
 
 	function updatePrompt(event: any) {
 		prompt = event.detail.word;
-		board.allowVoting();
+		if ($playerType === PlayerType.Player) {
+			board.allowVoting();
+		}
 	}
 
 	function updateTick(event: any) {
