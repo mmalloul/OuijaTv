@@ -79,11 +79,11 @@
 					class:invalid={lobbyNameIsValid === false}
 				/>
 
-				<label for="users">Minimum number of spirits: {numUsers}</label>
+				<!-- <label for="users">Minimum number of spirits: {numUsers}</label>
 				<input type="range" id="users" min="1" max="100" bind:value={numUsers} />
 
 				<label for="duration">Voting Time: {gameDuration} seconds</label>
-				<input type="range" id="duration" min="30" max="120" bind:value={gameDuration} />
+				<input type="range" id="duration" min="30" max="120" bind:value={gameDuration} /> -->
 
 				<div class="actions">
 					<button type="submit" class="button">Create</button>

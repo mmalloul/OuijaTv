@@ -14,3 +14,4 @@ class ServerMessageType(Enum):
     RESTART = "restart"
     ERROR = "error"
     VOTE = "vote"
+    COUNTER = "counter"

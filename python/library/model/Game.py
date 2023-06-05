@@ -1,3 +1,4 @@
+import asyncio
 from dataclasses import dataclass, field
 from fastapi import WebSocket
 from string import ascii_uppercase, digits
@@ -14,7 +15,8 @@ class Game:
     players: list[Player] = field(default_factory=list)
     votes: dict[str, int] = field(default_factory=dict)
     prompt: str = ""
-    
+    counter: int = 15
+
 
     def __post_init__(self) -> None:
         """Initialise vote dictionary."""
@@ -22,6 +24,8 @@ class Game:
         if not self.votes:
             options = [*(ascii_uppercase + digits), "GOODBYE"]
             self.votes = {option: 0 for option in options}
+
+        self.start_countdown()
 
 
     def join(self, player: Player) -> None:
@@ -35,6 +39,30 @@ class Game:
 
         matching_players = (player for player in self.players if player.socket == socket)
         return next(matching_players, None)
+
+
+    def start_countdown(self) -> None:
+        """Start counting down."""
+
+        asyncio.create_task(self.countdown())
+
+
+    async def countdown(self) -> None:
+        """Count down, notifying the host every second."""
+
+        count = self.counter
+
+        while count > 0:
+            await asyncio.sleep(1)
+            await self.notify_host(
+                ServerMessage(
+                    ServerMessageType.COUNTER, 
+                    count,
+                ),
+            )
+            count -= 1
+
+        self.start_countdown()
 
 
     async def restart(self) -> None:
