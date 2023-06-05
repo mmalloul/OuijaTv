@@ -1,3 +1,4 @@
+import asyncio
 from dataclasses import dataclass, field
 from fastapi import WebSocket
 from string import ascii_uppercase, digits
@@ -13,8 +14,9 @@ class Game:
     host: WebSocket
     players: list[Player] = field(default_factory=list)
     votes: dict[str, int] = field(default_factory=dict)
+    counter: int = 15
     prompt: str = ""
-    
+    word: str = ""
 
     def __post_init__(self) -> None:
         """Initialise vote dictionary."""
@@ -22,6 +24,8 @@ class Game:
         if not self.votes:
             options = [*(ascii_uppercase + digits), "GOODBYE"]
             self.votes = {option: 0 for option in options}
+
+        self.start_countdown()
 
 
     def join(self, player: Player) -> None:
@@ -37,12 +41,78 @@ class Game:
         return next(matching_players, None)
 
 
-    async def restart(self) -> None:
-        """Set all votes to 0, clear prompt, and notify players."""
+    def start_countdown(self) -> None:
+        """Start counting down."""
 
-        # reset votes
+        asyncio.create_task(self.countdown())
+
+    def reset_votes(self) -> None:
+        """Reset all votes to zero while keeping their keys."""
+
         for vote in self.votes:
             self.votes[vote] = 0
+
+        for player in self.players:
+            player.voted = False
+            
+
+    async def vote(self, vote: str, player: Player) -> None:
+        """Add a vote to the game."""
+
+        if vote in self.votes and not player.voted:
+
+            player.voted = True
+            self.votes[vote] += 1
+
+            await self.notify_host(
+                ServerMessage(
+                    ServerMessageType.VOTE, 
+                    self.votes,
+                ),
+            )
+
+    async def countdown(self) -> None:
+        """Count down, notifying the host every second."""
+
+        count = self.counter
+
+        while count > 0:
+            await asyncio.sleep(1)
+            await self.notify_host(
+                ServerMessage(
+                    ServerMessageType.COUNTER, 
+                    count,
+                ),
+            )
+            count -= 1
+
+        await self.pick_letter()
+        self.start_countdown()
+
+    async def pick_letter(self) -> None:
+        """Adds most popular letter to word, notify all clients, and reset votes."""
+
+        letter = max(self.votes, key=self.votes.get)
+
+        if letter == "GOODBYE":
+            await self.restart()
+            return
+
+        self.word += letter
+        
+        await self.broadcast(
+            ServerMessage(
+                ServerMessageType.WORD,
+                self.word,
+            ),
+        )
+
+        self.reset_votes()
+
+    async def restart(self) -> None:
+        """Set all votes to zero, clear prompt, and notify players."""
+
+        self.reset_votes()
 
         # prepare messages
         message_restart = ServerMessage(ServerMessageType.RESTART)

@@ -44,14 +44,7 @@ async def join_game(websocket: WebSocket, pin: str, username: str):
                     case ClientMessageType.VOTE:
                         if (vote := message.content) and vote in game.votes:
                             # might get overwhelming with many players
-                            game.votes[vote] += 1
-
-                            await game.notify_host(
-                                ServerMessage(
-                                    ServerMessageType.VOTE, 
-                                    game.votes,
-                                ),
-                            )
+                            await game.vote(vote, player)
                             
                     case _:
                         await game.notify_player(
