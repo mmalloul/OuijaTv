@@ -1,5 +1,6 @@
 from enum import Enum
 
+# TODO: change to HostMessageType and PlayerMessageType?
 
 class ClientMessageType(Enum):
     VOTE = "vote"
@@ -15,3 +16,4 @@ class ServerMessageType(Enum):
     ERROR = "error"
     VOTE = "vote"
     COUNTER = "counter"
+    LETTER = "letter"

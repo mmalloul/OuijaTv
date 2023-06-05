@@ -46,6 +46,11 @@ class Game:
 
         asyncio.create_task(self.countdown())
 
+    def reset_votes(self) -> None:
+        """Reset all votes to zero while keeping their keys."""
+
+        for vote in self.votes:
+            self.votes[vote] = 0
 
     async def countdown(self) -> None:
         """Count down, notifying the host every second."""
@@ -62,15 +67,26 @@ class Game:
             )
             count -= 1
 
+        await self.pick_letter()
+        self.reset_votes()
         self.start_countdown()
 
+    async def pick_letter(self) -> None:
+        """Notifies all clients of the most popular letter."""
+
+        letter = max(self.votes, key=self.votes.get)
+        
+        await self.broadcast(
+            ServerMessage(
+                ServerMessageType.LETTER,
+                letter,
+            ),
+        )
 
     async def restart(self) -> None:
-        """Set all votes to 0, clear prompt, and notify players."""
+        """Set all votes to zero, clear prompt, and notify players."""
 
-        # reset votes
-        for vote in self.votes:
-            self.votes[vote] = 0
+        self.reset_votes()
 
         # prepare messages
         message_restart = ServerMessage(ServerMessageType.RESTART)
