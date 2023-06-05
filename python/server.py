@@ -1,5 +1,5 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from library import routes
 from library.stores.games import items as games
@@ -39,6 +39,27 @@ def get_all_games():
         }
         for key, game in games.items()
     ]
+
+# Endpoint to retrieve game by specific pin.
+@app.get("/games/{pin}")
+def get_game_by_pin(pin: str):
+    if pin in games:
+        game = games[pin]
+        return {
+            "pin": pin,
+            "players": [
+                {
+                    "name": player.name,
+                    "voted": player.voted,
+                }
+                for player in game.players
+            ],
+            "name": game.name,
+            "voting_time": game.voting_time,
+            "game_mode": game.game_mode
+        }
+    else:
+        raise HTTPException(status_code=404, detail="Game not found")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
