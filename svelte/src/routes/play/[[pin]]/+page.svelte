@@ -10,6 +10,7 @@
 	import PlayerController from "#lib/components/controllers/PlayerController.svelte";
 	import { toastStore } from "#lib/stores/toast";
 	import { ToastType } from "#lib/types/ToastType";
+	import { lobbyStore } from "#lib/stores/lobbyStore";
 
 	let prompt: string;
 	let board: Board;
@@ -18,9 +19,16 @@
 	const playerType: Writable<PlayerType> = getContext("playerType");
 
 	let tick: number;
+	let lobbyName: string;
+	let votingTime: number;
 
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
+	$: lobbyStore.subscribe((value) => {
+		lobbyName = value.lobbyName;
+		votingTime = value.gameDuration;
+	});
+
 
 	onMount(() => {
 		console.log($playerType);
@@ -97,7 +105,7 @@
 
 	{#if socketController}
 		{#if $playerType === PlayerType.Host}
-			<HostController bind:socketController bind:pin />
+			<HostController bind:socketController bind:pin bind:lobbyName bind:votingTime />
 		{:else if $playerType === PlayerType.Player}
 			<PlayerController bind:socketController bind:pin bind:prompt />
 		{:else if $playerType === PlayerType.None}
