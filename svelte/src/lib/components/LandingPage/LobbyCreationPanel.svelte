@@ -29,7 +29,7 @@
 		if (lobbyNameIsValid) {
 			// Go to the game lobby.
 			playerType.set(PlayerType.Host);
-			goto("/testplay");
+			goto("/play");
 		} else if (lobbyName.length === 0) {
 			lobbyNameIsEmpty = true;
 		}
