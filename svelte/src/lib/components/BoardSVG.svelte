@@ -11,7 +11,7 @@
 		let closestTarget: SVGCircleElement | null = null;
 		let closestDistance = Number.MAX_VALUE;
 
-		//TODO: doesn't handle clicks properly 
+		//TODO: doesn't handle clicks properly
 		targets.forEach((target) => {
 			const rect = target.getBoundingClientRect();
 			const distance = Math.sqrt(

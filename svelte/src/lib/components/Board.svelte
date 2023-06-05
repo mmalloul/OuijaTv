@@ -6,7 +6,7 @@
 	let seekerPos: Vector2;
 	let ownVotePos: Vector2;
 
-	let canVote: boolean = true;
+	let canVote = true;
 
 	export let isHost: boolean;
 
@@ -40,8 +40,7 @@
 	}
 
 	function onClickLetter(letterId: string) {
-		if (canVote)
-		{
+		if (canVote) {
 			showMyVote(letterId);
 			canVote = false;
 			dispatch("letterClicked", {
@@ -72,7 +71,9 @@
 	}
 </script>
 
-<BoardSvg on:click={({ detail: { target } }) => onClickLetter(target.id.charAt(target.id.length - 1))}>
+<BoardSvg
+	on:click={({ detail: { target } }) => onClickLetter(target.id.charAt(target.id.length - 1))}
+>
 	{#if seekerPos && seekerPos.x && seekerPos.y}
 		<circle
 			id="Seeker"

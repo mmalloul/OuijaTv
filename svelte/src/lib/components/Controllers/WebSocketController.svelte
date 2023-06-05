@@ -52,12 +52,12 @@
 				case "word":
 					dispatch("wordUpdateReceived", {
 						word: messageContents
-					})
+					});
 					break;
 				case "counter":
 					dispatch("tickReceived", {
 						tick: messageContents
-					})
+					});
 					break;
 				default: {
 					break;
