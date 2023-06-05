@@ -17,8 +17,7 @@
 	let socketController: WebSocketController;
 	const playerType: Writable<PlayerType> = getContext("playerType");
 
-	//TODO: should happen in host-only code
-	let mostPopularLetter: string;
+	let tick: number;
 
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
@@ -53,36 +52,12 @@
 		$toastStore.showToast(ToastType.Success, message);
 	}
 
-	//TODO: should happen in host-only code
-	function onVoteReceived(event: any) {
-		const allVotes = event.detail.votes;
-		votes = Object.assign({}, allVotes);
-		updateMostPopularLetter();
-	}
-
-	//TODO: should happen in host-only code
-	function updateMostPopularLetter() {
-		const currentMostPopularLetter = getMostVotedLetter();
-		if (currentMostPopularLetter !== mostPopularLetter) {
-			mostPopularLetter = currentMostPopularLetter;
-			socketController.broadcastWinningVote(mostPopularLetter);
-		}
-	}
-
 	/**
 	 * Moves the seeker (for host and player) to the targeted letter.
 	 * @param letter the letter to move the seeker to.
 	 */
 	function targetWinningVote(letter: any) {
 		board.moveSeekerToLetter(letter.detail.winningVote);
-	}
-
-	/**
-	 * Function that retrieves the most voted letter from the dictionary with letters and votes.
-	 */
-	function getMostVotedLetter() {
-		const target = Object.keys(votes).reduce((a, b) => (votes[a] > votes[b] ? a : b));
-		return target;
 	}
 
 	function joinGame(event: any) {
@@ -97,27 +72,41 @@
 	function restart() {
 		board.resetSeeker();
 	}
+
+	function updatePrompt(event: any) {
+		prompt = event.detail.word;
+		board.allowVoting();
+	}
+
+	function updateTick(event: any) {
+		tick = event.detail.tick;
+	}
 </script>
 
 <div class="h-90vh flex flex-col items-center gap-5 pt-10">
 	<WebSocketController
 		bind:this={socketController}
 		on:joinedReceived={sendJoinedToast}
-		on:voteReceived={onVoteReceived}
 		on:pinReceived={joinGame}
 		on:promptReceived={promptUpdate}
 		on:restartReceived={restart}
 		on:winningVoteReceived={targetWinningVote}
+		on:wordUpdateReceived={updatePrompt}
+		on:tickReceived={updateTick}
 	/>
 
 	{#if socketController}
 		{#if $playerType === PlayerType.Host}
-			<HostController bind:socketController bind:pin bind:votes />
+			<HostController bind:socketController bind:pin />
 		{:else if $playerType === PlayerType.Player}
 			<PlayerController bind:socketController bind:pin bind:prompt />
 		{:else if $playerType === PlayerType.None}
 			{gotoJoinPage()}
 		{/if}
+	{/if}
+
+	{#if tick}
+		{tick}
 	{/if}
 
 	<Board bind:this={board} bind:isHost on:letterClicked={onVoteLetter} />

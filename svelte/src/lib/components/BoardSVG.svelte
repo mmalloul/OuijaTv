@@ -6,11 +6,12 @@
 	function handleClick(event: MouseEvent) {
 		// select closest target to mouseclick
 
-		const targets = window.document.querySelectorAll<HTMLElement>("g")!;
+		const targets = document.querySelectorAll<SVGCircleElement>("circle")!;
 
-		let closestTarget: HTMLElement | null = null;
+		let closestTarget: SVGCircleElement | null = null;
 		let closestDistance = Number.MAX_VALUE;
 
+		//TODO: doesn't handle clicks properly 
 		targets.forEach((target) => {
 			const rect = target.getBoundingClientRect();
 			const distance = Math.sqrt(

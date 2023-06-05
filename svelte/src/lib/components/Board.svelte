@@ -6,6 +6,8 @@
 	let seekerPos: Vector2;
 	let ownVotePos: Vector2;
 
+	let canVote: boolean = true;
+
 	export let isHost: boolean;
 
 	const dispatch = createEventDispatcher();
@@ -38,10 +40,18 @@
 	}
 
 	function onClickLetter(letterId: string) {
-		showMyVote(letterId);
-		dispatch("letterClicked", {
-			id: letterId
-		});
+		if (canVote)
+		{
+			showMyVote(letterId);
+			canVote = false;
+			dispatch("letterClicked", {
+				id: letterId
+			});
+		}
+	}
+
+	export function allowVoting() {
+		canVote = true;
 	}
 
 	function loadLetterPositions() {
@@ -62,7 +72,7 @@
 	}
 </script>
 
-<BoardSvg on:click={({ detail: { target } }) => onClickLetter(target.id)}>
+<BoardSvg on:click={({ detail: { target } }) => onClickLetter(target.id.charAt(target.id.length - 1))}>
 	{#if seekerPos && seekerPos.x && seekerPos.y}
 		<circle
 			id="Seeker"

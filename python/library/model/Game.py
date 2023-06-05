@@ -63,8 +63,18 @@ class Game:
         if vote in self.votes and not player.voted:
 
             player.voted = True
+            
+            old_winning_letter = max(self.votes, key= self.votes.get)
             self.votes[vote] += 1
+            new_winning_letter = max(self.votes, key= self.votes.get)
 
+            if (old_winning_letter != new_winning_letter):
+                await self.broadcast(
+                    ServerMessage(
+                        ServerMessageType.WINNING_VOTE, 
+                        new_winning_letter
+                    )
+                )
             await self.notify_host(
                 ServerMessage(
                     ServerMessageType.VOTE, 
@@ -79,7 +89,7 @@ class Game:
 
         while count > 0:
             await asyncio.sleep(1)
-            await self.notify_host(
+            await self.broadcast(
                 ServerMessage(
                     ServerMessageType.COUNTER, 
                     count,
