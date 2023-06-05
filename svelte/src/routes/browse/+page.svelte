@@ -32,8 +32,8 @@
 	<tbody>
 		{#each games as game}
             <tr>
-                <td>Lorem Ipsum</td>
-                <td>game.pin</td>
+                <td>{game.name}</td>
+                <td>{game.pin}</td>
                 <button>hallo</button>
             </tr>
 		{/each}
