@@ -3,7 +3,7 @@
 	import { env } from "$env/dynamic/public";
 	import { page } from "$app/stores";
 	import Icon from "@iconify/svelte";
-	import type WebSocketController from "./WebSocketController.svelte";
+	import type WebSocketController from "#lib/components/controllers/WebSocketController.svelte";
 	import { toastStore } from "$lib/stores/toast";
 	import { ToastType } from "#lib/types/ToastType";
 
