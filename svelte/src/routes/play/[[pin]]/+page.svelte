@@ -14,8 +14,8 @@
 	import { env } from "$env/dynamic/public";
 
 	let prompt: string;
+	let word: string;
 	let board: Board;
-	let votes: { [key: string]: number } = {};
 	let socketController: WebSocketController;
 	const playerType: Writable<PlayerType> = getContext("playerType");
 
@@ -23,8 +23,6 @@
 	let lobbyName: string;
 	let votingTime: number;
 	let gameMode: string;
-
-	let gameData: any;
 
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
@@ -34,24 +32,12 @@
 		votingTime = value.gameDuration;
 	});
 
-	onMount(() => {
-		fetchGames();
-	});
-
-	async function fetchGames() {
-		fetch(`${env.PUBLIC_URL}/games`)
-			.then((response) => response.json())
-			.then((responseData) => {
-				console.log(responseData);
-			})
-			.catch((error) => {
-				console.error("Error:", error);
-			});
-	}
-
 	// Update the prompt from websocket so that the PlayerController component gets updated.
 	function promptUpdate(event: any) {
 		prompt = event.detail.prompt;
+		if ($playerType === PlayerType.Player) {
+			board.allowVoting();
+		}
 	}
 
 	/**
@@ -83,25 +69,6 @@
 		board.moveSeekerToLetter(letter.detail.winningVote);
 	}
 
-	async function fetchData(event: any) {
-		pin = event.detail.pin;
-		joinGame(event);
-		console.log("YO BEN ER");
-
-		const response = await fetch(`/games/${pin}`);
-		console.log("YO RESPONSE");
-		console.log(response);
-
-		if (!response.ok) {
-			// Handle error - a game with this pin was not found
-			console.error("An error occurred:", response.status, response.statusText);
-			return;
-		}
-
-		let gameData = await response.json();
-		console.log(gameData);
-	}
-
 	function joinGame(event: any) {
 		pin = event.detail.pin;
 		goto(`/play/${pin}`);
@@ -115,8 +82,9 @@
 		board.resetSeeker();
 	}
 
-	function updatePrompt(event: any) {
-		prompt = event.detail.word;
+	function updateWord(event: any) {
+		word = event.detail.word;
+		prompt = ""; // Reset prompt after a voting round.
 		if ($playerType === PlayerType.Player) {
 			board.allowVoting();
 		}
@@ -131,17 +99,24 @@
 	<WebSocketController
 		bind:this={socketController}
 		on:joinedReceived={sendJoinedToast}
-		on:pinReceived={fetchData}
+		on:pinReceived={joinGame}
 		on:promptReceived={promptUpdate}
 		on:restartReceived={restart}
 		on:winningVoteReceived={targetWinningVote}
-		on:wordUpdateReceived={updatePrompt}
+		on:wordUpdateReceived={updateWord}
 		on:tickReceived={updateTick}
 	/>
 
 	{#if socketController}
 		{#if $playerType === PlayerType.Host}
-			<HostController bind:socketController bind:pin bind:lobbyName bind:votingTime bind:gameMode />
+			<HostController
+				bind:socketController
+				bind:pin
+				bind:lobbyName
+				bind:votingTime
+				bind:gameMode
+				bind:prompt
+			/>
 		{:else if $playerType === PlayerType.Player}
 			<PlayerController bind:socketController bind:pin bind:prompt />
 		{:else if $playerType === PlayerType.None}
@@ -149,11 +124,19 @@
 		{/if}
 	{/if}
 
-	{#if tick}
-		<div class="flex gap-2 justify-end voting-timer rounded-lg">
-			<span class="timer">Voting ends in: {tick}</span>
-		</div>
+	{#if word}
+		<span class="word">
+			{word}
+		</span>
 	{/if}
+
+	<div class="flex gap-2 justify-end voting-timer rounded-lg">
+		{#if tick}
+			<span class="timer">Voting ends in: {tick}</span>
+		{:else}
+			<span class="timer">Voting will start soon...</span>
+		{/if}
+	</div>
 
 	<Board bind:this={board} bind:isHost on:letterClicked={onVoteLetter} />
 </div>
@@ -173,5 +156,11 @@
 		padding: 0 10px;
 		position: absolute;
 		right: 1.5rem;
+	}
+
+	.word {
+		@apply text-fontcolor text-4xl;
+		text-decoration: none;
+		font-family: theme(fontFamily.amatic);
 	}
 </style>
