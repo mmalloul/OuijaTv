@@ -12,8 +12,17 @@
 	let lobbyName = "";
 	let lobbyNameIsValid: boolean | null = null;
 	let lobbyNameIsEmpty: boolean | null = null;
-	let gameMode = "";
-	let gameModes = ["Twitch", "OpenAI", "Multiplayer"];
+	let gameModeIsValid: boolean | null = null;
+	let gameMode: string = "";
+	let gameModes: string[] = ["Twitch", "OpenAI", "Multiplayer"];
+
+	$: {
+		if (gameMode !== null) {
+			gameModeIsValid = true;
+		} else {
+			gameModeIsValid = false;
+		}
+	}
 
 	/**
 	 * This function resets the form inputs when the lobby-creation-panel is closed by the user.
@@ -22,6 +31,8 @@
 		numUsers = 1;
 		gameDuration = 10;
 		lobbyName = "";
+		gameMode = "";
+		gameModeIsValid = null;
 	};
 
 	/**
@@ -29,7 +40,7 @@
 	 * The submit won't work if the criteria of the lobbyname is not passed.
 	 */
 	function handleSubmit() {
-		if (lobbyNameIsValid) {
+		if (lobbyNameIsValid && gameMode) {
 			playerType.set(PlayerType.Host);
 
 			// Since our url has to stay simple (/play/[pin]) a lobbyStore has been added.
@@ -44,6 +55,9 @@
 			goto("/play");
 		} else if (lobbyName.length === 0) {
 			lobbyNameIsEmpty = true;
+		}
+		if (!gameMode) {
+			gameModeIsValid = false;
 		}
 	}
 
@@ -92,6 +106,9 @@
 					placeholder="Enter lobby name"
 				/>
 
+				{#if gameModeIsValid === false}
+					<p class="error-message">Please select a gamemode</p>
+				{/if}
 				<label for="gameMode">Game Mode:</label>
 				<select id="gameMode" bind:value={gameMode}>
 					<option disabled selected value="">Select a game mode</option>
