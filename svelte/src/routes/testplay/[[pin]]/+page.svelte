@@ -13,11 +13,13 @@
 
 	let prompt: string;
 	let board: Board;
-	let votes: object = {};
+	let votes: { [key: string]: number }= {};
 	let socketController: WebSocketController;
+	let mostPopularLetter: string;
 	const playerType: Writable<PlayerType> = getContext("playerType");
 
 	$: pin = $page.params.pin;
+	$: isHost = $playerType === PlayerType.Host;
 
 	onMount(() => {
 		console.log($playerType);
@@ -32,7 +34,6 @@
 		if ($playerType === PlayerType.Player) {
 			const letterId = event.detail.id;
 			socketController.sendVote({ type: "vote", content: letterId });
-			board.targetLetter(letterId);
 		}
 	}
 
@@ -44,9 +45,27 @@
 
 	function onVoteReceived(event: any) {
 		const allVotes = event.detail.votes;
-
 		votes = Object.assign({}, allVotes);
-		board.targetLetter(board.getTargetLetter(votes));
+		updateMostPopularLetter()
+	}
+
+	function updateMostPopularLetter()
+	{
+		const currentMostPopularLetter = getMostPopularLetter()
+		if (currentMostPopularLetter !== mostPopularLetter)
+		{
+			mostPopularLetter = currentMostPopularLetter;
+			socketController.broadcastMostPopularLetterChange(mostPopularLetter)
+		}
+	}
+
+	function targetMostPopularLetter(letter: any) {
+		board.moveSeekerToLetter(letter.detail.mostPopularLetter);  
+	}
+
+	function getMostPopularLetter() {
+		const target = Object.keys(votes).reduce((a, b) => (votes[a] > votes[b] ? a : b));
+		return target;
 	}
 
 	function joinGame(event: any) {
@@ -71,6 +90,7 @@
 		on:pinReceived={joinGame}
 		on:promptReceived={promptUpdate}
 		on:restartReceived={restart}
+		on:newMostPopularLetterReceived={targetMostPopularLetter}
 	/>
 
 	{#if socketController}
@@ -83,8 +103,7 @@
 		{/if}
 	{/if}
 
-
-	<Board bind:this={board} on:letterClicked={onVoteLetter} />
+	<Board bind:this={board} bind:isHost on:letterClicked={onVoteLetter} />
 </div>
 
 <style lang="postcss">
