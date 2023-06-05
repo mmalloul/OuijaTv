@@ -9,7 +9,12 @@
 
 	onMount(() => {
 		loadLetterPositions();
+		resetSeeker();
 	});
+
+	export function resetSeeker() {
+		targetLetter("@");
+	}
 
 	export function targetLetter(letter: string) {
 		let target = letterPositions[letter.toUpperCase()];
