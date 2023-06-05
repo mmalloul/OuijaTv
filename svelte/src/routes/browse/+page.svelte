@@ -9,7 +9,7 @@
 	});
 
 	async function fetchGames() {
-		fetch(`${env.PUBLIC_API_URL}/games`)
+		fetch(`${env.PUBLIC_URL}/games`)
 			.then((response) => response.json())
 			.then((responseData) => {
 				games = responseData;
