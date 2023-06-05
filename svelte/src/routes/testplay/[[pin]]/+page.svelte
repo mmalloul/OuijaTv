@@ -59,7 +59,7 @@
 	}
 
 	function restart() {
-		//TODO
+		board.resetSeeker();
 	}
 </script>
 
@@ -75,7 +75,7 @@
 
 	{#if socketController}
 		{#if $playerType === PlayerType.Host}
-			<HostController bind:socketController bind:pin />
+			<HostController bind:socketController bind:pin bind:votes />
 		{:else if $playerType === PlayerType.Player}
 			<PlayerController bind:socketController bind:pin bind:prompt />
 		{:else if $playerType === PlayerType.None}
@@ -83,12 +83,6 @@
 		{/if}
 	{/if}
 
-	<!-- The temporary panel with amount of votes for each letter. -->
-	<div class="absolute left-0 top-30 text-white grid grid-cols-4 opacity-50">
-		{#each Object.entries(votes) as [letter, count]}
-			<span>{letter}: {count}</span>
-		{/each}
-	</div>
 
 	<Board bind:this={board} on:letterClicked={onVoteLetter} />
 </div>

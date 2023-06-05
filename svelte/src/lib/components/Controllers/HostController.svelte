@@ -9,6 +9,7 @@
 
 	export let socketController: WebSocketController;
 	export let pin: string;
+	export let votes: object = {};
 	let prompt: string;
 
 	$: socketController && socketController.sendPrompt({ type: "prompt", content: prompt });
@@ -36,11 +37,19 @@
 		navigator.clipboard.writeText(shareableURL);
 		$toastStore.showToast(ToastType.Success, "Lobby url has been copied!");
 	}
+	
 </script>
 
 <form class="flex">
 	<input bind:value={prompt} type="text" placeholder={"STATE YOUR INTENTION"} />
 </form>
+
+<!-- The temporary panel with amount of votes for each letter. -->
+<div class="absolute left-0 top-30 text-white grid grid-cols-4 opacity-50">
+	{#each Object.entries(votes) as [letter, count]}
+		<span>{letter}: {count}</span>
+	{/each}
+</div>
 
 <div class="flex gap-2 host-options">
 	<div class="flex justify-end link-share rounded-lg">
