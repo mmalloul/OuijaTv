@@ -14,9 +14,9 @@ class Game:
     host: WebSocket
     players: list[Player] = field(default_factory=list)
     votes: dict[str, int] = field(default_factory=dict)
-    prompt: str = ""
     counter: int = 15
-
+    prompt: str = ""
+    word: str = ""
 
     def __post_init__(self) -> None:
         """Initialise vote dictionary."""
@@ -68,20 +68,22 @@ class Game:
             count -= 1
 
         await self.pick_letter()
-        self.reset_votes()
         self.start_countdown()
 
     async def pick_letter(self) -> None:
-        """Notifies all clients of the most popular letter."""
+        """Adds most popular letter to word, notify all clients, and reset votes."""
 
         letter = max(self.votes, key=self.votes.get)
+        self.word += letter
         
         await self.broadcast(
             ServerMessage(
-                ServerMessageType.LETTER,
-                letter,
+                ServerMessageType.WORD,
+                self.word,
             ),
         )
+
+        self.reset_votes()
 
     async def restart(self) -> None:
         """Set all votes to zero, clear prompt, and notify players."""

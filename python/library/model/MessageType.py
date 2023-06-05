@@ -16,4 +16,4 @@ class ServerMessageType(Enum):
     ERROR = "error"
     VOTE = "vote"
     COUNTER = "counter"
-    LETTER = "letter"
+    WORD = "word"
