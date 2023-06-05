@@ -1,7 +1,9 @@
 from fastapi import WebSocket
-from typing import NamedTuple
+from dataclasses import dataclass
 
 
-class Player(NamedTuple):
+@dataclass
+class Player:
     socket: WebSocket
     name: str
+    voted = False
