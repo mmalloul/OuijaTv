@@ -20,8 +20,9 @@ app.include_router(routes.host)
 app.include_router(routes.join)
 app.include_router(routes.openai)
 
+# Endpoint for getting all game data
 @app.get("/games")
-def get_games():
+def get_all_games():
     return [
         {
             "pin": key,
@@ -31,8 +32,8 @@ def get_games():
                     "voted": player.voted,
                 }
                 for player in game.players
-            ]
-            #game.name 
+            ],
+            "name": game.name
         }
         for key, game in games.items()
     ]
