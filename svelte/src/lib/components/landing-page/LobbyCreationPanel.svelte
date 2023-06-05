@@ -89,10 +89,12 @@
 					aria-labelledby="lobby-name"
 					bind:value={lobbyName}
 					class:invalid={lobbyNameIsValid === false}
+					placeholder="Enter lobby name"
 				/>
 
 				<label for="gameMode">Game Mode:</label>
 				<select id="gameMode" bind:value={gameMode}>
+					<option disabled selected value="">Select a game mode</option>
 					{#each gameModes as mode (mode)}
 						<option>{mode}</option>
 					{/each}
@@ -114,14 +116,18 @@
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		width: 75%;
+		width: 50%;
 		transform: translate(-50%, -50%);
 	}
 
 	select {
-        background-color: black;
-        color: white;
-    }
+		font-size: 1.5em;
+		background-color: gray;
+		color: white;
+		display: block;
+		width: 50%;
+		margin: 0 auto;
+	}
 
 	.top-row {
 		display: flex;
@@ -207,6 +213,20 @@
 	input {
 		@apply text-accent text-4xl bg-dark border-1 border-light-300 p-3 text-white;
 		margin: 0 auto;
+	}
+
+	input,
+	.button {
+		width: 50%;
+		box-sizing: border-box;
+	}
+
+	@media (max-width: 576px) {
+		input,
+		.button {
+			font-size: 0.75rem;
+			padding: 0.5rem;
+		}
 	}
 
 	.actions {
