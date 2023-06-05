@@ -11,6 +11,7 @@
 	export let pin: string;
 	export let lobbyName: string;
 	export let votingTime: number;
+	export let gameMode: string;
 
 	let prompt: string;
 
@@ -24,7 +25,7 @@
 
 	function initSocketForHost() {
 		const url = `${env.PUBLIC_WS_URL}/host`;
-		const url2 = `${env.PUBLIC_WS_URL}/host?name=${lobbyName}&voting_time=${votingTime}`;
+		const url2 = `${env.PUBLIC_WS_URL}/host?name=${lobbyName}&voting_time=${votingTime}&game_mode=${gameMode}`;
 		console.log(url2);
 		socketController.initSocket(url);
 	}
@@ -69,6 +70,7 @@
 		color: rgba(255, 255, 255, 0.9);
 		background-color: transparent;
 	}
+
 
 	p,
 	h1 {
