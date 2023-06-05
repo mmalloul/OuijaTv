@@ -21,11 +21,13 @@
 	let tick: number;
 	let lobbyName: string;
 	let votingTime: number;
+	let gameMode: string;
 
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
 	$: lobbyStore.subscribe((value) => {
 		lobbyName = value.lobbyName;
+		gameMode = value.gameMode;
 		votingTime = value.gameDuration;
 	});
 
@@ -105,7 +107,7 @@
 
 	{#if socketController}
 		{#if $playerType === PlayerType.Host}
-			<HostController bind:socketController bind:pin bind:lobbyName bind:votingTime />
+			<HostController bind:socketController bind:pin bind:lobbyName bind:votingTime bind:gameMode />
 		{:else if $playerType === PlayerType.Player}
 			<PlayerController bind:socketController bind:pin bind:prompt />
 		{:else if $playerType === PlayerType.None}
