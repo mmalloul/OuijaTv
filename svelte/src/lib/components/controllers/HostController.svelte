@@ -20,7 +20,7 @@
 	});
 
 	function initSocketForHost() {
-		const url = `${env.PUBLIC_WS_URL}/host`;
+		const url = `${env.PUBLIC_WS_URL}/host?name=test`;
 		socketController.initSocket(url);
 	}
 
