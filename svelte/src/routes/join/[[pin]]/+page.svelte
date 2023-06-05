@@ -38,7 +38,7 @@
 	function joinRoom(code: string) {
 		localStorage.setItem("username", username);
 		playerType.set(PlayerType.Player);
-		goto(`/play/${code}`);
+		goto(`/testplay/${code}`);
 	}
 </script>
 

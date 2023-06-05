@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PlayerType} from "#lib/types/PlayerType";
+	import { PlayerType } from "#lib/types/PlayerType";
 	import { goto } from "$app/navigation";
 	import { createEventDispatcher, getContext } from "svelte";
 	import type { Writable } from "svelte/store";
@@ -29,7 +29,7 @@
 		if (lobbyNameIsValid) {
 			// Go to the game lobby.
 			playerType.set(PlayerType.Host);
-			goto("/play");
+			goto("/testplay");
 		} else if (lobbyName.length === 0) {
 			lobbyNameIsEmpty = true;
 		}
