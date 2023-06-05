@@ -39,6 +39,11 @@
 				case "restart":
 					dispatch("restartReceived");
 					break;
+				case "mostPopular":
+					dispatch("newMostPopularLetterReceived", {
+						mostPopularLetter: messageContents
+					});
+					break;
 				default: {
 					break;
 				}
@@ -61,6 +66,12 @@
 	export function sendRestart() {
 		if (socket) {
 			socket.send(JSON.stringify({ type: "restart" }));
+		}
+	}
+
+	export function broadcastMostPopularLetterChange(mostPopularLetter: string) {
+		if (socket) {
+			socket.send(JSON.stringify({ type: "mostPopular", content: mostPopularLetter }));
 		}
 	}
 </script>
