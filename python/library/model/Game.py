@@ -13,13 +13,12 @@ class Game:
     
     host: WebSocket
     players: list[Player] = field(default_factory=list)
-    votes: dict[str, int] = field(default_factory=dict)
-    counter: int = 15
+    votes: dict[str, int] = field(default_factory=dict)   
     prompt: str = ""
     GOODBYE: str = "!" # In the svg the goodbye button id = "!".
     word: str = ""
     name: str = ""
-    voting_time: int = 15
+    voting_time: int = 0
     game_mode: str = ""
 
     def __post_init__(self) -> None:
@@ -88,7 +87,7 @@ class Game:
     async def countdown(self) -> None:
         """Count down, notifying the host every second."""
 
-        count = self.counter
+        count = self.voting_time
 
         while count > 0:
             await asyncio.sleep(1)
