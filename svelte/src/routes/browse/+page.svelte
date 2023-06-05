@@ -21,22 +21,47 @@
 	}
 </script>
 
-<table>
-	<thead>
-		<tr>
-			<th>Game Name</th>
-			<th>PIN</th>
-			<th>Join Button</th>
-		</tr>
-	</thead>
-	<tbody>
-		{#each games as game}
-            <tr>
-                <td>{game.name}</td>
-                <td>{game.pin}</td>
-                <button>hallo</button>
-            </tr>
-		{/each}
+<div class="flex justify-center mt-8 font">
+	<table class="table-auto">
+		<thead>
+			<tr>
+				<th>Game Name</th>
+				<th>PIN</th>
+			</tr>
+		</thead>
+		{#if games.length > 0}
+			<tbody>
+				<tr>
+					{#each games as game}
+						<td >{game.name}</td>
+						<td >{game.pin}</td>
+						<td><button class="bg-accent" >Join</button></td>
+					{/each}
+				</tr>
+			</tbody>
+		{:else}
+			<p>
+				Currently no active vessels... Go conjure one!
+			</p>
+		{/if}
 
-	</tbody>
-</table>
+	</table>
+</div>
+
+<style lang="postcss">
+	.font {
+		@apply text-fontcolor text-4xl;
+		font-family: theme(fontFamily.amatic);
+	}
+	.font th {
+		@apply text-4xl;
+	}
+
+	.font td, .font p {
+		@apply text-xl;
+	}
+
+	td {
+		@apply px-4
+	}
+</style>
