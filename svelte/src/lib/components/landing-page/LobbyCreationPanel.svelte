@@ -12,6 +12,8 @@
 	let lobbyName = "";
 	let lobbyNameIsValid: boolean | null = null;
 	let lobbyNameIsEmpty: boolean | null = null;
+	let gameMode = "";
+	let gameModes = ["Twitch", "OpenAI", "Multiplayer"];
 
 	/**
 	 * This function resets the form inputs when the lobby-creation-panel is closed by the user.
@@ -34,6 +36,7 @@
 			// Without lobbyStore the url would /play?lobbyName=${lobbyName}&gameDuration=${gameDuration}`
 			lobbyStore.set({
 				lobbyName,
+				gameMode,
 				gameDuration
 			});
 
@@ -88,8 +91,12 @@
 					class:invalid={lobbyNameIsValid === false}
 				/>
 
-				<label for="users">Minimum number of spirits: {numUsers}</label>
-				<input type="range" id="users" min="1" max="100" bind:value={numUsers} />
+				<label for="gameMode">Game Mode:</label>
+				<select id="gameMode" bind:value={gameMode}>
+					{#each gameModes as mode (mode)}
+						<option>{mode}</option>
+					{/each}
+				</select>
 
 				<label for="duration">Voting Time: {gameDuration} seconds</label>
 				<input type="range" id="duration" min="30" max="120" bind:value={gameDuration} />
@@ -110,6 +117,11 @@
 		width: 75%;
 		transform: translate(-50%, -50%);
 	}
+
+	select {
+        background-color: black;
+        color: white;
+    }
 
 	.top-row {
 		display: flex;
