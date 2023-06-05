@@ -100,7 +100,6 @@
 
 		let gameData = await response.json();
 		console.log(gameData);
-
 	}
 
 	function joinGame(event: any) {
@@ -151,11 +150,28 @@
 	{/if}
 
 	{#if tick}
-		{tick}
+		<div class="flex gap-2 justify-end voting-timer rounded-lg">
+			<span class="timer">Voting ends in: {tick}</span>
+		</div>
 	{/if}
 
 	<Board bind:this={board} bind:isHost on:letterClicked={onVoteLetter} />
 </div>
 
 <style lang="postcss">
+	.timer {
+		@apply text-fontcolor text-4xl;
+		text-decoration: none;
+		font-family: theme(fontFamily.amatic);
+	}
+
+	.voting-timer {
+		@apply opacity-50;
+		border: 1px solid white;
+		margin: 0 1rem 1rem 0;
+		text-align: center;
+		padding: 0 10px;
+		position: absolute;
+		right: 1.5rem;
+	}
 </style>
