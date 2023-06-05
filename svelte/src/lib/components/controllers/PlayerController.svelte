@@ -68,8 +68,4 @@
 		font-family: theme(fontFamily.amatic);
 		font-size: 1.55rem;
 	}
-
-	.link-share-button:hover {
-		@apply cursor-pointer bg-accent opacity-85;
-	}
 </style>
