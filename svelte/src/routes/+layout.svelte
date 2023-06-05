@@ -5,11 +5,13 @@
 	import { writable } from "svelte/store";
 	import { setContext } from "svelte";
 	import { PlayerType } from "#lib/types/PlayerType";
+	import { Toaster } from "svelte-french-toast";
 
 	setContext("playerType", writable(PlayerType.None));
 </script>
 
 <Menu />
+<Toaster />
 
 <div class="grow">
 	<slot />
