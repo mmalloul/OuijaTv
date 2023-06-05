@@ -33,18 +33,15 @@
 			<tbody>
 				<tr>
 					{#each games as game}
-						<td >{game.name}</td>
-						<td >{game.pin}</td>
-						<td><button class="bg-accent" >Join</button></td>
+						<td>{game.name}</td>
+						<td>{game.pin}</td>
+						<td><button class="bg-accent">Join</button></td>
 					{/each}
 				</tr>
 			</tbody>
 		{:else}
-			<p>
-				Currently no active vessels... Go conjure one!
-			</p>
+			<p>Currently no active vessels... Go conjure one!</p>
 		{/if}
-
 	</table>
 </div>
 
@@ -57,11 +54,12 @@
 		@apply text-4xl;
 	}
 
-	.font td, .font p {
+	.font td,
+	.font p {
 		@apply text-xl;
 	}
 
 	td {
-		@apply px-4
+		@apply px-4;
 	}
 </style>
