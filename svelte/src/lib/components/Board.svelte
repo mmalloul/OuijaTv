@@ -4,6 +4,9 @@
 
 	const letterPositions: Record<string, Vector2> = {};
 	let seekerPos: Vector2;
+	let ownVotePos: Vector2;
+
+	export let isHost: boolean;
 
 	const dispatch = createEventDispatcher();
 
@@ -13,18 +16,29 @@
 	});
 
 	export function resetSeeker() {
-		targetLetter("@");
+		moveSeekerToLetter("@");
 	}
 
-	export function targetLetter(letter: string) {
-		let target = letterPositions[letter.toUpperCase()];
+	function getLetterPosition(letter: string) {
+		return letterPositions[letter.toUpperCase()];
+	}
 
+	export function moveSeekerToLetter(letter: string) {
+		let target = getLetterPosition(letter);
 		if (target) {
 			seekerPos = new Vector2(target.x, target.y);
 		}
 	}
 
+	function showMyVote(letter: string) {
+		let target = getLetterPosition(letter);
+		if (target) {
+			ownVotePos = new Vector2(target.x, target.y);
+		}
+	}
+
 	function onClickLetter(letterId: string) {
+		showMyVote(letterId);
 		dispatch("letterClicked", {
 			id: letterId
 		});
@@ -43,12 +57,6 @@
 		});
 	}
 
-	//TODO type
-	export function getTargetLetter(votes: any) {
-		const target = Object.keys(votes).reduce((a, b) => (votes[a] > votes[b] ? a : b));
-		return target;
-	}
-
 	class Vector2 {
 		constructor(public x: number, public y: number) {}
 	}
@@ -63,6 +71,18 @@
 			r="76.5"
 			stroke="#FFF7E2"
 			stroke-width="13"
+		/>
+	{/if}
+
+	{#if !isHost && ownVotePos && ownVotePos.x && ownVotePos.y}
+		<circle
+			id="MyVote"
+			cx={ownVotePos.x}
+			cy={ownVotePos.y}
+			r="76.5"
+			stroke="#FFF7E2"
+			stroke-width="13"
+			stroke-opacity=".25"
 		/>
 	{/if}
 </BoardSvg>
