@@ -52,6 +52,25 @@ class Game:
         for vote in self.votes:
             self.votes[vote] = 0
 
+        for player in self.players:
+            player.voted = False
+            
+
+    async def vote(self, vote: str, player: Player) -> None:
+        """Add a vote to the game."""
+
+        if vote in self.votes and not player.voted:
+
+            player.voted = True
+            self.votes[vote] += 1
+
+            await self.notify_host(
+                ServerMessage(
+                    ServerMessageType.VOTE, 
+                    self.votes,
+                ),
+            )
+
     async def countdown(self) -> None:
         """Count down, notifying the host every second."""
 
