@@ -74,6 +74,11 @@ class Game:
         """Adds most popular letter to word, notify all clients, and reset votes."""
 
         letter = max(self.votes, key=self.votes.get)
+
+        if letter == "GOODBYE":
+            await self.restart()
+            return
+
         self.word += letter
         
         await self.broadcast(
