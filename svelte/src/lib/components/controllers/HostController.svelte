@@ -24,8 +24,8 @@
 	});
 
 	function sendPrompt() {
-        socketController.sendPrompt({ type: "prompt", content: prompt });
-    }
+		socketController.sendPrompt({ type: "prompt", content: prompt });
+	}
 
 	function initSocketForHost() {
 		const url = `${env.PUBLIC_WS_URL}/host?name=${lobbyName}&voting_time=${votingTime}&game_mode=${gameMode}`;
