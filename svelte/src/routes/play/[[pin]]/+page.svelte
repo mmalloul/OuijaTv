@@ -76,7 +76,7 @@
 	function updatePrompt(event: any) {
 		prompt = event.detail.word;
 		board.allowVoting();
-	};
+	}
 
 	function updateTick(event: any) {
 		tick = event.detail.tick;
