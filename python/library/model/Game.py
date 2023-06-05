@@ -14,13 +14,13 @@ class Game:
     players: list[Player] = field(default_factory=list)
     votes: dict[str, int] = field(default_factory=dict)
     prompt: str = ""
-    
+    GOODBYE: str = "!" # In the svg the goodbye button id = "!".
 
     def __post_init__(self) -> None:
         """Initialise vote dictionary."""
 
         if not self.votes:
-            options = [*(ascii_uppercase + digits), "GOODBYE"]
+            options = [*(ascii_uppercase + digits), self.GOODBYE]
             self.votes = {option: 0 for option in options}
 
 
