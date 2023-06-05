@@ -38,6 +38,7 @@
 					break;
 				case "restart":
 					dispatch("restartReceived");
+					break;
 				default: {
 					break;
 				}
