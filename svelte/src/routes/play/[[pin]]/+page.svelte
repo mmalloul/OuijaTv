@@ -11,6 +11,7 @@
 	import { toastStore } from "#lib/stores/toast";
 	import { ToastType } from "#lib/types/ToastType";
 	import { lobbyStore } from "#lib/stores/lobbyStore";
+	import { env } from "$env/dynamic/public";
 
 	let prompt: string;
 	let board: Board;
@@ -23,6 +24,8 @@
 	let votingTime: number;
 	let gameMode: string;
 
+	let gameData: any;
+
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
 	$: lobbyStore.subscribe((value) => {
@@ -32,8 +35,19 @@
 	});
 
 	onMount(() => {
-		console.log($playerType);
+		fetchGames();
 	});
+
+	async function fetchGames() {
+		fetch(`${env.PUBLIC_URL}/games`)
+			.then((response) => response.json())
+			.then((responseData) => {
+				console.log(responseData);
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+			});
+	}
 
 	// Update the prompt from websocket so that the PlayerController component gets updated.
 	function promptUpdate(event: any) {
@@ -69,6 +83,26 @@
 		board.moveSeekerToLetter(letter.detail.winningVote);
 	}
 
+	async function fetchData(event: any) {
+		pin = event.detail.pin;
+		joinGame(event);
+		console.log("YO BEN ER");
+
+		const response = await fetch(`/games/${pin}`);
+		console.log("YO RESPONSE");
+		console.log(response);
+
+		if (!response.ok) {
+			// Handle error - a game with this pin was not found
+			console.error("An error occurred:", response.status, response.statusText);
+			return;
+		}
+
+		let gameData = await response.json();
+		console.log(gameData);
+
+	}
+
 	function joinGame(event: any) {
 		pin = event.detail.pin;
 		goto(`/play/${pin}`);
@@ -98,7 +132,7 @@
 	<WebSocketController
 		bind:this={socketController}
 		on:joinedReceived={sendJoinedToast}
-		on:pinReceived={joinGame}
+		on:pinReceived={fetchData}
 		on:promptReceived={promptUpdate}
 		on:restartReceived={restart}
 		on:winningVoteReceived={targetWinningVote}
