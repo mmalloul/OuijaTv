@@ -1,36 +1,35 @@
 <script lang="ts">
-    import { createEventDispatcher } from "svelte";
+	import { createEventDispatcher } from "svelte";
 
-    const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher();
 
-    function handleClick(event: MouseEvent) {
-        // select closest target to mouseclick
+	function handleClick(event: MouseEvent) {
+		// select closest target to mouseclick
 
-        const validIds = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@".split("")
-        const targets = document.querySelectorAll<SVGCircleElement>("g")!;
+		const validIds = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@".split("");
+		const targets = document.querySelectorAll<SVGCircleElement>("g")!;
 
-        let closestTarget: SVGCircleElement | null = null;
-        let closestDistance = Number.MAX_VALUE;
+		let closestTarget: SVGCircleElement | null = null;
+		let closestDistance = Number.MAX_VALUE;
 
-        //TODO: doesn't handle clicks properly
-        targets.forEach((target) => {
+		//TODO: doesn't handle clicks properly
+		targets.forEach((target) => {
+			if (!validIds.includes(target.id)) {
+				return;
+			}
 
-            if (!validIds.includes(target.id)) {
-                return;
-            }
+			const rect = target.getBoundingClientRect();
+			const distance = Math.sqrt(
+				Math.pow(rect.x - event.clientX, 2) + Math.pow(rect.y - event.clientY, 2)
+			);
+			if (distance < closestDistance) {
+				closestTarget = target;
+				closestDistance = distance;
+			}
+		});
 
-            const rect = target.getBoundingClientRect();
-            const distance = Math.sqrt(
-                Math.pow(rect.x - event.clientX, 2) + Math.pow(rect.y - event.clientY, 2)
-            );
-            if (distance < closestDistance) {
-                closestTarget = target;
-                closestDistance = distance;
-            }
-        });
-
-        dispatch("click", { target: closestTarget });
-    }
+		dispatch("click", { target: closestTarget });
+	}
 </script>
 
 <svelte:window on:click={handleClick} />

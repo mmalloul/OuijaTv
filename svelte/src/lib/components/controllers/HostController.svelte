@@ -69,7 +69,6 @@
 		background-color: transparent;
 	}
 
-
 	p,
 	h1 {
 		color: white;

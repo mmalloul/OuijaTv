@@ -13,7 +13,7 @@
 	let lobbyNameIsValid: boolean | null = null;
 	let lobbyNameIsEmpty: boolean | null = null;
 	let gameModeIsValid: boolean | null = null;
-	let gameMode: string = "";
+	let gameMode = "";
 	let gameModes: string[] = ["Twitch", "OpenAI", "Multiplayer"];
 
 	$: {

@@ -31,7 +31,6 @@
 		votingTime = value.gameDuration;
 	});
 
-
 	onMount(() => {
 		console.log($playerType);
 	});
