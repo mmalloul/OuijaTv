@@ -1,35 +1,43 @@
 <script lang="ts">
-	import { createEventDispatcher, getContext } from "svelte";
-	import { env } from "$env/dynamic/public";
+	import { createEventDispatcher, onMount } from "svelte";
 
 	let socket: WebSocket;
 	const dispatch = createEventDispatcher();
 
-	function initSocketForHost() {
-		socket = new WebSocket(`${env.PUBLIC_WS_URL}/host`);
+	export function initSocket(url: string) {
+		socket = new WebSocket(url);
+
 		socket.onmessage = ({ data }) => {
 			const message = JSON.parse(data);
 			const messageType = message["type"];
-			const messageContents = message["content"]; 
+			const messageContents = message["content"];
+
 			switch (messageType) {
 				case "pin": {
-					dispatch('pinReceived', {
+					dispatch("pinReceived", {
 						pin: messageContents
 					});
 					break;
 				}
 				case "joined": {
-					dispatch('joinedReceived', {
+					dispatch("joinedReceived", {
 						username: messageContents
 					});
 					break;
 				}
 				case "vote": {
-					dispatch('voteReceived', {
+					dispatch("voteReceived", {
 						votes: messageContents
-					})
+					});
 					break;
 				}
+				case "prompt":
+					dispatch("promptReceived", {
+						prompt: messageContents
+					});
+					break;
+				case "restart":
+					dispatch("restartReceived");
 				default: {
 					break;
 				}
@@ -37,22 +45,21 @@
 		};
 	}
 
-	function initSocketForPlayer(pin: string) {
-		const username = localStorage.getItem("username") ?? "anonymous";
-		socket = new WebSocket(`${env.PUBLIC_WS_URL}/join?pin=${pin}&username=${username}`);
-		socket.onmessage = ({ data }) => {
-			const message = JSON.parse(data);
-			const messageType = message["type"];
-			const messageContents = message["content"]; 
-			switch (messageType) {
-				case "prompt":
-					dispatch('promptReceived', {
-						vote: messageContents
-					})
-					break;
-				default:
-					break;
-			}
-		};
+	export function sendVote(message: any) {
+		if (socket) {
+			socket.send(JSON.stringify(message));
+		}
+	}
+
+	export function sendPrompt(prompt: any) {
+		if (socket && socket.readyState === socket.OPEN) {
+			socket.send(JSON.stringify(prompt));
+		}
+	}
+
+	export function sendRestart() {
+		if (socket) {
+			socket.send(JSON.stringify({ type: "restart" }));
+		}
 	}
 </script>
