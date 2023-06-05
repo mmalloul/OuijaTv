@@ -28,9 +28,6 @@ class Game:
             options = [*(ascii_uppercase + digits), self.GOODBYE]
             self.votes = {option: 0 for option in options}
 
-        self.start_countdown()
-
-
     def join(self, player: Player) -> None:
         """Add a player to the game."""
 
@@ -89,7 +86,7 @@ class Game:
 
         count = self.voting_time
 
-        while count > 0:
+        while count > -1:
             await asyncio.sleep(1)
             await self.broadcast(
                 ServerMessage(
@@ -100,7 +97,6 @@ class Game:
             count -= 1
 
         await self.pick_letter()
-        self.start_countdown()
 
     async def pick_letter(self) -> None:
         """Adds most popular letter to word, notify all clients, and reset votes."""
