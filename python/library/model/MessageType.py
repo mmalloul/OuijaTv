@@ -5,6 +5,7 @@ class ClientMessageType(Enum):
     VOTE = "vote"
     RESTART = "restart"
     PROMPT = "prompt"
+    MOST_POPULAR = "mostPopular"
 
 
 class ServerMessageType(Enum):
@@ -14,3 +15,4 @@ class ServerMessageType(Enum):
     RESTART = "restart"
     ERROR = "error"
     VOTE = "vote"
+    MOST_POPULAR = "mostPopular"
