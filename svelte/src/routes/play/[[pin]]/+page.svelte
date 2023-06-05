@@ -13,7 +13,7 @@
 
 	let prompt: string;
 	let board: Board;
-	let votes: { [key: string]: number }= {};
+	let votes: { [key: string]: number } = {};
 	let socketController: WebSocketController;
 	const playerType: Writable<PlayerType> = getContext("playerType");
 
@@ -57,17 +57,15 @@
 	function onVoteReceived(event: any) {
 		const allVotes = event.detail.votes;
 		votes = Object.assign({}, allVotes);
-		updateMostPopularLetter()
+		updateMostPopularLetter();
 	}
 
 	//TODO: should happen in host-only code
-	function updateMostPopularLetter()
-	{
-		const currentMostPopularLetter = getMostVotedLetter()
-		if (currentMostPopularLetter !== mostPopularLetter)
-		{
+	function updateMostPopularLetter() {
+		const currentMostPopularLetter = getMostVotedLetter();
+		if (currentMostPopularLetter !== mostPopularLetter) {
 			mostPopularLetter = currentMostPopularLetter;
-			socketController.broadcastWinningVote(mostPopularLetter)
+			socketController.broadcastWinningVote(mostPopularLetter);
 		}
 	}
 
@@ -76,12 +74,12 @@
 	 * @param letter the letter to move the seeker to.
 	 */
 	function targetWinningVote(letter: any) {
-		board.moveSeekerToLetter(letter.detail.winningVote);  
+		board.moveSeekerToLetter(letter.detail.winningVote);
 	}
 
 	/**
 	 * Function that retrieves the most voted letter from the dictionary with letters and votes.
-	 */	
+	 */
 	function getMostVotedLetter() {
 		const target = Object.keys(votes).reduce((a, b) => (votes[a] > votes[b] ? a : b));
 		return target;

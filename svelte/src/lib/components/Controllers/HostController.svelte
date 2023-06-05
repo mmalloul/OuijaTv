@@ -37,7 +37,6 @@
 		navigator.clipboard.writeText(shareableURL);
 		$toastStore.showToast(ToastType.Success, "Lobby url has been copied!");
 	}
-	
 </script>
 
 <form class="flex">
