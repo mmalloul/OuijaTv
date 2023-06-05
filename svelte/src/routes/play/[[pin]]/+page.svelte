@@ -32,6 +32,10 @@
 		prompt = event.detail.prompt;
 	}
 
+	/**
+	 * Function that sends vote to the websocket with the target id.
+	 * @param event The event that contains the voted letter from the player.
+	 */
 	function onVoteLetter(event: any) {
 		if ($playerType === PlayerType.Player) {
 			const letterId = event.detail.id;
@@ -39,6 +43,10 @@
 		}
 	}
 
+	/**
+	 * Send toast to notify host that a player joined.
+	 * @param event the event with the username that has joined.
+	 */
 	function sendJoinedToast(event: any) {
 		const username = event.detail.username;
 		const message = `${username} has joined the game 👻!`;
@@ -55,19 +63,26 @@
 	//TODO: should happen in host-only code
 	function updateMostPopularLetter()
 	{
-		const currentMostPopularLetter = getMostPopularLetter()
+		const currentMostPopularLetter = getMostVotedLetter()
 		if (currentMostPopularLetter !== mostPopularLetter)
 		{
 			mostPopularLetter = currentMostPopularLetter;
-			socketController.broadcastMostPopularLetterChange(mostPopularLetter)
+			socketController.broadcastWinningVote(mostPopularLetter)
 		}
 	}
 
-	function targetMostPopularLetter(letter: any) {
-		board.moveSeekerToLetter(letter.detail.mostPopularLetter);  
+	/**
+	 * Moves the seeker (for host and player) to the targeted letter.
+	 * @param letter the letter to move the seeker to.
+	 */
+	function targetWinningVote(letter: any) {
+		board.moveSeekerToLetter(letter.detail.winningVote);  
 	}
 
-	function getMostPopularLetter() {
+	/**
+	 * Function that retrieves the most voted letter from the dictionary with letters and votes.
+	 */	
+	function getMostVotedLetter() {
 		const target = Object.keys(votes).reduce((a, b) => (votes[a] > votes[b] ? a : b));
 		return target;
 	}
@@ -94,7 +109,7 @@
 		on:pinReceived={joinGame}
 		on:promptReceived={promptUpdate}
 		on:restartReceived={restart}
-		on:newMostPopularLetterReceived={targetMostPopularLetter}
+		on:winningVoteReceived={targetWinningVote}
 	/>
 
 	{#if socketController}

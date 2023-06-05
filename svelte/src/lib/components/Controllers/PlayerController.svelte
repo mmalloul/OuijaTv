@@ -12,7 +12,7 @@
 		initSocketForPlayer(pin);
 		username = localStorage.getItem("username") || "";
 	});
-
+	
 	function initSocketForPlayer(pin: string) {
 		const url = `${env.PUBLIC_WS_URL}/join?pin=${pin}&username=${
 			localStorage.getItem("username") ?? "anonymous"

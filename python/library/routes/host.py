@@ -26,10 +26,10 @@ async def create_game(host: WebSocket):
             message = await host.receive_json()
             message = ClientMessage.from_dictionary(message)
             match message.type:
-                case ClientMessageType.MOST_POPULAR:
+                case ClientMessageType.WINNING_VOTE:
                     await game.broadcast(
                         ServerMessage(
-                            ServerMessageType.MOST_POPULAR,
+                            ServerMessageType.WINNING_VOTE,
                             message.content
                         )
                     )

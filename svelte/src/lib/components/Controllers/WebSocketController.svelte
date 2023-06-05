@@ -4,6 +4,11 @@
 	let socket: WebSocket;
 	const dispatch = createEventDispatcher();
 
+	/**
+	 * This websocket controller is initialized in the /play/[pin] svelte page. The websocket will be bound to a specific Player/hostcontroller.
+	 * This controller handles all the events that are coming from the server, so that host- and playercontroller can handle their own functionalities.
+	 * @param url the websocket url.
+	 */
 	export function initSocket(url: string) {
 		socket = new WebSocket(url);
 
@@ -39,9 +44,9 @@
 				case "restart":
 					dispatch("restartReceived");
 					break;
-				case "mostPopular":
-					dispatch("newMostPopularLetterReceived", {
-						mostPopularLetter: messageContents
+				case "winningVote":
+					dispatch("winningVoteReceived", {
+						winningVote: messageContents
 					});
 					break;
 				default: {
@@ -69,9 +74,9 @@
 		}
 	}
 
-	export function broadcastMostPopularLetterChange(mostPopularLetter: string) {
+	export function broadcastWinningVote(winningVote: string) {
 		if (socket) {
-			socket.send(JSON.stringify({ type: "mostPopular", content: mostPopularLetter }));
+			socket.send(JSON.stringify({ type: "winningVote", content: winningVote }));
 		}
 	}
 </script>
