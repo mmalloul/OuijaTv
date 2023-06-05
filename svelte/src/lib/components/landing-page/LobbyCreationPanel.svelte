@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { lobbyStore } from "#lib/stores/lobbyStore";
 	import { PlayerType } from "#lib/types/PlayerType";
 	import { goto } from "$app/navigation";
 	import { createEventDispatcher, getContext } from "svelte";
@@ -27,8 +28,16 @@
 	 */
 	function handleSubmit() {
 		if (lobbyNameIsValid) {
-			// Go to the game lobby.
 			playerType.set(PlayerType.Host);
+
+			// Since our url has to stay simple (/play/[pin]) a lobbyStore has been added.
+			// Without lobbyStore the url would /play?lobbyName=${lobbyName}&gameDuration=${gameDuration}`
+			lobbyStore.set({
+				lobbyName,
+				gameDuration
+			});
+
+			// Go to the game lobby.
 			goto("/play");
 		} else if (lobbyName.length === 0) {
 			lobbyNameIsEmpty = true;
