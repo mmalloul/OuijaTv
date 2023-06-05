@@ -24,9 +24,7 @@
 	});
 
 	function initSocketForHost() {
-		const url = `${env.PUBLIC_WS_URL}/host`;
-		const url2 = `${env.PUBLIC_WS_URL}/host?name=${lobbyName}&voting_time=${votingTime}&game_mode=${gameMode}`;
-		console.log(url2);
+		const url = `${env.PUBLIC_WS_URL}/host?name=${lobbyName}&voting_time=${votingTime}&game_mode=${gameMode}`;
 		socketController.initSocket(url);
 	}
 

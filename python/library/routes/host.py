@@ -8,9 +8,9 @@ router = APIRouter()
 
 
 @router.websocket("/host")
-async def create_game(host: WebSocket, name: str):
+async def create_game(host: WebSocket, name: str, voting_time: str, game_mode: str):
 
-    pin, game = games.new(host, name)
+    pin, game = games.new(host, name, int(voting_time), game_mode)
 
     await host.accept()
     await game.notify_host(

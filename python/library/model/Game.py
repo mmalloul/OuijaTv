@@ -19,6 +19,8 @@ class Game:
     GOODBYE: str = "!" # In the svg the goodbye button id = "!".
     word: str = ""
     name: str = ""
+    voting_time: int = 15
+    game_mode: str = ""
 
     def __post_init__(self) -> None:
         """Initialise vote dictionary."""

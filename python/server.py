@@ -33,7 +33,9 @@ def get_all_games():
                 }
                 for player in game.players
             ],
-            "name": game.name
+            "name": game.name,
+            "voting_time": game.voting_time,
+            "game_mode": game.game_mode
         }
         for key, game in games.items()
     ]
