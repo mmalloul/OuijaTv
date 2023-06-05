@@ -4,12 +4,14 @@
 	import Menu from "$lib/components/Menu.svelte";
 	import { writable } from "svelte/store";
 	import { setContext } from "svelte";
-	import { PlayerState } from "#lib/types/PlayerState";
+	import { PlayerType } from "#lib/types/PlayerType";
+	import { Toaster } from "svelte-french-toast";
 
-	setContext("playerState", writable(PlayerState.None));
+	setContext("playerType", writable(PlayerType.None));
 </script>
 
 <Menu />
+<Toaster />
 
 <div class="grow">
 	<slot />

@@ -16,13 +16,14 @@ class Game:
     votes: dict[str, int] = field(default_factory=dict)
     counter: int = 15
     prompt: str = ""
+    GOODBYE: str = "!" # In the svg the goodbye button id = "!".
     word: str = ""
 
     def __post_init__(self) -> None:
         """Initialise vote dictionary."""
 
         if not self.votes:
-            options = [*(ascii_uppercase + digits), "GOODBYE"]
+            options = [*(ascii_uppercase + digits), self.GOODBYE]
             self.votes = {option: 0 for option in options}
 
         self.start_countdown()
@@ -62,8 +63,18 @@ class Game:
         if vote in self.votes and not player.voted:
 
             player.voted = True
+            
+            old_winning_letter = max(self.votes, key= self.votes.get)
             self.votes[vote] += 1
+            new_winning_letter = max(self.votes, key= self.votes.get)
 
+            if (old_winning_letter != new_winning_letter):
+                await self.broadcast(
+                    ServerMessage(
+                        ServerMessageType.WINNING_VOTE, 
+                        new_winning_letter
+                    )
+                )
             await self.notify_host(
                 ServerMessage(
                     ServerMessageType.VOTE, 
@@ -78,7 +89,7 @@ class Game:
 
         while count > 0:
             await asyncio.sleep(1)
-            await self.notify_host(
+            await self.broadcast(
                 ServerMessage(
                     ServerMessageType.COUNTER, 
                     count,
