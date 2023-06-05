@@ -99,7 +99,7 @@
 				</select>
 
 				<label for="duration">Voting Time: {gameDuration} seconds</label>
-				<input type="range" id="duration" min="30" max="120" bind:value={gameDuration} />
+				<input type="range" id="duration" min="15" max="120" bind:value={gameDuration} />
 
 				<div class="actions">
 					<button type="submit" class="button">Create</button>
