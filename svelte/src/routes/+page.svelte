@@ -6,17 +6,27 @@
 </script>
 
 <div class="container">
-	<div class="top-row">
-		{#if !showLobbyCreationPanel}
+	{#if !showLobbyCreationPanel}
+		<h1>Ouija.tv</h1>
+		<h4>
+			Unleash the mysteries of the paranormal with Ouija.tv, a cutting-edge application that
+			reinvents the traditional Ouija board for the digital age. With a seamless integration of
+			Twitch chat, you can engage your viewers in an exciting, interactive experience, where your
+			collective input guides the planchette. Solo explorers can engage in a compelling match with
+			our sophisticated AI. Whether you're an experienced Ouija player or a curious novice, Ouija.tv
+			puts the mystery and excitement of the classic lounge game at your fingertips.
+		</h4>
+		<div class="top-row">
 			<button type="button" class="custom-button" on:click={() => (showLobbyCreationPanel = true)}>
 				<p>Provide</p>
 			</button>
 			<button type="button" class="custom-button" on:click={() => goto("/join")}>
 				<p>Visit</p>
 			</button>
-		{/if}
-		<LobbyCreationPanel bind:showLobbyCreationPanel />
-	</div>
+		</div>
+	{/if}
+
+	<LobbyCreationPanel bind:showLobbyCreationPanel />
 </div>
 
 <style lang="postcss">
@@ -26,6 +36,22 @@
 		left: 50%;
 		max-width: 50%;
 		transform: translate(-50%, -50%);
+		text-align: center;
+	}
+	h1 {
+		@apply text-fontcolor text-8xl;
+		text-decoration: none;
+		font-family: theme(fontFamily.amatic);
+		margin-bottom: 2rem;
+	}
+	h4 {
+		@apply text-fontcolor text-4xl;
+		text-decoration: none;
+		font-family: theme(fontFamily.amatic);
+		line-height: 1.35em;
+		margin-bottom: 3rem;
+		font-size: calc(1em + 1vw); /* Responsive font-size */
+		overflow: auto; /* Adds scroll when the content overflows */
 	}
 	.top-row {
 		display: flex;
@@ -42,6 +68,8 @@
 		width: 50%;
 		border-color: #dddddd;
 		transition: all 0.2s ease-in-out;
+		font-size: calc(1em + 1vw); /* Responsive font-size */
+		overflow: auto; /* Adds scroll when the content overflows */
 	}
 
 	.custom-button > p {
@@ -59,5 +87,15 @@
 
 	.custom-button:hover > p {
 		transform: scale(1.05);
+	}
+
+	.about-button {
+		@apply opacity-50;
+		border: 1px solid white;
+		margin: 0 1rem 1rem 0;
+		text-align: center;
+		padding: 0 10px;
+		position: absolute;
+		right: 1.5rem;
 	}
 </style>
