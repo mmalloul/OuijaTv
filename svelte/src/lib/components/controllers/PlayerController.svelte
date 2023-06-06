@@ -27,9 +27,7 @@
 			{prompt}
 		</span>
 	{:else}
-		<span class="prompt">
-			WAIT TO BE CALLED UPON...
-		</span>
+		<span class="prompt"> WAIT TO BE CALLED UPON... </span>
 	{/if}
 </form>
 

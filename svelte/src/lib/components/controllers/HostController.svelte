@@ -20,7 +20,7 @@
 	$: shareableURL = `${host}/join/${pin}`;
 	$: if (prompt && prompt !== "") {
 		canPrompt = true;
-	} else { 
+	} else {
 		canPrompt = false;
 	}
 
@@ -29,10 +29,10 @@
 	});
 
 	function sendPrompt() {
-		if(prompt && prompt !== "") { 
+		if (prompt && prompt !== "") {
 			socketController.sendPrompt({ type: "prompt", content: prompt });
 			canPrompt = false;
-			$toastStore.showToast(ToastType.Success, "Question sent to spirits👻")
+			$toastStore.showToast(ToastType.Success, "Question sent to spirits👻");
 		}
 	}
 
