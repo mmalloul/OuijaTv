@@ -24,6 +24,10 @@
 	});
 
 	function sendPrompt() {
+		if(prompt == "" || !prompt) {
+			$toastStore.showToast(ToastType.Error, "You should enter a question!")
+		}
+		
 		if (canPrompt && prompt && prompt !== "") {
 			socketController.sendPrompt({ type: "prompt", content: prompt });
 			canPrompt = false;
