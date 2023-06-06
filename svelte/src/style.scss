@@ -1,16 +1,21 @@
 @import "$lib/fonts/fonts.css";
 
-body {
-	height: 100vh;
+html {
+	height: 100%;
 	background: radial-gradient(rgb(33, 33, 33), black) !important;
-	overflow: hidden;
+}
+
+body {
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	min-height: 100vh;
 }
 
 .page {
 	max-width: 1440px;
-	margin: 0 auto;
+	@apply mx-auto h-full px-4 md:px-6;
 }
 
 .page--game {
-	margin: 0 auto;
+	@apply mx-auto px-4 md:px-6;
 }
