@@ -86,18 +86,22 @@
 
 	function onPlayerJoin(event: any) {
 		const pid = event.detail.pid;
-		if (players[pid] === null) {
+		if (players[pid] == undefined) {
 			const username = event.detail.username;
 			const message = `${username} has joined the game 👻!`;
 			players[pid] = username;
+			players = structuredClone(players);
 			sendToast(message);
 		}
 	}
 
 	function onPlayerQuit(event: any) {
-		const pid = event.pid;
-		const message = `${players[pid]}} has left the game 👋!`;
+		const pid = event.detail.pid;
+		const message = `${players[pid]} has left the game 👋!`;
+
 		delete players[pid];
+		players = structuredClone(players);
+
 		sendToast(message);
 	}
 
