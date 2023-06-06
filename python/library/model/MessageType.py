@@ -13,6 +13,7 @@ class ClientMessageType(Enum):
 class ServerMessageType(Enum):
     PIN = "pin"
     JOINED = "joined"
+    QUIT = "quit"
     PROMPT = "prompt"
     RESTART = "restart"
     ERROR = "error"
