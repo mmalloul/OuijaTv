@@ -15,7 +15,7 @@
 	let gameMode = "";
 	let gameModes: string[] = ["Twitch", "OpenAI", "Multiplayer"];
 
-	$: gameModeIsValid = gameMode !==  null
+	$: gameModeIsValid = gameMode !== null;
 
 	/**
 	 * This function resets the form inputs when the lobby-creation-panel is closed by the user.

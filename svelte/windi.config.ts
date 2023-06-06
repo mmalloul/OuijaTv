@@ -8,7 +8,7 @@ export default defineConfig({
 				dark: "#121212",
 				fontcolor: "#fff7e2",
 				accent: "#FB5012",
-				metal: "#808080" 
+				metal: "#808080"
 			},
 			fontFamily: {
 				medieval: ["MedievalSharp", "serif"],
