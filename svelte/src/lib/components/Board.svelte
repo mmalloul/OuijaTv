@@ -19,6 +19,7 @@
 
 	export function resetSeeker() {
 		moveSeekerToLetter("@");
+		showMyVote("@");
 	}
 
 	function getLetterPosition(letter: string) {
