@@ -12,18 +12,27 @@
 	export let lobbyName: string;
 	export let votingTime: number;
 	export let gameMode: string;
+	export let canPrompt = false;
 
 	export let prompt: string;
 
 	$: host = $page.url.origin;
 	$: shareableURL = `${host}/join/${pin}`;
+	$: if (prompt && prompt !== "") {
+		canPrompt = true;
+	} else { 
+		canPrompt = false;
+	}
 
 	onMount(() => {
 		initSocketForHost();
 	});
 
 	function sendPrompt() {
-		socketController.sendPrompt({ type: "prompt", content: prompt });
+		if(prompt && prompt !== "") { 
+			socketController.sendPrompt({ type: "prompt", content: prompt });
+			canPrompt = false;
+		}
 	}
 
 	function initSocketForHost() {
@@ -35,7 +44,6 @@
 		if (confirm("Do you want to restart the game?") === true) {
 			prompt = "";
 			socketController.sendRestart();
-			$toastStore.showToast(ToastType.Success, "Game has been restarted!");
 		}
 	}
 
@@ -47,7 +55,7 @@
 
 <form class="flex justify-center">
 	<input bind:value={prompt} type="text" placeholder={"STATE YOUR INTENTION"} />
-	<button on:click={sendPrompt} class="prompt-button rounded-md" disabled={!prompt}>
+	<button on:click={sendPrompt} class="prompt-button rounded-md" disabled={!canPrompt}>
 		<Icon icon="formkit:arrowright" />
 	</button>
 </form>
