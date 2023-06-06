@@ -22,7 +22,15 @@
 </script>
 
 <form class="flex">
-	<input bind:value={prompt} type="text" placeholder={"WAIT TO BE CALLED UPON..."} />
+	{#if prompt}
+		<span class="prompt">
+			{prompt}
+		</span>
+	{:else}
+		<span class="prompt">
+			WAIT TO BE CALLED UPON...
+		</span>
+	{/if}
 </form>
 
 <div class="flex gap-2 player-options">
@@ -34,7 +42,7 @@
 </div>
 
 <style lang="postcss">
-	input {
+	.prompt {
 		@apply w-full mx-50 w-200 outline-0 text-center;
 		font-family: theme(fontFamily.amatic);
 		font-size: 3rem;
