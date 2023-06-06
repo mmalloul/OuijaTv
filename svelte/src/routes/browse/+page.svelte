@@ -31,13 +31,13 @@
 		</thead>
 		{#if games.length > 0}
 			<tbody>
-				<tr>
-					{#each games as game}
+				{#each games as game}
+					<tr>
 						<td>{game.name}</td>
 						<td>{game.pin}</td>
 						<td><button class="bg-accent">Join</button></td>
-					{/each}
-				</tr>
+					</tr>
+				{/each}
 			</tbody>
 		{:else}
 			<p>Currently no active vessels... Go conjure one!</p>
