@@ -24,10 +24,10 @@
 	});
 
 	function sendPrompt() {
-		if(prompt == "" || !prompt) {
-			$toastStore.showToast(ToastType.Error, "You should enter a question!")
+		if (prompt == "" || !prompt) {
+			$toastStore.showToast(ToastType.Error, "You should enter a question!");
 		}
-		
+
 		if (canPrompt && prompt && prompt !== "") {
 			socketController.sendPrompt({ type: "prompt", content: prompt });
 			canPrompt = false;
@@ -54,7 +54,12 @@
 </script>
 
 <form class="flex justify-center">
-	<input bind:value={prompt} type="text" placeholder={"STATE YOUR INTENTION"} disabled={!canPrompt} />
+	<input
+		bind:value={prompt}
+		type="text"
+		placeholder={"STATE YOUR INTENTION"}
+		disabled={!canPrompt}
+	/>
 	<button on:click={sendPrompt} class="prompt-button rounded-md">
 		<Icon icon="formkit:arrowright" />
 	</button>
