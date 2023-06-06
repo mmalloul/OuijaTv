@@ -100,10 +100,17 @@ class Game:
 
     async def pick_letter(self) -> None:
         """Adds most popular letter to word, notify all clients, and reset votes."""
-
+        
         letter = max(self.votes, key=self.votes.get)
 
-        if letter == "GOODBYE":
+        if letter == "!":
+            await self.broadcast(
+                ServerMessage(
+                    ServerMessageType.WORD, 
+                    letter
+                )
+            )
+
             await self.restart()
             return
 

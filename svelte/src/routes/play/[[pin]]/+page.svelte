@@ -17,7 +17,9 @@
 	let word: string;
 	let board: Board;
 	let socketController: WebSocketController;
+	let winningVote: string;
 	const playerType: Writable<PlayerType> = getContext("playerType");
+	let canPrompt: boolean;
 
 	let tick: number;
 	let lobbyName: string;
@@ -36,6 +38,9 @@
 	function promptUpdate(event: any) {
 		prompt = event.detail.prompt;
 		if ($playerType === PlayerType.Player) {
+			if (prompt !== "") {
+				$toastStore.showToast(ToastType.Success, "Voting has started!");
+			}
 			board.allowVoting();
 		}
 	}
@@ -65,7 +70,10 @@
 	 * Moves the seeker (for host and player) to the targeted letter.
 	 * @param letter the letter to move the seeker to.
 	 */
-	function targetWinningVote(letter: any) {
+	function updateWinningVote(letter: any) {
+		winningVote = letter.detail.winningVote;
+		console.log(winningVote);
+
 		board.moveSeekerToLetter(letter.detail.winningVote);
 	}
 
@@ -79,12 +87,23 @@
 	}
 
 	function restart() {
+		prompt = "";
+		word = "";
 		board.resetSeeker();
+		$toastStore.showToast(ToastType.Success, "Game has been restarted!");
+	}
+
+	function checkAnswer(event: any) {
+		if (winningVote === "!") {
+			prompt = "";
+		} else {
+			updateWord(event);
+		}
+		canPrompt = true;
 	}
 
 	function updateWord(event: any) {
 		word = event.detail.word;
-		prompt = ""; // Reset prompt after a voting round.
 		if ($playerType === PlayerType.Player) {
 			board.allowVoting();
 		}
@@ -102,8 +121,8 @@
 		on:pinReceived={joinGame}
 		on:promptReceived={promptUpdate}
 		on:restartReceived={restart}
-		on:winningVoteReceived={targetWinningVote}
-		on:wordUpdateReceived={updateWord}
+		on:winningVoteReceived={updateWinningVote}
+		on:wordUpdateReceived={checkAnswer}
 		on:tickReceived={updateTick}
 	/>
 
@@ -116,6 +135,7 @@
 				bind:votingTime
 				bind:gameMode
 				bind:prompt
+				bind:canPrompt
 			/>
 		{:else if $playerType === PlayerType.Player}
 			<PlayerController bind:socketController bind:pin bind:prompt />
@@ -148,6 +168,12 @@
 		font-family: theme(fontFamily.amatic);
 	}
 
+	.final-word {
+		@apply text-accent text-10xl;
+		text-decoration: none;
+		font-family: theme(fontFamily.amatic);
+	}
+
 	.voting-timer {
 		@apply opacity-50;
 		border: 1px solid white;
@@ -159,7 +185,7 @@
 	}
 
 	.word {
-		@apply text-fontcolor text-4xl;
+		@apply text-accent text-4xl;
 		text-decoration: none;
 		font-family: theme(fontFamily.amatic);
 	}
