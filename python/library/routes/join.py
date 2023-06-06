@@ -3,32 +3,30 @@ from library.model.MessageType import ServerMessageType, ClientMessageType
 from library.model import Player
 from library.stores import games
 from library.model import ServerMessage, ClientMessage
-
+import uuid
 
 router = APIRouter()
 
 
 @router.websocket("/join")
 async def join_game(websocket: WebSocket, pin: str, username: str):
-
     await websocket.accept()
 
-    if (game := games.items[pin]):
-
-        player = Player(websocket, username)
+    if game := games.items[pin]:
+        player = Player(uuid.uuid4(), websocket, username)
         game.join(player)
 
-        await game.notify_host(
+        await game.broadcast(
             ServerMessage(
                 ServerMessageType.JOINED,
-                player.name,
-            ),
+                {"pid": str(player.pid), "name": player.name},
+            )
         )
 
         await game.notify_player(
             player,
             ServerMessage(
-                ServerMessageType.PROMPT, 
+                ServerMessageType.PROMPT,
                 game.prompt,
             ),
         )
@@ -40,21 +38,20 @@ async def join_game(websocket: WebSocket, pin: str, username: str):
                 message = ClientMessage.from_dictionary(message)
 
                 match message.type:
-
                     case ClientMessageType.VOTE:
                         if (vote := message.content) and vote in game.votes:
                             # might get overwhelming with many players
                             await game.vote(vote, player)
-                            
+
                     case _:
                         await game.notify_player(
                             player,
                             ServerMessage(
-                                ServerMessageType.ERROR, 
+                                ServerMessageType.ERROR,
                                 "Invalid request type",
                             ),
                         )
-                
+
         except WebSocketDisconnect:
             games.remove(pin, player)
     else:
