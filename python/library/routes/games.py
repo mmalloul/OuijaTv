@@ -34,6 +34,7 @@ def get_game_by_pin(pin: str):
             "pin": pin,
             "players": [
                 {
+                    "pid": player.pid,
                     "name": player.name,
                     "voted": player.voted,
                 }
