@@ -15,7 +15,6 @@
 
 	export let prompt: string;
 
-	// $: socketController && socketController.sendPrompt({ type: "prompt", content: prompt });
 	$: host = $page.url.origin;
 	$: shareableURL = `${host}/join/${pin}`;
 
