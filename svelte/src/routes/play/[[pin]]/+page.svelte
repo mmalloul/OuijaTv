@@ -11,10 +11,11 @@
 	import { toastStore } from "#lib/stores/toast";
 	import { ToastType } from "#lib/types/ToastType";
 	import { lobbyStore } from "#lib/stores/lobbyStore";
+	import { env } from "$env/dynamic/public";
 
 	let prompt: string;
+	let word: string;
 	let board: Board;
-	let votes: { [key: string]: number } = {};
 	let socketController: WebSocketController;
 	const playerType: Writable<PlayerType> = getContext("playerType");
 
@@ -31,13 +32,12 @@
 		votingTime = value.gameDuration;
 	});
 
-	onMount(() => {
-		console.log($playerType);
-	});
-
 	// Update the prompt from websocket so that the PlayerController component gets updated.
 	function promptUpdate(event: any) {
 		prompt = event.detail.prompt;
+		if ($playerType === PlayerType.Player) {
+			board.allowVoting();
+		}
 	}
 
 	/**
@@ -82,8 +82,9 @@
 		board.resetSeeker();
 	}
 
-	function updatePrompt(event: any) {
-		prompt = event.detail.word;
+	function updateWord(event: any) {
+		word = event.detail.word;
+		prompt = ""; // Reset prompt after a voting round.
 		if ($playerType === PlayerType.Player) {
 			board.allowVoting();
 		}
@@ -102,13 +103,20 @@
 		on:promptReceived={promptUpdate}
 		on:restartReceived={restart}
 		on:winningVoteReceived={targetWinningVote}
-		on:wordUpdateReceived={updatePrompt}
+		on:wordUpdateReceived={updateWord}
 		on:tickReceived={updateTick}
 	/>
 
 	{#if socketController}
 		{#if $playerType === PlayerType.Host}
-			<HostController bind:socketController bind:pin bind:lobbyName bind:votingTime bind:gameMode />
+			<HostController
+				bind:socketController
+				bind:pin
+				bind:lobbyName
+				bind:votingTime
+				bind:gameMode
+				bind:prompt
+			/>
 		{:else if $playerType === PlayerType.Player}
 			<PlayerController bind:socketController bind:pin bind:prompt />
 		{:else if $playerType === PlayerType.None}
@@ -116,12 +124,43 @@
 		{/if}
 	{/if}
 
-	{#if tick}
-		{tick}
+	{#if word}
+		<span class="word">
+			{word}
+		</span>
 	{/if}
+
+	<div class="flex gap-2 justify-end voting-timer rounded-lg">
+		{#if tick}
+			<span class="timer">Voting ends in: {tick}</span>
+		{:else}
+			<span class="timer">Voting will start soon...</span>
+		{/if}
+	</div>
 
 	<Board bind:this={board} bind:isHost on:letterClicked={onVoteLetter} />
 </div>
 
 <style lang="postcss">
+	.timer {
+		@apply text-fontcolor text-4xl;
+		text-decoration: none;
+		font-family: theme(fontFamily.amatic);
+	}
+
+	.voting-timer {
+		@apply opacity-50;
+		border: 1px solid white;
+		margin: 0 1rem 1rem 0;
+		text-align: center;
+		padding: 0 10px;
+		position: absolute;
+		right: 1.5rem;
+	}
+
+	.word {
+		@apply text-fontcolor text-4xl;
+		text-decoration: none;
+		font-family: theme(fontFamily.amatic);
+	}
 </style>

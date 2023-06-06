@@ -8,7 +8,7 @@
 	const playerType = getContext<Writable<PlayerType>>("playerType");
 	export let showLobbyCreationPanel = false;
 	let numUsers = 1;
-	let gameDuration = 30; // in seconds
+	let gameDuration = 15; // in seconds
 	let lobbyName = "";
 	let lobbyNameIsValid: boolean | null = null;
 	let lobbyNameIsEmpty: boolean | null = null;

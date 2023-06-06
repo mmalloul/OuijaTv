@@ -13,15 +13,18 @@
 	export let votingTime: number;
 	export let gameMode: string;
 
-	let prompt: string;
+	export let prompt: string;
 
-	$: socketController && socketController.sendPrompt({ type: "prompt", content: prompt });
 	$: host = $page.url.origin;
 	$: shareableURL = `${host}/join/${pin}`;
 
 	onMount(() => {
 		initSocketForHost();
 	});
+
+	function sendPrompt() {
+		socketController.sendPrompt({ type: "prompt", content: prompt });
+	}
 
 	function initSocketForHost() {
 		const url = `${env.PUBLIC_WS_URL}/host?name=${lobbyName}&voting_time=${votingTime}&game_mode=${gameMode}`;
@@ -42,8 +45,11 @@
 	}
 </script>
 
-<form class="flex">
+<form class="flex justify-center">
 	<input bind:value={prompt} type="text" placeholder={"STATE YOUR INTENTION"} />
+	<button on:click={sendPrompt} class="prompt-button rounded-md" disabled={!prompt}>
+		<Icon icon="formkit:arrowright" />
+	</button>
 </form>
 
 <div class="flex gap-2 host-options">
@@ -61,12 +67,26 @@
 </button>
 
 <style lang="postcss">
+	.prompt-button {
+		@apply text-fontcolor text-4xl;
+		text-decoration: none;
+		text-align: center;
+		font-family: theme(fontFamily.amatic);
+		transition: all 0.2s ease-in-out;
+	}
+
+	.prompt-button:hover {
+		@apply cursor-pointer bg-accent;
+		transform: scale(1.03);
+	}
+
 	input {
-		@apply w-full mx-50 w-200 outline-0 text-center;
+		@apply w-full mx-50 w-150 outline-0 text-center;
 		font-family: theme(fontFamily.amatic);
 		font-size: 3rem;
 		color: rgba(255, 255, 255, 0.9);
 		background-color: transparent;
+		margin: 0;
 	}
 
 	p,

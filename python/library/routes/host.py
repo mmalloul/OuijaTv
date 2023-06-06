@@ -43,6 +43,8 @@ async def create_game(host: WebSocket, name: str, voting_time: str, game_mode: s
                             message.content,
                         ),
                     )
+                    game.start_countdown()
+
 
                 case _:
                     await game.notify_host(
