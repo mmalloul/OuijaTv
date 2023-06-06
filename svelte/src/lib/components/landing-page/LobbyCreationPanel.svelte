@@ -71,18 +71,20 @@
 
 {#if showLobbyCreationPanel}
 	<div class="panel mt-5">
+		<div class="panel-header">
+			<h2>Provide</h2>
+
+			<button
+				id="close-button"
+				on:click={resetForm}
+				on:click={() => (showLobbyCreationPanel = false)}
+				on:click={() => dispatch("close")}>X</button
+			>
+		</div>
+
 		<div class="panel-content">
-			<div class="top-row">
-				<h2>Provide</h2>
-				<button
-					id="close-button"
-					on:click={resetForm}
-					on:click={() => (showLobbyCreationPanel = false)}
-					on:click={() => dispatch("close")}>X</button
-				>
-			</div>
 			<form class="form" on:submit|preventDefault={handleSubmit}>
-				<label id="lobby-name">Name your vessel: </label>
+				<label for="lobby-name">Name your vessel: </label>
 				{#if lobbyNameIsValid === false}
 					<p class="error-message">Name can only contain alphabetical characters</p>
 				{/if}
@@ -93,7 +95,7 @@
 
 				<input
 					type="text"
-					aria-labelledby="lobby-name"
+					id="lobby-name"
 					bind:value={lobbyName}
 					class:invalid={lobbyNameIsValid === false}
 					placeholder="Enter lobby name"
@@ -123,39 +125,41 @@
 
 <style lang="postcss">
 	.panel {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 50%;
-		transform: translate(-50%, -50%);
+		@apply flex flex-col justify-center items-center bg-dark text-fontcolor text-center p-4 md: p-6;
+		width: 100%;
+		border-radius: 6px;
+		border: 1px solid white;
+		row-gap: 20px;
+		text-decoration: none;
+		font-family: theme(fontFamily.amatic);
+		max-width: 600px;
 	}
 
 	select {
 		@apply bg-metal text-fontcolor;
 		font-size: 1.5em;
 		display: block;
-		width: 50%;
 		margin: 0 auto;
 	}
 
-	.top-row {
-		display: flex;
-		justify-content: center;
-		width: 100%;
+	.panel-header {
+		@apply flex justify-center w-full relative;
+	}
+
+	h2 {
+		@apply text-6xl;
+	}
+
+	#close-button {
+		@apply text-fontcolor text-5xl absolute;
+		top: 0px;
+		right: 0px;
+		text-decoration: none;
+		font-family: theme(fontFamily.amatic);
 	}
 
 	.panel-content {
-		@apply pointer-events-auto bg-dark text-fontcolor text-center;
-		display: flex;
-		text-decoration: none;
-		font-family: theme(fontFamily.amatic);
-		flex-direction: column;
-		justify-content: center;
-		width: 100%;
-		border-radius: 6px;
-		padding: 16px;
-		border: 1px solid white;
-		row-gap: 20px;
+		@apply pointer-events-auto flex flex-col justify-center;
 	}
 
 	.form {
@@ -167,19 +171,7 @@
 		justify-content: center;
 		width: 100%;
 		border-radius: 6px;
-		padding: 16px;
 		row-gap: 20px;
-	}
-	h2 {
-		@apply text-6xl;
-	}
-
-	#close-button {
-		@apply text-fontcolor text-5xl;
-		position: absolute;
-		right: 1rem;
-		text-decoration: none;
-		font-family: theme(fontFamily.amatic);
 	}
 
 	#close-button:hover {
@@ -199,20 +191,11 @@
 		@apply text-fontcolor text-4xl;
 		text-align: center;
 		padding: 0.75rem;
-		width: 25%;
 		border: 1px solid white;
 	}
 
 	.button:hover {
-		@apply bg-accent;
-	}
-
-	.button > p {
-		transition: all 0.2s ease-in-out;
-	}
-
-	.button:hover > p {
-		transform: scale(1.05);
+		@apply text-accent;
 	}
 
 	label {
@@ -226,15 +209,14 @@
 
 	input,
 	.button {
-		width: 50%;
 		box-sizing: border-box;
+		width: 240px;
 	}
 
 	@screen <sm {
 		input,
-		.button {
-			font-size: 0.75rem;
-			padding: 0.5rem;
+		.actions {
+			width: 100%;
 		}
 	}
 

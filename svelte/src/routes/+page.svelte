@@ -5,9 +5,10 @@
 	let showLobbyCreationPanel = false;
 </script>
 
-<div class="container">
+<div class="home page">
 	{#if !showLobbyCreationPanel}
 		<h1>Ouija.tv</h1>
+
 		<h4>
 			Unleash the mysteries of the paranormal with Ouija.tv, a cutting-edge application that
 			reinvents the traditional Ouija board for the digital age. With a seamless integration of
@@ -16,10 +17,12 @@
 			our sophisticated AI. Whether you're an experienced Ouija player or a curious novice, Ouija.tv
 			puts the mystery and excitement of the classic lounge game at your fingertips.
 		</h4>
+
 		<div class="top-row">
 			<button type="button" class="custom-button" on:click={() => (showLobbyCreationPanel = true)}>
 				<p>Provide</p>
 			</button>
+
 			<button type="button" class="custom-button" on:click={() => goto("/join")}>
 				<p>Visit</p>
 			</button>
@@ -30,20 +33,17 @@
 </div>
 
 <style lang="postcss">
-	.container {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		max-width: 50%;
-		transform: translate(-50%, -50%);
-		text-align: center;
+	.home {
+		@apply flex flex-col items-center text-center md: justify-center;
 	}
+
 	h1 {
 		@apply text-fontcolor text-8xl;
 		text-decoration: none;
 		font-family: theme(fontFamily.amatic);
 		margin-bottom: 2rem;
 	}
+
 	h4 {
 		@apply text-fontcolor text-4xl;
 		text-decoration: none;
@@ -53,6 +53,7 @@
 		font-size: calc(1em + 1vw); /* Responsive font-size */
 		overflow: auto; /* Adds scroll when the content overflows */
 	}
+
 	.top-row {
 		display: flex;
 		justify-content: space-between;
