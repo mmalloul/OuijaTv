@@ -13,13 +13,13 @@ async def join_game(websocket: WebSocket, pin: str, username: str):
     await websocket.accept()
 
     if game := games.items[pin]:
-        player = Player(uuid.uuid4(), websocket, username)
+        player = Player(str(uuid.uuid4()), websocket, username)
         game.join(player)
 
         await game.broadcast(
             ServerMessage(
                 ServerMessageType.JOINED,
-                {"pid": str(player.pid), "name": player.name},
+                {"pid": player.pid, "name": player.name},
             )
         )
 

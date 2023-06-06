@@ -1,10 +1,9 @@
 from fastapi import WebSocket
 from dataclasses import dataclass
-import uuid;
 
 @dataclass
 class Player:
-    pid: uuid
+    pid: str
     socket: WebSocket
     name: str
     voted = False
