@@ -26,13 +26,6 @@ async def create_game(host: WebSocket, name: str, voting_time: str, game_mode: s
             message = await host.receive_json()
             message = ClientMessage.from_dictionary(message)
             match message.type:
-                # case ClientMessageType.WINNING_VOTE:
-                #     await game.broadcast(
-                #         ServerMessage(
-                #             ServerMessageType.WINNING_VOTE,
-                #             message.content
-                #         )
-                #     )
                 case ClientMessageType.RESTART:
                     await game.restart()
                 
