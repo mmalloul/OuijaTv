@@ -115,6 +115,7 @@ class Game:
             return
 
         self.word += letter
+        self.start_countdown()
         
         await self.broadcast(
             ServerMessage(
