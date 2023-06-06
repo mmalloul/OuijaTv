@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { lobbyStore } from "#lib/stores/lobbyStore";
 	import { PlayerType } from "#lib/types/PlayerType";
 	import { goto } from "$app/navigation";
 	import { createEventDispatcher, getContext } from "svelte";
@@ -11,6 +12,10 @@
 	let lobbyName = "";
 	let lobbyNameIsValid: boolean | null = null;
 	let lobbyNameIsEmpty: boolean | null = null;
+	let gameMode = "";
+	let gameModes: string[] = ["Twitch", "OpenAI", "Multiplayer"];
+
+	$: gameModeIsValid = gameMode !== null;
 
 	/**
 	 * This function resets the form inputs when the lobby-creation-panel is closed by the user.
@@ -19,6 +24,8 @@
 		numUsers = 1;
 		gameDuration = 10;
 		lobbyName = "";
+		gameMode = "";
+		gameModeIsValid = false;
 	};
 
 	/**
@@ -26,12 +33,24 @@
 	 * The submit won't work if the criteria of the lobbyname is not passed.
 	 */
 	function handleSubmit() {
-		if (lobbyNameIsValid) {
-			// Go to the game lobby.
+		if (lobbyNameIsValid && gameMode) {
 			playerType.set(PlayerType.Host);
+
+			// Since our url has to stay simple (/play/[pin]) a lobbyStore has been added.
+			// Without lobbyStore the url would /play?lobbyName=${lobbyName}&gameDuration=${gameDuration}`
+			lobbyStore.set({
+				lobbyName,
+				gameMode,
+				gameDuration
+			});
+
+			// Go to the game lobby.
 			goto("/play");
 		} else if (lobbyName.length === 0) {
 			lobbyNameIsEmpty = true;
+		}
+		if (!gameMode) {
+			gameModeIsValid = false;
 		}
 	}
 
@@ -77,13 +96,22 @@
 					aria-labelledby="lobby-name"
 					bind:value={lobbyName}
 					class:invalid={lobbyNameIsValid === false}
+					placeholder="Enter lobby name"
 				/>
 
-				<label for="users">Minimum number of spirits: {numUsers}</label>
-				<input type="range" id="users" min="1" max="100" bind:value={numUsers} />
+				{#if gameModeIsValid === false}
+					<p class="error-message">Please select a gamemode</p>
+				{/if}
+				<label for="gameMode">Game Mode:</label>
+				<select id="gameMode" bind:value={gameMode}>
+					<option disabled selected value="">Select a game mode</option>
+					{#each gameModes as mode (mode)}
+						<option>{mode}</option>
+					{/each}
+				</select>
 
 				<label for="duration">Voting Time: {gameDuration} seconds</label>
-				<input type="range" id="duration" min="30" max="120" bind:value={gameDuration} />
+				<input type="range" id="duration" min="15" max="120" bind:value={gameDuration} />
 
 				<div class="actions">
 					<button type="submit" class="button">Create</button>
@@ -98,8 +126,16 @@
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		width: 75%;
+		width: 50%;
 		transform: translate(-50%, -50%);
+	}
+
+	select {
+		@apply bg-metal text-fontcolor;
+		font-size: 1.5em;
+		display: block;
+		width: 50%;
+		margin: 0 auto;
 	}
 
 	.top-row {
@@ -186,6 +222,20 @@
 	input {
 		@apply text-accent text-4xl bg-dark border-1 border-light-300 p-3 text-white;
 		margin: 0 auto;
+	}
+
+	input,
+	.button {
+		width: 50%;
+		box-sizing: border-box;
+	}
+
+	@screen <sm {
+		input,
+		.button {
+			font-size: 0.75rem;
+			padding: 0.5rem;
+		}
 	}
 
 	.actions {

@@ -9,6 +9,10 @@
 
 	export let socketController: WebSocketController;
 	export let pin: string;
+	export let lobbyName: string;
+	export let votingTime: number;
+	export let gameMode: string;
+
 	let prompt: string;
 
 	$: socketController && socketController.sendPrompt({ type: "prompt", content: prompt });
@@ -20,7 +24,7 @@
 	});
 
 	function initSocketForHost() {
-		const url = `${env.PUBLIC_WS_URL}/host`;
+		const url = `${env.PUBLIC_WS_URL}/host?name=${lobbyName}&voting_time=${votingTime}&game_mode=${gameMode}`;
 		socketController.initSocket(url);
 	}
 

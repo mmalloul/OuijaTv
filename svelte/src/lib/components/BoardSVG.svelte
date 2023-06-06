@@ -6,13 +6,18 @@
 	function handleClick(event: MouseEvent) {
 		// select closest target to mouseclick
 
-		const targets = document.querySelectorAll<SVGCircleElement>("circle")!;
+		const validIds = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@".split("");
+		const targets = document.querySelectorAll<SVGCircleElement>("g")!;
 
 		let closestTarget: SVGCircleElement | null = null;
 		let closestDistance = Number.MAX_VALUE;
 
 		//TODO: doesn't handle clicks properly
 		targets.forEach((target) => {
+			if (!validIds.includes(target.id)) {
+				return;
+			}
+
 			const rect = target.getBoundingClientRect();
 			const distance = Math.sqrt(
 				Math.pow(rect.x - event.clientX, 2) + Math.pow(rect.y - event.clientY, 2)
