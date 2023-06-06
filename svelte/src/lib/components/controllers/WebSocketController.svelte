@@ -61,6 +61,10 @@
 						tick: messageContents
 					});
 					break;
+				case "quit":
+					dispatch("playerQuit", {
+						pid: messageContents
+					})
 				default: {
 					break;
 				}
