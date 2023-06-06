@@ -25,6 +25,8 @@
 	let votingTime: number;
 	let gameMode: string;
 
+	let players: Record<string, string> = {};
+
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
 	$: lobbyStore.subscribe((value) => {
@@ -32,6 +34,33 @@
 		gameMode = value.gameMode;
 		votingTime = value.gameDuration;
 	});
+
+	let game: any;
+
+	onMount(() => {
+		if ($playerType !== PlayerType.None && $page.params.pin != null) {
+			fetchAllPlayers();
+		}
+	});
+
+	function fetchAllPlayers() {
+		fetch(`${env.PUBLIC_URL}/games/${$page.params.pin}`)
+			.then((response) => response.json())
+			.then((responseData) => {
+				let playerData = responseData.players;
+				const playerRecord: Record<string, string> = playerData.reduce(
+					(record: any, player: any) => {
+						record[player.pid] = player.name;
+						return record;
+					},
+					{}
+				);
+				players = playerRecord;
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+			});
+	}
 
 	// Update the prompt from websocket so that the PlayerController component gets updated.
 	function promptUpdate(event: any) {
@@ -55,13 +84,24 @@
 		}
 	}
 
-	/**
-	 * Send toast to notify host that a player joined.
-	 * @param event the event with the username that has joined.
-	 */
-	function sendJoinedToast(event: any) {
-		const username = event.detail.username;
-		const message = `${username} has joined the game 👻!`;
+	function onPlayerJoin(event: any) {
+		const pid = event.detail.pid;
+		if (players[pid] === null) {
+			const username = event.detail.username;
+			const message = `${username} has joined the game 👻!`;
+			players[pid] = username;
+			sendToast(message);
+		}
+	}
+
+	function onPlayerQuit(event: any) {
+		const pid = event.pid;
+		const message = `${players[pid]}} has left the game 👋!`;
+		delete players[pid];
+		sendToast(message);
+	}
+
+	function sendToast(message: string) {
 		$toastStore.showToast(ToastType.Success, message);
 	}
 
@@ -126,13 +166,14 @@
 <div class="page--game game">
 	<WebSocketController
 		bind:this={socketController}
-		on:joinedReceived={sendJoinedToast}
+		on:joinedReceived={onPlayerJoin}
 		on:pinReceived={joinGame}
 		on:promptReceived={promptUpdate}
 		on:restartReceived={restart}
 		on:winningVoteReceived={updateWinningVote}
 		on:wordUpdateReceived={checkAnswer}
 		on:tickReceived={updateTick}
+		on:playerQuit={onPlayerQuit}
 	/>
 
 	<div class="game-header">
@@ -174,6 +215,12 @@
 	</div>
 
 	<Board bind:this={board} bind:isHost on:letterClicked={onVoteLetter} />
+
+	{#if players}
+		{#each Object.values(players) as player}
+			<p class="text-white">{player}</p>
+		{/each}
+	{/if}
 </div>
 
 <style lang="postcss">
