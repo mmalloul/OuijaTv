@@ -12,17 +12,10 @@
 	let lobbyName = "";
 	let lobbyNameIsValid: boolean | null = null;
 	let lobbyNameIsEmpty: boolean | null = null;
-	let gameModeIsValid: boolean | null = null;
 	let gameMode = "";
 	let gameModes: string[] = ["Twitch", "OpenAI", "Multiplayer"];
 
-	$: {
-		if (gameMode !== null) {
-			gameModeIsValid = true;
-		} else {
-			gameModeIsValid = false;
-		}
-	}
+	$: gameModeIsValid = gameMode !==  null
 
 	/**
 	 * This function resets the form inputs when the lobby-creation-panel is closed by the user.
@@ -32,7 +25,7 @@
 		gameDuration = 10;
 		lobbyName = "";
 		gameMode = "";
-		gameModeIsValid = null;
+		gameModeIsValid = false;
 	};
 
 	/**
@@ -138,9 +131,8 @@
 	}
 
 	select {
+		@apply bg-metal text-fontcolor;
 		font-size: 1.5em;
-		background-color: gray;
-		color: white;
 		display: block;
 		width: 50%;
 		margin: 0 auto;
@@ -238,7 +230,7 @@
 		box-sizing: border-box;
 	}
 
-	@media (max-width: 576px) {
+	@screen <sm {
 		input,
 		.button {
 			font-size: 0.75rem;
