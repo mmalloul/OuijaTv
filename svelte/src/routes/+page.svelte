@@ -88,14 +88,4 @@
 	.custom-button:hover > p {
 		transform: scale(1.05);
 	}
-
-	.about-button {
-		@apply opacity-50;
-		border: 1px solid white;
-		margin: 0 1rem 1rem 0;
-		text-align: center;
-		padding: 0 10px;
-		position: absolute;
-		right: 1.5rem;
-	}
 </style>

@@ -13,8 +13,8 @@
 <Menu />
 <Toaster />
 
-<div class="grow">
+<main class="grow">
 	<slot />
-</div>
+</main>
 
 <style windi:preflights:global windi:safelist:global></style>
