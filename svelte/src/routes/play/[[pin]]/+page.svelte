@@ -96,10 +96,10 @@
 	function checkAnswer(event: any) {
 		if (winningVote === "!") {
 			prompt = "";
+			canPrompt = true;
 		} else {
 			updateWord(event);
 		}
-		canPrompt = true;
 	}
 
 	function updateWord(event: any) {
