@@ -32,6 +32,7 @@
 		if(prompt && prompt !== "") { 
 			socketController.sendPrompt({ type: "prompt", content: prompt });
 			canPrompt = false;
+			$toastStore.showToast(ToastType.Success, "Question sent to spirits👻")
 		}
 	}
 

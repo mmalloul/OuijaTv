@@ -38,6 +38,9 @@
 	function promptUpdate(event: any) {
 		prompt = event.detail.prompt;
 		if ($playerType === PlayerType.Player) {
+			if (prompt !== "") {
+				$toastStore.showToast(ToastType.Success, "Voting has started!");
+			}
 			board.allowVoting();
 		}
 	}
@@ -92,7 +95,6 @@
 
 	function checkAnswer(event: any) {
 		if (winningVote === "!") {
-			$toastStore.showToast(ToastType.Success, "The board has spoken!");
 			prompt = "";
 		} else {
 			updateWord(event);
