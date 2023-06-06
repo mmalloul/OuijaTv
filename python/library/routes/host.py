@@ -30,6 +30,7 @@ async def create_game(host: WebSocket, name: str, voting_time: str, game_mode: s
                     await game.restart()
                 
                 case ClientMessageType.PROMPT:
+                    game.prompt = message.content
                     await game.broadcast(
                         ServerMessage(
                             ServerMessageType.PROMPT, 
