@@ -1,21 +1,21 @@
 @import "$lib/fonts/fonts.css";
 
 html {
-    height: 100%;
-    background: radial-gradient(rgb(33, 33, 33), black) !important;
+	height: 100%;
+	background: radial-gradient(rgb(33, 33, 33), black) !important;
 }
 
 body {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    min-height: 100vh;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	min-height: 100vh;
 }
 
 .page {
-    max-width: 1440px;
-    @apply mx-auto h-full px-4 md:px-6;
+	max-width: 1440px;
+	@apply mx-auto h-full px-4 md:px-6;
 }
 
 .page--game {
-    @apply mx-auto px-4 md:px-6;
+	@apply mx-auto px-4 md:px-6;
 }
