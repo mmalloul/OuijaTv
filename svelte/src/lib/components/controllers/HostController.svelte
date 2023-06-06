@@ -18,11 +18,7 @@
 
 	$: host = $page.url.origin;
 	$: shareableURL = `${host}/join/${pin}`;
-	$: if (prompt && prompt !== "") {
-		canPrompt = true;
-	} else {
-		canPrompt = false;
-	}
+	$: canPrompt = (prompt && prompt !== "") ? true : false;
 
 	onMount(() => {
 		initSocketForHost();
