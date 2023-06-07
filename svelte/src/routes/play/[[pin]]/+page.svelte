@@ -20,7 +20,6 @@
 	let tick: number;
 	let letterVoted: string;
 	let canVote: boolean;
-
 	let players: Record<string, string> = {};
 
 	$: pin = $page.params.pin;
@@ -45,7 +44,6 @@
 			.then((response) => response.json())
 			.then((responseData) => {
 				let playerData = responseData.players;
-
 				playerData.forEach((player: { pid: string; name: string }) => {
 					addPlayer(player.pid, player.name);
 				});
