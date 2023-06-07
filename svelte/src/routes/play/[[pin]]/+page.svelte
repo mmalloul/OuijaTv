@@ -90,7 +90,7 @@
 
 <style lang="postcss">
 	.game {
-		@apply flex flex-col items-center justify-center h-full gap-4;
+		@apply flex flex-col items-center gap-4;
 	}
 
 	.game-header {
@@ -115,5 +115,9 @@
 		@apply text-accent text-4xl;
 		text-decoration: none;
 		font-family: theme(fontFamily.amatic);
+	}
+
+	.word span {
+		text-wrap: nowrap;
 	}
 </style>
