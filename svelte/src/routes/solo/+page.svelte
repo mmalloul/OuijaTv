@@ -21,7 +21,7 @@
 	let name = "";
 	let tags = "";
 	let sp = 0;
-	
+
 	const showMenu = getContext<Writable<boolean>>("showMenu");
 
 	const letterPositions: Record<string, Vector2> = {};
@@ -85,7 +85,7 @@
 	onMount(() => {
 		showMenu.set(false);
 	});
-	
+
 	onDestroy(() => {
 		showMenu.set(true);
 	});
@@ -93,51 +93,51 @@
 
 <Toaster />
 {#if showCards}
-<div class="page">
-	<div>
-		<h1 class="awnser">SOLO Summon</h1>
-		<div class="subtask">
-			As you navigate to the website and click on the Ouija board feature, a sense of apprehension
-			washes over you. You know that this virtual board may not be as innocuous as it seems, and
-			that you could be inviting something dark and powerful into your life. Select the dark spirit
-			that you desire and use him by <b>clicking</b> on the card.
+	<div class="page">
+		<div>
+			<h1 class="awnser">SOLO Summon</h1>
+			<div class="subtask">
+				As you navigate to the website and click on the Ouija board feature, a sense of apprehension
+				washes over you. You know that this virtual board may not be as innocuous as it seems, and
+				that you could be inviting something dark and powerful into your life. Select the dark
+				spirit that you desire and use him by <b>clicking</b> on the card.
+			</div>
+		</div>
+		<div class="l-container">
+			<Card
+				spirit="1"
+				goToQuestion={handleGoToQuestion}
+				name="Sgt. Sabrina"
+				backgroundImage={spirit1}
+				tag="Friendly, Scary"
+				lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+			/>
+			<Card
+				spirit="2"
+				goToQuestion={handleGoToQuestion}
+				name="Asta"
+				backgroundImage={spirit2}
+				tag="Clever, Funny"
+				lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+			/>
+			<Card
+				spirit="3"
+				goToQuestion={handleGoToQuestion}
+				name="Miko Mana"
+				backgroundImage={spirit3}
+				tag="Funny, Rich, Clever"
+				lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+			/>
+			<Card
+				spirit="4"
+				goToQuestion={handleGoToQuestion}
+				name="The Crow"
+				backgroundImage={spirit4}
+				tag="Dark, Scary"
+				lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+			/>
 		</div>
 	</div>
-	<div class="l-container">
-		<Card
-			spirit="1"
-			goToQuestion={handleGoToQuestion}
-			name="Sgt. Sabrina"
-			backgroundImage={spirit1}
-			tag="Friendly, Scary"
-			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
-		/>
-		<Card
-			spirit="2"
-			goToQuestion={handleGoToQuestion}
-			name="Asta"
-			backgroundImage={spirit2}
-			tag="Clever, Funny"
-			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
-		/>
-		<Card
-			spirit="3"
-			goToQuestion={handleGoToQuestion}
-			name="Miko Mana"
-			backgroundImage={spirit3}
-			tag="Funny, Rich, Clever"
-			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
-		/>
-		<Card
-			spirit="4"
-			goToQuestion={handleGoToQuestion}
-			name="The Crow"
-			backgroundImage={spirit4}
-			tag="Dark, Scary"
-			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
-		/>
-	</div>
-</div>
 {/if}
 
 {#if showBoard}

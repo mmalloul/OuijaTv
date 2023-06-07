@@ -31,7 +31,7 @@
 	}
 
 	.menu {
-		@apply w-full p-4 max-w-screen-2xl md: p-6 ;
+		@apply w-full p-4 max-w-screen-2xl md: p-6;
 	}
 
 	.menu__button {

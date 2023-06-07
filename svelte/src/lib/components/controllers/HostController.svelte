@@ -141,7 +141,7 @@
 
 <div class="restart-button">
 	<button on:click={onRestartButton}>
-		<Icon icon="mdi:restart" />
+		Restart <Icon icon="mdi:restart" />
 	</button>
 </div>
 
@@ -153,7 +153,7 @@
 		disabled={!canPrompt}
 	/>
 	<button on:click={sendPrompt} class="prompt-button">
-		<Icon icon="formkit:arrowright" />
+		Submit <Icon icon="formkit:arrowright" />
 	</button>
 </form>
 
@@ -163,7 +163,7 @@
 			{shareableURL}
 		</span>
 
-		<button on:click={copyToClipBoard} class="link-share-button ml-4 px-3 opacity-100">
+		<button on:click={copyToClipBoard} class="link-share-button">
 			<Icon icon="mingcute:copy-line" color="white" width="22" />
 		</button>
 	</div>
@@ -171,11 +171,11 @@
 
 <style lang="postcss">
 	.promt-question {
-		@apply flex flex-1 flex-grow items-center justify-center;
+		@apply flex flex-1 flex-grow items-center justify-center gap-2;
 	}
 
 	.prompt-button {
-		@apply text-fontcolor text-4xl rounded-md;
+		@apply flex justify-center items-center text-fontcolor p-2 rounded-md text-xl md:text-3xl;
 		text-decoration: none;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);
@@ -206,19 +206,15 @@
 		@apply opacity-50 flex justify-end rounded-lg;
 		border: 1px solid white;
 		margin: 0 0 1rem 0;
-		text-align: center;
-		padding-left: 10px;
 	}
 
 	.link-share-container > span {
-		@apply text-fontcolor text-4xl py-2 px-6;
+		@apply text-fontcolor font-amatic text-center p-1 text-xl md:text-3xl py-2 px-6;
 		text-decoration: none;
-		text-align: center;
-		font-family: theme(fontFamily.amatic);
-		font-size: 1.55rem;
 	}
 
 	.link-share-button {
+		@apply opacity-100 p-2;
 		background-color: #3e3f3b;
 		border-radius: 0 7px 7px 0;
 	}
@@ -226,18 +222,18 @@
 	.link-share-button:hover {
 		@apply cursor-pointer bg-accent opacity-85;
 	}
-	
+
 	.restart-button {
-		@apply  flex flex-1 flex-grow items-center justify-center;
+		@apply absolute bottom-0 left-6 flex flex-1 flex-grow items-center justify-center;
 	}
 	.restart-button button {
-		@apply text-fontcolor text-4xl p-2 rounded-md left-5 bottom-0;
+		@apply flex justify-center items-center text-fontcolor p-2 rounded-md text-xl md:text-3xl;
 		text-decoration: none;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);
 		transition: all 0.2s ease-in-out;
 	}
-	
+
 	.restart-button button:hover {
 		@apply cursor-pointer bg-accent;
 		transform: scale(1.03);

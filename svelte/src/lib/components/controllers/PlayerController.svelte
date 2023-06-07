@@ -143,9 +143,7 @@
 
 <style lang="postcss">
 	.prompt {
-		@apply w-full text-center;
-		font-family: theme(fontFamily.amatic);
-		font-size: 3rem;
+		@apply w-full text-center font-amatic text-xl md:text-3xl;
 		color: rgba(255, 255, 255, 0.9);
 		background-color: transparent;
 	}
