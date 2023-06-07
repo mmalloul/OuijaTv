@@ -38,6 +38,14 @@ async def join_game(websocket: WebSocket, pin: str, username: str):
                 game.word
             )
         )
+        
+        await game.notify_player(
+            player,
+            ServerMessage(
+                ServerMessageType.WINNING_VOTE,
+                game.winning_letter
+            )
+        )
         # terrible syntax, but a context manager would be too verbose
         try:
             while True:

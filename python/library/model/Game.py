@@ -20,6 +20,7 @@ class Game:
     name: str = ""
     voting_time: int = 0
     game_mode: str = ""
+    winning_letter: str = ""
 
     def __post_init__(self) -> None:
         """Initialise vote dictionary."""
@@ -63,17 +64,19 @@ class Game:
 
             player.voted = True
             
-            old_winning_letter = max(self.votes, key= self.votes.get)
+            self.winning_letter = max(self.votes, key= self.votes.get)
             self.votes[vote] += 1
             new_winning_letter = max(self.votes, key= self.votes.get)
 
-            if (old_winning_letter != new_winning_letter):
+            if (self.winning_letter != new_winning_letter):
+                self.winning_letter = new_winning_letter
                 await self.broadcast(
                     ServerMessage(
                         ServerMessageType.WINNING_VOTE, 
-                        new_winning_letter
+                        self.winning_letter
                     )
                 )
+
             await self.notify_host(
                 ServerMessage(
                     ServerMessageType.VOTE, 
