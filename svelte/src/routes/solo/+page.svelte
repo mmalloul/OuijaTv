@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getContext, onMount, onDestroy } from "svelte";
+	import type { Writable } from "svelte/store";
 	import { openApiCall } from "$lib/functions/apiCall";
 	import toast, { Toaster } from "svelte-french-toast";
 	import BoardSvg from "$lib/components/BoardSVG.svelte";
@@ -19,6 +21,8 @@
 	let name = "";
 	let tags = "";
 	let sp = 0;
+	
+	const showMenu = getContext<Writable<boolean>>("showMenu");
 
 	const letterPositions: Record<string, Vector2> = {};
 	class Vector2 {
@@ -77,10 +81,19 @@
 			seekerY = target.y;
 		}
 	}
+
+	onMount(() => {
+		showMenu.set(false);
+	});
+	
+	onDestroy(() => {
+		showMenu.set(true);
+	});
 </script>
 
 <Toaster />
 {#if showCards}
+<div class="page">
 	<div>
 		<h1 class="awnser">SOLO Summon</h1>
 		<div class="subtask">
@@ -124,10 +137,11 @@
 			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
 		/>
 	</div>
+</div>
 {/if}
 
 {#if showBoard}
-	<div class="h-90vh flex flex-col items-center">
+	<div class="page--game flex flex-col items-center">
 		<form class="flex">
 			<input bind:value={prompt} type="text" placeholder="STATE YOUR INTENTION" />
 		</form>

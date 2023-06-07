@@ -6,7 +6,7 @@
 	import { setContext } from "svelte";
 	import { PlayerType } from "$lib/types/PlayerType";
 	import { Toaster } from "svelte-french-toast";
-	import Footer from "$lib/components/footer.svelte";
+	import Footer from "$lib/components/Footer.svelte";
 
 	setContext("playerType", writable(PlayerType.None));
 
