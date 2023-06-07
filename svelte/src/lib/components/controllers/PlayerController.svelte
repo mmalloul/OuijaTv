@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount, createEventDispatcher } from "svelte";
 	import { env } from "$env/dynamic/public";
-	import type WebSocketController from "$lib/components/controllers/WebSocketController.svelte";
+	import WebSocketController from "$lib/components/controllers/WebSocketController.svelte";
 	import { toastStore } from "$lib/stores/toast";
 	import { ToastType } from "$lib/types/ToastType";
 	import type Board from "$lib/components/Board.svelte";
