@@ -5,8 +5,8 @@
 	let x = 0;
 	let y = 0;
 	let ghostWidth = 75;
-	let maxX = window.innerWidth - ghostWidth * 2;
-	let maxY = window.innerHeight - ghostWidth * 2;
+	let maxX = 0;
+	let maxY = 0;
 
 	let movementStep = 50;
 	const timeBetweenSteps = 200;
