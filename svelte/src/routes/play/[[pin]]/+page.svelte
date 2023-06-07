@@ -101,14 +101,14 @@
 	}
 
 	function noVotesReceived() {
-		$toastStore.showToast(ToastType.Error, `No votes received!`)
+		$toastStore.showToast(ToastType.Error, `No votes received!`);
 	}
 
 	/**
 	 * Moves the seeker to the targeted letter.
 	 * @param letter the letter to move the seeker to.
 	 */
-	 function updateWinningVote(letter: any) {
+	function updateWinningVote(letter: any) {
 		board.moveSeekerToLetter(letter.detail.winningVote);
 	}
 </script>
@@ -142,7 +142,7 @@
 				on:joinedReceived={onPlayerJoin}
 				on:playerQuit={onPlayerQuit}
 				on:winningVoteReceived={updateWinningVote}
-				on:noVotesReceived={noVotesReceived}			
+				on:noVotesReceived={noVotesReceived}
 			/>
 		{/if}
 

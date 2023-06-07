@@ -64,7 +64,7 @@
 		});
 
 		resetCountdown();
-		
+
 		$toastStore.showToast(ToastType.Success, "Game has been restarted!");
 	}
 
@@ -92,7 +92,6 @@
 			canVote = true;
 		}
 	}
-
 
 	/**
 	 * If player clicked on a letter and is allowed to vote send vote to server.

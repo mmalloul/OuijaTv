@@ -94,7 +94,7 @@
 		});
 
 		resetCountdown();
-		
+
 		board.resetSeeker();
 		$toastStore.showToast(ToastType.Success, "Game has been restarted!");
 	}

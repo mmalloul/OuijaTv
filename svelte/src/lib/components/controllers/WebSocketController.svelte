@@ -70,7 +70,7 @@
 					dispatch("noVotesReceived");
 					break;
 				case "stopCountdown":
-					dispatch("stopCountdownReceived")
+					dispatch("stopCountdownReceived");
 					break;
 				default: {
 					break;
