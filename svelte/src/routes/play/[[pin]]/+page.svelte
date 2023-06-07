@@ -9,20 +9,28 @@
 	import PlayerController from "$lib/components/controllers/PlayerController.svelte";
 
 	const playerType: Writable<PlayerType> = getContext("playerType");
+	const showMenu = getContext<Writable<boolean>>("showMenu");
+
 	let board: Board;
 	let word: string;
 	let tick: number;
 	let letterVoted: string;
 	let canVote: boolean;
+	
 
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
 
 	onMount(() => {
+		showMenu.set(false);
 		if ($playerType === PlayerType.None) {
 			goto(`/join/${pin}`);
 		}
 	});
+
+	onDestroy(() => {
+        showMenu.set(true);
+    });
 
 	function onVoteLetter(event: any) {
 		letterVoted = event.detail.id; // Bound to PlayerController so that it can send the vote.
