@@ -66,6 +66,12 @@
 						pid: messageContents
 					});
 					break;
+				case "noVotes":
+					dispatch("noVotesReceived");
+					break;
+				case "stopCountdown":
+					dispatch("stopCountdownReceived");
+					break;
 				default: {
 					break;
 				}
