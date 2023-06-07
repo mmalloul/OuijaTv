@@ -18,7 +18,7 @@
 
 	let board: Board;
 	let word: string;
-	let tick: number;
+	let tick: number | undefined;
 	let letterVoted: string;
 	let canVote: boolean;
 	let players: Record<string, string> = {};
@@ -99,6 +99,18 @@
 	function setTick(event: any) {
 		tick = event.detail.tick; // Bound to Host- and PlayerController so that it can update the word.
 	}
+
+	function noVotesReceived() {
+		$toastStore.showToast(ToastType.Error, `No votes received!`)
+	}
+
+	/**
+	 * Moves the seeker to the targeted letter.
+	 * @param letter the letter to move the seeker to.
+	 */
+	 function updateWinningVote(letter: any) {
+		board.moveSeekerToLetter(letter.detail.winningVote);
+	}
 </script>
 
 <div class="page--game game">
@@ -111,10 +123,12 @@
 				bind:board
 				bind:pin
 				bind:word
-				on:updateTick={setTick}
+				on:tickReceived={setTick}
 				on:updateWord={setWord}
 				on:joinedReceived={onPlayerJoin}
 				on:playerQuit={onPlayerQuit}
+				on:winningVoteReceived={updateWinningVote}
+				on:noVotesReceived={noVotesReceived}
 			/>
 		{:else if $playerType === PlayerType.Player}
 			<PlayerController
@@ -123,10 +137,12 @@
 				bind:word
 				bind:letterVoted
 				bind:canVote
-				on:updateTick={setTick}
+				on:tickReceived={setTick}
 				on:updateWord={setWord}
 				on:joinedReceived={onPlayerJoin}
 				on:playerQuit={onPlayerQuit}
+				on:winningVoteReceived={updateWinningVote}
+				on:noVotesReceived={noVotesReceived}			
 			/>
 		{/if}
 

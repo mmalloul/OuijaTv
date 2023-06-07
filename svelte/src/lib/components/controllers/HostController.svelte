@@ -93,16 +93,17 @@
 			word: ""
 		});
 
+		resetCountdown();
+		
 		board.resetSeeker();
 		$toastStore.showToast(ToastType.Success, "Game has been restarted!");
 	}
 
-	/**
-	 * Moves the seeker to the targeted letter.
-	 * @param letter the letter to move the seeker to.
-	 */
-	function updateWinningVote(letter: any) {
-		board.moveSeekerToLetter(letter.detail.winningVote);
+	function resetCountdown() {
+		dispatch("tickReceived", {
+			// Send event to parent for countdown timer.
+			tick: undefined
+		});
 	}
 
 	/**
@@ -120,12 +121,6 @@
 			});
 		}
 	}
-
-	function updateTick(event: any) {
-		dispatch("updateTick", {
-			tick: event.detail.tick
-		});
-	}
 </script>
 
 <WebSocketController
@@ -134,9 +129,11 @@
 	on:playerQuit
 	on:pinReceived={joinGame}
 	on:restartReceived={restart}
-	on:winningVoteReceived={updateWinningVote}
+	on:winningVoteReceived
 	on:wordUpdateReceived={updateWord}
-	on:tickReceived={updateTick}
+	on:tickReceived
+	on:stopCountdownReceived={restart}
+	on:noVotesReceived
 />
 
 <div class="restart-button">

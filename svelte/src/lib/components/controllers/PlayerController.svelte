@@ -63,15 +63,16 @@
 			word: ""
 		});
 
+		resetCountdown();
+		
 		$toastStore.showToast(ToastType.Success, "Game has been restarted!");
 	}
 
-	/**
-	 * Moves the seeker to the targeted letter.
-	 * @param letter the letter to move the seeker to.
-	 */
-	function updateWinningVote(letter: any) {
-		board.moveSeekerToLetter(letter.detail.winningVote);
+	function resetCountdown() {
+		dispatch("tickReceived", {
+			// Send event to parent for countdown timer.
+			tick: undefined
+		});
 	}
 
 	/**
@@ -85,19 +86,13 @@
 
 		if (newWord === "!") {
 			prompt = "";
-		} else if (newWord !== "" && newWord !== "A") {
+		} else if (newWord !== "") {
 			// The "A" is temporarily because no logic in backend when nothing voted. Now it just sends "A" from backend when nothing voted.
 			word = newWord;
 			canVote = true;
 		}
 	}
 
-	function updateTick(event: any) {
-		dispatch("updateTick", {
-			// Send event to parent for countdown timer.
-			tick: event.detail.tick
-		});
-	}
 
 	/**
 	 * If player clicked on a letter and is allowed to vote send vote to server.
@@ -118,9 +113,11 @@
 	on:playerQuit
 	on:promptReceived={promptUpdate}
 	on:restartReceived={restart}
-	on:winningVoteReceived={updateWinningVote}
+	on:winningVoteReceived
 	on:wordUpdateReceived={updateWord}
-	on:tickReceived={updateTick}
+	on:tickReceived
+	on:stopCountdownReceived={restart}
+	on:noVotesReceived
 />
 
 <div class="flex flex-1 flex-grow item-center justify-center">
