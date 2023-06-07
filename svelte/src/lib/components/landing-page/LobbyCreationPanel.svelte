@@ -25,8 +25,7 @@
 		numUsers = 1;
 		gameDuration = 10;
 		lobbyName = "";
-		gameMode = "";
-		gameModeIsValid = false;
+		gameMode = gameModes[1]; // Set to multiplayer.
 	};
 
 	/**
