@@ -12,8 +12,8 @@
 	let lobbyName = "";
 	let lobbyNameIsValid: boolean | null = null;
 	let lobbyNameIsEmpty: boolean | null = null;
-	let gameMode = "";
-	let gameModes: string[] = ["Twitch", "OpenAI", "Multiplayer"];
+	let gameModes: string[] = ["Solo", "Multiplayer"];
+	let gameMode = gameModes[1]; // Set default gamemode to Multiplayer.
 
 	$: gameModeIsValid = gameMode !== null;
 
@@ -24,8 +24,7 @@
 		numUsers = 1;
 		gameDuration = 10;
 		lobbyName = "";
-		gameMode = "";
-		gameModeIsValid = false;
+		gameMode = gameModes[1]; // Set to multiplayer.
 	};
 
 	/**
@@ -106,14 +105,13 @@
 				{/if}
 				<label for="gameMode">Game Mode:</label>
 				<select id="gameMode" bind:value={gameMode}>
-					<option disabled selected value="">Select a game mode</option>
 					{#each gameModes as mode (mode)}
 						<option>{mode}</option>
 					{/each}
 				</select>
 
 				<label for="duration">Voting Time: {gameDuration} seconds</label>
-				<input type="range" id="duration" min="15" max="120" bind:value={gameDuration} />
+				<input type="range" id="duration" min="5" max="120" bind:value={gameDuration} />
 
 				<div class="actions">
 					<button type="submit" class="button">Create</button>
