@@ -2,7 +2,7 @@
 	import { goto } from "$app/navigation";
 	import Board from "#lib/components/Board.svelte";
 	import WebSocketController from "#lib/components/controllers/WebSocketController.svelte";
-	import { getContext, onMount } from "svelte";
+	import { getContext, onMount, onDestroy } from "svelte";
 	import type { Writable } from "svelte/store";
 	import { PlayerType } from "#lib/types/PlayerType";
 	import { page } from "$app/stores";
@@ -11,7 +11,6 @@
 	import { toastStore } from "#lib/stores/toast";
 	import { ToastType } from "#lib/types/ToastType";
 	import { lobbyStore } from "#lib/stores/lobbyStore";
-	import { env } from "$env/dynamic/public";
 
 	let prompt: string;
 	let word: string;
@@ -72,7 +71,6 @@
 	 */
 	function updateWinningVote(letter: any) {
 		winningVote = letter.detail.winningVote;
-		console.log(winningVote);
 
 		board.moveSeekerToLetter(letter.detail.winningVote);
 	}
@@ -113,9 +111,19 @@
 	function updateTick(event: any) {
 		tick = event.detail.tick;
 	}
+
+	let showMenu = getContext<Writable<boolean>>("showMenu");
+
+	onMount(() => {
+		showMenu.set(false);
+	});
+
+	onDestroy(() => {
+		showMenu.set(true);
+	});
 </script>
 
-<div class="h-90vh flex flex-col items-center gap-5 pt-10">
+<div class="page--game game">
 	<WebSocketController
 		bind:this={socketController}
 		on:joinedReceived={sendJoinedToast}
@@ -127,62 +135,72 @@
 		on:tickReceived={updateTick}
 	/>
 
-	{#if socketController}
-		{#if $playerType === PlayerType.Host}
-			<HostController
-				bind:socketController
-				bind:pin
-				bind:lobbyName
-				bind:votingTime
-				bind:gameMode
-				bind:prompt
-				bind:canPrompt
-			/>
-		{:else if $playerType === PlayerType.Player}
-			<PlayerController bind:socketController bind:pin bind:prompt />
-		{:else if $playerType === PlayerType.None}
-			{gotoJoinPage()}
+	<div class="game-header">
+		{#if socketController}
+			{#if $playerType === PlayerType.Host}
+				<HostController
+					bind:socketController
+					bind:pin
+					bind:lobbyName
+					bind:votingTime
+					bind:gameMode
+					bind:prompt
+					bind:canPrompt
+				/>
+			{:else if $playerType === PlayerType.Player}
+				<PlayerController bind:socketController bind:pin bind:prompt />
+			{:else if $playerType === PlayerType.None}
+				{gotoJoinPage()}
+			{/if}
 		{/if}
-	{/if}
 
-	{#if word}
-		<span class="word">
-			{word}
-		</span>
-	{/if}
+		<div class="voting-timer flex flex-1 flex-grow item-center justify-center">
+			{#if tick}
+				<span class="timer">Voting ends in: {tick}</span>
+			{:else}
+				<span class="timer">Voting will start soon...</span>
+			{/if}
+		</div>
+	</div>
 
-	<div class="flex gap-2 justify-end voting-timer rounded-lg">
-		{#if tick}
-			<span class="timer">Voting ends in: {tick}</span>
-		{:else}
-			<span class="timer">Voting will start soon...</span>
-		{/if}
+	<div class="word flex item-center justify-center">
+	
+			{#if word}
+			<span class="text-6xl tracking-0.5em">
+				{word}
+			</span>
+			{:else}
+			<span class="text-6xl">
+				Waiting for answer...
+			</span>
+			{/if}
+
 	</div>
 
 	<Board bind:this={board} bind:isHost on:letterClicked={onVoteLetter} />
 </div>
 
 <style lang="postcss">
-	.timer {
-		@apply text-fontcolor text-4xl;
-		text-decoration: none;
-		font-family: theme(fontFamily.amatic);
+	.game {
+		@apply flex flex-col items-center justify-center h-full gap-4;
 	}
 
-	.final-word {
-		@apply text-accent text-10xl;
+	.game-header {
+		@apply flex flex-col md: flex-row justify-center items-center w-full flex-wrap;
+		transition: all 0.5s ease-in-out;
+	}
+
+	.timer {
+		@apply text-fontcolor text-4xl rounded-lg p-3;
 		text-decoration: none;
+		border: 1px solid white;
 		font-family: theme(fontFamily.amatic);
+		text-wrap: nowrap;
 	}
 
 	.voting-timer {
 		@apply opacity-50;
-		border: 1px solid white;
-		margin: 0 1rem 1rem 0;
 		text-align: center;
-		padding: 0 10px;
-		position: absolute;
-		right: 1.5rem;
 	}
 
 	.word {

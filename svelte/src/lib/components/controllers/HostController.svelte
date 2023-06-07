@@ -53,7 +53,13 @@
 	}
 </script>
 
-<form class="flex justify-center">
+<div class="flex flex-1 flex-grow item-center justify-center">
+	<button on:click={restart} class="restart-button rounded-md">
+		<Icon icon="mdi:restart" />
+	</button>
+</div>
+
+<form class="flex flex-1 flex-grow item-center justify-center">
 	<input
 		bind:value={prompt}
 		type="text"
@@ -65,19 +71,17 @@
 	</button>
 </form>
 
-<div class="flex gap-2 host-options">
+<div class="flex flex-1 flex-grow item-center justify-center gap-2 host-options">
 	<div class="flex justify-end link-share rounded-lg">
 		<span>
 			{shareableURL}
 		</span>
+
 		<button on:click={copyToClipBoard} class="link-share-button ml-4 px-3 opacity-100">
 			<Icon icon="mingcute:copy-line" color="white" width="22" />
 		</button>
 	</div>
 </div>
-<button on:click={restart} class="restart-button p-2 rounded-md absolute left-5 bottom-0">
-	<Icon icon="mdi:restart" />
-</button>
 
 <style lang="postcss">
 	.prompt-button {
@@ -94,24 +98,12 @@
 	}
 
 	input {
-		@apply w-full mx-50 w-150 outline-0 text-center;
+		@apply mx-50 text-center;
 		font-family: theme(fontFamily.amatic);
 		font-size: 3rem;
 		color: rgba(255, 255, 255, 0.9);
 		background-color: transparent;
 		margin: 0;
-	}
-
-	p,
-	h1 {
-		color: white;
-	}
-
-	.absolute-center {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
 	}
 
 	.host-options {
@@ -141,15 +133,10 @@
 		border-radius: 0 7px 7px 0;
 	}
 
-	.link-share-button > img {
-		color: white;
-	}
-
 	.link-share-button:hover {
 		@apply cursor-pointer bg-accent opacity-85;
 	}
 
-	.submit-button,
 	.restart-button {
 		@apply text-fontcolor text-4xl;
 		text-decoration: none;
@@ -158,20 +145,8 @@
 		transition: all 0.2s ease-in-out;
 	}
 
-	.restart-button {
-		margin: 0 1rem 1rem 0;
-	}
-
 	.restart-button:hover {
 		@apply cursor-pointer bg-accent;
 		transform: scale(1.03);
-	}
-
-	.restart-button > p {
-		transition: all 0.2s ease-in-out;
-	}
-
-	.restart-button:hover > p {
-		transform: scale(1.02);
 	}
 </style>
