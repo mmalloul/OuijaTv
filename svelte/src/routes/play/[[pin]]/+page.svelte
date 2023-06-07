@@ -7,9 +7,6 @@
 	import { page } from "$app/stores";
 	import HostController from "$lib/components/controllers/HostController.svelte";
 	import PlayerController from "$lib/components/controllers/PlayerController.svelte";
-	import { toastStore } from "$lib/stores/toast";
-	import { ToastType } from "$lib/types/ToastType";
-	import { lobbyStore } from "$lib/stores/lobbyStore";
 
 	const playerType: Writable<PlayerType> = getContext("playerType");
 	let board: Board;
