@@ -89,6 +89,7 @@
 	function restart() {
 		prompt = "";
 		word = "";
+		canPrompt = true;
 		board.resetSeeker();
 		$toastStore.showToast(ToastType.Success, "Game has been restarted!");
 	}
@@ -96,10 +97,10 @@
 	function checkAnswer(event: any) {
 		if (winningVote === "!") {
 			prompt = "";
+			canPrompt = true;
 		} else {
 			updateWord(event);
 		}
-		canPrompt = true;
 	}
 
 	function updateWord(event: any) {

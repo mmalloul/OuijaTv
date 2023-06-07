@@ -12,20 +12,23 @@
 	export let lobbyName: string;
 	export let votingTime: number;
 	export let gameMode: string;
-	export let canPrompt = false;
+	export let canPrompt = true;
 
 	export let prompt: string;
 
 	$: host = $page.url.origin;
 	$: shareableURL = `${host}/join/${pin}`;
-	$: canPrompt = prompt && prompt !== "" ? true : false;
 
 	onMount(() => {
 		initSocketForHost();
 	});
 
 	function sendPrompt() {
-		if (prompt && prompt !== "") {
+		if (prompt == "" || !prompt) {
+			$toastStore.showToast(ToastType.Error, "You should enter a question!");
+		}
+
+		if (canPrompt && prompt && prompt !== "") {
 			socketController.sendPrompt({ type: "prompt", content: prompt });
 			canPrompt = false;
 			$toastStore.showToast(ToastType.Success, "Question sent to spirits👻");
@@ -51,8 +54,13 @@
 </script>
 
 <form class="flex justify-center">
-	<input bind:value={prompt} type="text" placeholder={"STATE YOUR INTENTION"} />
-	<button on:click={sendPrompt} class="prompt-button rounded-md" disabled={!canPrompt}>
+	<input
+		bind:value={prompt}
+		type="text"
+		placeholder={"STATE YOUR INTENTION"}
+		disabled={!canPrompt}
+	/>
+	<button on:click={sendPrompt} class="prompt-button rounded-md">
 		<Icon icon="formkit:arrowright" />
 	</button>
 </form>
