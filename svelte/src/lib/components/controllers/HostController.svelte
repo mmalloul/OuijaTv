@@ -175,7 +175,7 @@
 	}
 
 	.prompt-button {
-		@apply flex justify-center items-center text-fontcolor p-2 rounded-md text-base lg: text-3xl;
+		@apply flex justify-center items-center text-fontcolor p-2 rounded-md text-lg lg: text-3xl;
 		text-decoration: none;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);
@@ -206,7 +206,7 @@
 	}
 
 	.link-share-container > span {
-		@apply text-fontcolor font-amatic text-center p-1 text-base lg:text-3xl p-2;
+		@apply text-fontcolor font-amatic text-center p-1 text-lg lg:text-3xl p-2;
 		text-decoration: none;
 	}
 
@@ -226,7 +226,7 @@
 	}
 
 	.restart-button button {
-		@apply flex justify-center items-center text-fontcolor p-2 rounded-md text-base lg:text-3xl;
+		@apply flex justify-center items-center text-fontcolor p-2 rounded-md text-lg lg:text-3xl;
 		text-decoration: none;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);

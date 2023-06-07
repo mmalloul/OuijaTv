@@ -143,7 +143,7 @@
 
 <style lang="postcss">
 	.prompt {
-		@apply w-full text-center font-amatic text-base lg: text-3xl;
+		@apply w-full text-center font-amatic text-lg lg: text-3xl;
 		color: rgba(255, 255, 255, 0.9);
 		background-color: transparent;
 	}
@@ -159,7 +159,7 @@
 	}
 
 	.player-info > span {
-		@apply text-fontcolor text-base py-1 px-2 lg:text-3xl py-2 px-6;
+		@apply text-fontcolor text-lg py-1 px-2 lg:text-3xl py-2 px-6;
 		text-decoration: none;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);

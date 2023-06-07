@@ -174,7 +174,7 @@
 	}
 
 	.back-to-menu a {
-		@apply flex justify-center items-center px-2 rounded-md  text-base lg: text-3xl;
+		@apply flex justify-center items-center px-2 rounded-md  text-lg lg: text-3xl;
 		transition: all 0.2s ease-in-out;
 		text-decoration: none;
 	}
@@ -185,7 +185,7 @@
 	}
 
 	.timer {
-		@apply text-fontcolor rounded-lg text-base px-2 lg: text-3xl;
+		@apply text-fontcolor rounded-lg text-lg px-2 lg: text-3xl;
 		text-decoration: none;
 		border: 1px solid white;
 		font-family: theme(fontFamily.amatic);
@@ -203,7 +203,7 @@
 	}
 
 	.spirit-answer span {
-		@apply text-base lg: text-3xl;
+		@apply text-lg lg: text-3xl;
 		text-wrap: nowrap;
 	}
 </style>

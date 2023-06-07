@@ -1396,6 +1396,7 @@
 	.board-svg {
 		width: 100%;
 		height: auto;
+		margin: auto;
 
 		@screen <lg {
 			max-width: 600px;
