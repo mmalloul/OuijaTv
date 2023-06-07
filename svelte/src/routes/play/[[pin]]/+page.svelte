@@ -16,7 +16,6 @@
 	let tick: number;
 	let letterVoted: string;
 	let canVote: boolean;
-	
 
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
@@ -29,8 +28,8 @@
 	});
 
 	onDestroy(() => {
-        showMenu.set(true);
-    });
+		showMenu.set(true);
+	});
 
 	function onVoteLetter(event: any) {
 		letterVoted = event.detail.id; // Bound to PlayerController so that it can send the vote.
