@@ -1,16 +1,16 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import Board from "#lib/components/Board.svelte";
-	import WebSocketController from "#lib/components/controllers/WebSocketController.svelte";
+	import Board from "$lib/components/Board.svelte";
+	import WebSocketController from "$lib/components/controllers/WebSocketController.svelte";
 	import { getContext, onMount, onDestroy } from "svelte";
 	import type { Writable } from "svelte/store";
-	import { PlayerType } from "#lib/types/PlayerType";
+	import { PlayerType } from "$lib/types/PlayerType";
 	import { page } from "$app/stores";
-	import HostController from "#lib/components/controllers/HostController.svelte";
-	import PlayerController from "#lib/components/controllers/PlayerController.svelte";
-	import { toastStore } from "#lib/stores/toast";
-	import { ToastType } from "#lib/types/ToastType";
-	import { lobbyStore } from "#lib/stores/lobbyStore";
+	import HostController from "$lib/components/controllers/HostController.svelte";
+	import PlayerController from "$lib/components/controllers/PlayerController.svelte";
+	import { toastStore } from "$lib/stores/toast";
+	import { ToastType } from "$lib/types/ToastType";
+	import { lobbyStore } from "$lib/stores/lobbyStore";
 
 	let prompt: string;
 	let word: string;
