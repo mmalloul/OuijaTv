@@ -54,9 +54,7 @@ async def join_game(websocket: WebSocket, pin: str, username: str):
 
         except WebSocketDisconnect:
             games.remove(pin, player)
-            await game.broadcast(
-                ServerMessage(ServerMessageType.QUIT, player.pid)
-            )
+            await game.broadcast(ServerMessage(ServerMessageType.QUIT, player.pid))
     else:
         # generic policy violation since there's no proper equivalent to 404
         await websocket.close(code=1008)
