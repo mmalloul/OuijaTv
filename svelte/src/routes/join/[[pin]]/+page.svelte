@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PlayerType } from "#lib/types/PlayerType";
+	import { PlayerType } from "$lib/types/PlayerType";
 	import { goto } from "$app/navigation";
 	import { page } from "$app/stores";
 	import { getContext, onMount } from "svelte";

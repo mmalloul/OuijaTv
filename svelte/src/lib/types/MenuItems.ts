@@ -14,7 +14,15 @@ const items: MenuItem[] = [
 	},
 	{
 		name: "Browse",
-		route: ""
+		route: "/browse"
+	},
+	{
+		name: "About Us",
+		route: "/about-us"
+	},
+	{
+		name: "Contact",
+		route: "/contact"
 	}
 ];
 

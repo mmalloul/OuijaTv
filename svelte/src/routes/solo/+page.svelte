@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { openApiCall } from "#lib/functions/apiCall";
+	import { openApiCall } from "$lib/functions/apiCall";
 	import toast, { Toaster } from "svelte-french-toast";
 	import BoardSvg from "$lib/components/BoardSVG.svelte";
 	import Card from "$lib/components/Card.svelte";

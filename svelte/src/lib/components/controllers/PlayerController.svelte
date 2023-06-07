@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { env } from "$env/dynamic/public";
-	import type WebSocketController from "#lib/components/controllers/WebSocketController.svelte";
+	import type WebSocketController from "$lib/components/controllers/WebSocketController.svelte";
 
 	export let socketController: WebSocketController;
 	export let pin: string;

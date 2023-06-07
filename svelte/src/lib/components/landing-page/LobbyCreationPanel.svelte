@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { lobbyStore } from "#lib/stores/lobbyStore";
-	import { PlayerType } from "#lib/types/PlayerType";
+	import { lobbyStore } from "$lib/stores/lobbyStore";
+	import { PlayerType } from "$lib/types/PlayerType";
 	import { goto } from "$app/navigation";
 	import { createEventDispatcher, getContext } from "svelte";
 	import type { Writable } from "svelte/store";
