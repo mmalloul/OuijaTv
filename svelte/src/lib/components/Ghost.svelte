@@ -45,7 +45,16 @@
 	}
 </script>
 
-<div class="-z-10 text-white duration-1000" style="position: absolute; left: {x}px; bottom: {y}px;">
-	<img class="opacity-25" width={ghostWidth} src={GhostImage} alt="A spirit" />
-	<slot />
+<div class="-z-10 font duration-1000" style="position: absolute; left: {x}px; bottom: {y}px;">
+	<div class="flex flex-col items-center">
+		<img class="opacity-25" width={ghostWidth} src={GhostImage} alt="A spirit" />
+		<slot />
+	</div>
 </div>
+
+<style lang="postcss">
+	.font {
+		@apply text-fontcolor text-2xl;
+		font-family: theme(fontFamily.amatic);
+	}
+</style>
