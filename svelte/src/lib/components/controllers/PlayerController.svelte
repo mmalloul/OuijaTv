@@ -21,7 +21,7 @@
 	}
 </script>
 
-<form class="flex">
+<div class="flex flex-1 flex-grow item-center justify-center">
 	{#if prompt}
 		<span class="prompt">
 			{prompt}
@@ -29,7 +29,7 @@
 	{:else}
 		<span class="prompt"> WAIT TO BE CALLED UPON... </span>
 	{/if}
-</form>
+</div>
 
 <div class="flex gap-2 player-options">
 	<div class="flex justify-end player-info rounded-lg">
@@ -41,16 +41,11 @@
 
 <style lang="postcss">
 	.prompt {
-		@apply w-full mx-50 w-200 outline-0 text-center;
+		@apply w-full text-center;
 		font-family: theme(fontFamily.amatic);
 		font-size: 3rem;
 		color: rgba(255, 255, 255, 0.9);
 		background-color: transparent;
-	}
-
-	p,
-	h1 {
-		color: white;
 	}
 
 	.player-options {

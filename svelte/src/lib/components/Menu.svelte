@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import menuItems from "$lib/types/MenuItems";
 	import { page } from "$app/stores";
 </script>

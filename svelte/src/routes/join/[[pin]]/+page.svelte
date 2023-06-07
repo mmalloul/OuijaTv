@@ -31,7 +31,7 @@
 		}
 
 		warning = warnings.join("\n");
-		console.log(warnings.length === 0);
+
 		return warnings.length === 0;
 	}
 
@@ -111,16 +111,8 @@
 		transition: all 0.2s ease-in-out;
 	}
 
-	.custom-button > p {
-		transition: all 0.2s ease-in-out;
-	}
-
 	.custom-button:hover {
 		@apply cursor-pointer bg-accent opacity-75;
 		transform: scale(1.01);
-	}
-
-	.custom-button:hover > p {
-		transform: scale(1.05);
 	}
 </style>

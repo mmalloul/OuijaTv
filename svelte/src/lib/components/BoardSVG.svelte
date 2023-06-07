@@ -35,6 +35,7 @@
 <svelte:window on:click={handleClick} />
 
 <svg
+	class="board-svg"
 	width="1920"
 	height="937"
 	viewBox="0 0 1920 937"
@@ -1391,7 +1392,11 @@
 	</defs>
 </svg>
 
-<style>
+<style lang="postcss">
+	.board-svg {
+		width: 100%;
+	}
+
 	svg:hover {
 		cursor: pointer;
 	}
