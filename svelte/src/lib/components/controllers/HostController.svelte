@@ -65,16 +65,6 @@
 	}
 
 	/**
-	 * Send toast to notify host that a player joined.
-	 * @param event the event with the username that has joined.
-	 */
-	function sendJoinedToast(event: any) {
-		const username = event.detail.username;
-		const message = `${username} has joined the game 👻!`;
-		$toastStore.showToast(ToastType.Success, message);
-	}
-
-	/**
 	 * When Game has been created in backend and PIN has been sent, join the game.
 	 * @param event event with the PIN.
 	 */
