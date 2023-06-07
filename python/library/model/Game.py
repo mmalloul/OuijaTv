@@ -25,7 +25,7 @@ class Game:
     winning_letter: str = ""
     no_vote_streak: int = 0
     stop_threshold: int = 3
-    countdown_task: Optional[asyncio.Task] = None  # instance variable for storing the countdown task
+    countdown_task: Optional[asyncio.Task] = None
 
     def __post_init__(self) -> None:
         """Initialise vote dictionary."""
@@ -157,7 +157,7 @@ class Game:
                 return
 
             self.word += letter
-            
+
         self.start_countdown()
         
         await self.broadcast(
