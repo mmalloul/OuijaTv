@@ -8,9 +8,15 @@
 	import { Toaster } from "svelte-french-toast";
 
 	setContext("playerType", writable(PlayerType.None));
+
+	let showMenu = writable(true);
+	setContext("showMenu", showMenu);
 </script>
 
-<Menu />
+<div class:invisible={!$showMenu}>
+	<Menu />
+</div>
+
 <Toaster />
 
 <main class="grow">
