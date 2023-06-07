@@ -45,7 +45,7 @@
 			});
 
 			// Go to the game lobby.
-			goto("/testplay");
+			goto("/play");
 		} else if (lobbyName.length === 0) {
 			lobbyNameIsEmpty = true;
 		}

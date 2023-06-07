@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import Board from "$lib/components/Board.svelte";
-	import WebSocketController from "$lib/components/controllers/WebSocketController.svelte";
 	import { getContext, onMount, onDestroy } from "svelte";
 	import type { Writable } from "svelte/store";
 	import { PlayerType } from "$lib/types/PlayerType";
@@ -12,147 +11,58 @@
 	import { ToastType } from "$lib/types/ToastType";
 	import { lobbyStore } from "$lib/stores/lobbyStore";
 
-	let prompt: string;
-	let word: string;
-	let board: Board;
-	let socketController: WebSocketController;
-	let winningVote: string;
 	const playerType: Writable<PlayerType> = getContext("playerType");
-	let canPrompt: boolean;
-
+	let board: Board;
+	let word: string;
 	let tick: number;
-	let lobbyName: string;
-	let votingTime: number;
-	let gameMode: string;
+	let letterVoted: string;
+	let canVote: boolean;
 
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
-	$: lobbyStore.subscribe((value) => {
-		lobbyName = value.lobbyName;
-		gameMode = value.gameMode;
-		votingTime = value.gameDuration;
-	});
-
-	// Update the prompt from websocket so that the PlayerController component gets updated.
-	function promptUpdate(event: any) {
-		prompt = event.detail.prompt;
-		if ($playerType === PlayerType.Player) {
-			if (prompt !== "") {
-				$toastStore.showToast(ToastType.Success, "Voting has started!");
-			}
-			board.allowVoting();
-		}
-	}
-
-	/**
-	 * Function that sends vote to the websocket with the target id.
-	 * @param event The event that contains the voted letter from the player.
-	 */
-	function onVoteLetter(event: any) {
-		if ($playerType === PlayerType.Player) {
-			const letterId = event.detail.id;
-			socketController.sendVote({ type: "vote", content: letterId });
-		}
-	}
-
-	/**
-	 * Send toast to notify host that a player joined.
-	 * @param event the event with the username that has joined.
-	 */
-	function sendJoinedToast(event: any) {
-		const username = event.detail.username;
-		const message = `${username} has joined the game 👻!`;
-		$toastStore.showToast(ToastType.Success, message);
-	}
-
-	/**
-	 * Moves the seeker (for host and player) to the targeted letter.
-	 * @param letter the letter to move the seeker to.
-	 */
-	function updateWinningVote(letter: any) {
-		winningVote = letter.detail.winningVote;
-
-		board.moveSeekerToLetter(letter.detail.winningVote);
-	}
-
-	function joinGame(event: any) {
-		pin = event.detail.pin;
-		goto(`/play/${pin}`);
-	}
-
-	function gotoJoinPage() {
-		goto(`/join/${pin}`);
-	}
-
-	function restart() {
-		prompt = "";
-		word = "";
-		canPrompt = true;
-		board.resetSeeker();
-		$toastStore.showToast(ToastType.Success, "Game has been restarted!");
-	}
-
-	function checkAnswer(event: any) {
-		if (winningVote === "!") {
-			prompt = "";
-			canPrompt = true;
-		} else {
-			updateWord(event);
-		}
-	}
-
-	function updateWord(event: any) {
-		word = event.detail.word;
-		if ($playerType === PlayerType.Player) {
-			board.allowVoting();
-		}
-	}
-
-	function updateTick(event: any) {
-		tick = event.detail.tick;
-	}
-
-	let showMenu = getContext<Writable<boolean>>("showMenu");
 
 	onMount(() => {
-		showMenu.set(false);
+		if ($playerType === PlayerType.None) {
+			goto(`/join/${pin}`);
+		}
 	});
 
-	onDestroy(() => {
-		showMenu.set(true);
-	});
+	function onVoteLetter(event: any) {
+		letterVoted = event.detail.id; // Bound to PlayerController so that it can send the vote.
+	}
+
+	function setWord(event: any) {
+		word = event.detail.word; // Bound to Host- and PlayerController so that it can update the word.
+	}
+
+	function setTick(event: any) {
+		tick = event.detail.tick; // Bound to Host- and PlayerController so that it can update the word.
+	}
 </script>
 
 <div class="page--game game">
-	<WebSocketController
-		bind:this={socketController}
-		on:joinedReceived={sendJoinedToast}
-		on:pinReceived={joinGame}
-		on:promptReceived={promptUpdate}
-		on:restartReceived={restart}
-		on:winningVoteReceived={updateWinningVote}
-		on:wordUpdateReceived={checkAnswer}
-		on:tickReceived={updateTick}
-	/>
-
 	<div class="game-header">
-		{#if socketController}
-			{#if $playerType === PlayerType.Host}
-				<HostController
-					bind:socketController
-					bind:pin
-					bind:lobbyName
-					bind:votingTime
-					bind:gameMode
-					bind:prompt
-					bind:canPrompt
-				/>
-			{:else if $playerType === PlayerType.Player}
-				<PlayerController bind:socketController bind:pin bind:prompt />
-			{:else if $playerType === PlayerType.None}
-				{gotoJoinPage()}
-			{/if}
-		{/if}
+	{#if $playerType === PlayerType.Host}
+		<HostController
+			bind:board
+			bind:pin
+			bind:word
+			on:updateTick={setTick}
+			on:updateWord={setWord}
+		/>
+	{:else if $playerType === PlayerType.Player}
+
+		<PlayerController
+			bind:board
+			bind:pin
+			bind:word
+			bind:letterVoted
+			bind:canVote
+			on:updateTick={setTick}
+			on:updateWord={setWord}
+		/>
+	{/if}
+
 
 		<div class="voting-timer flex flex-1 flex-grow item-center justify-center">
 			{#if tick}
@@ -173,7 +83,7 @@
 		{/if}
 	</div>
 
-	<Board bind:this={board} bind:isHost on:letterClicked={onVoteLetter} />
+	<Board bind:this={board} bind:isHost bind:canVote on:letterClicked={onVoteLetter} />
 </div>
 
 <style lang="postcss">
