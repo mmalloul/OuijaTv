@@ -103,7 +103,7 @@ class Game:
         
         letter = max(self.votes, key=self.votes.get)
 
-        if letter == "!":
+        if letter == self.GOODBYE:
             await self.broadcast(
                 ServerMessage(
                     ServerMessageType.WORD, 
@@ -130,6 +130,8 @@ class Game:
         """Set all votes to zero, clear prompt, and notify players."""
 
         self.reset_votes()
+        self.word = ""
+        self.prompt = ""
 
         # prepare messages
         message_restart = ServerMessage(ServerMessageType.RESTART)
