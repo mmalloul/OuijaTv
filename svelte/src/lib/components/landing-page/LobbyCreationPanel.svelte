@@ -15,7 +15,6 @@
 	let gameModes: string[] = ["Solo", "Multiplayer"];
 	let gameMode = gameModes[1]; // Set default gamemode to Multiplayer.
 
-
 	$: gameModeIsValid = gameMode !== null;
 
 	/**
