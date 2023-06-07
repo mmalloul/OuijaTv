@@ -50,7 +50,7 @@ class Game:
     def start_countdown(self) -> None:
         """Start counting down."""
 
-        if self.countdown_task:  # If there's an existing countdown task, cancel it before starting a new one
+        if self.countdown_task:
             self.countdown_task.cancel()
 
         self.countdown_task = asyncio.create_task(self.countdown())
@@ -110,18 +110,16 @@ class Game:
     async def pick_letter(self) -> None:
         """Adds most popular letter to word, notify all clients, and reset votes."""
 
-        # If no letters have been voted,
-        if all(value == 0 for value in self.votes.values()):
+        isZeroVotes = all(value == 0 for value in self.votes.values())
+        
+        if (isZeroVotes):
             self.no_vote_streak += 1
 
-            # Send a message that there are no votes.
             await self.broadcast(
                 ServerMessage(ServerMessageType.NO_VOTES)
             )
 
-            # if threshold is reached stop the countdown.
             if self.no_vote_streak == self.stop_threshold:
-                # Cancel the countdown task if it's running
                 if self.countdown_task:  
                     self.countdown_task.cancel()
 
@@ -132,17 +130,15 @@ class Game:
                     ) 
                     return
 
-                self.no_vote_streak = 0  # Reset no_vote_streak after broadcasting stop message
+                self.no_vote_streak = 0
         else:
-            self.no_vote_streak = 0 # Rest no_vote_streak if there has been voted.
+            self.no_vote_streak = 0
             max_votes = max(self.votes.values())
             top_voted = [k for k, v in self.votes.items() if v == max_votes]
 
             if len(top_voted) > 1:
-                # If there are multiple letters with max votes, choose a random one among them
                 letter = random.choice(top_voted)
             else:
-                # If there is a single letter with max votes, choose that one
                 letter = top_voted[0]
 
             if letter == self.GOODBYE:
