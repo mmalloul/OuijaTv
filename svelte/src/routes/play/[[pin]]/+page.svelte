@@ -26,7 +26,6 @@
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
 
-	
 	onMount(() => {
 		if ($playerType !== PlayerType.None && $page.params.pin != null) {
 			fetchAllPlayers();
@@ -40,7 +39,7 @@
 	onDestroy(() => {
 		showMenu.set(true);
 	});
-	
+
 	function fetchAllPlayers() {
 		fetch(`${env.PUBLIC_URL}/games/${$page.params.pin}`)
 			.then((response) => response.json())
