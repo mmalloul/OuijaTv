@@ -48,14 +48,11 @@
 			.then((response) => response.json())
 			.then((responseData) => {
 				let playerData = responseData.players;
-				const playerRecord: Record<string, string> = playerData.reduce(
-					(record: any, player: any) => {
-						record[player.pid] = player.name;
-						return record;
-					},
-					{}
-				);
-				players = playerRecord;
+
+				playerData.forEach((player: { pid: string; name: string; }) => {
+					addPlayer(player.pid, player.name)
+				});
+				refreshPlayerDict();
 			})
 			.catch((error) => {
 				console.error("Error:", error);
@@ -89,8 +86,8 @@
 		if (players[pid] == undefined) {
 			const username = event.detail.username;
 			const message = `${username} has joined the game 👻!`;
-			players[pid] = username;
-			players = structuredClone(players);
+			addPlayer(pid, username);
+			refreshPlayerDict();
 			sendToast(message);
 		}
 	}
@@ -100,9 +97,20 @@
 		const message = `${players[pid]} has left the game 👋!`;
 
 		delete players[pid];
-		players = structuredClone(players);
+		refreshPlayerDict();
 
 		sendToast(message);
+	}
+
+
+	function addPlayer(pid: string, name: string)
+	{
+		players[pid] = name;
+	}
+
+	function refreshPlayerDict()
+	{
+		players = structuredClone(players)
 	}
 
 	function sendToast(message: string) {
