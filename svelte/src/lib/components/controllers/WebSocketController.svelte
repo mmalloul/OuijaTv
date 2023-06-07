@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from "svelte";
+	import PlayerController from "./PlayerController.svelte";
 
 	let socket: WebSocket;
 	const dispatch = createEventDispatcher();
@@ -26,7 +27,8 @@
 				}
 				case "joined": {
 					dispatch("joinedReceived", {
-						username: messageContents
+						pid: messageContents.pid,
+						username: messageContents.name
 					});
 					break;
 				}
@@ -57,6 +59,11 @@
 				case "counter":
 					dispatch("tickReceived", {
 						tick: messageContents
+					});
+					break;
+				case "quit":
+					dispatch("playerQuit", {
+						pid: messageContents
 					});
 					break;
 				default: {

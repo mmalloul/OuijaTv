@@ -140,7 +140,8 @@
 
 <WebSocketController
 	bind:this={socketController}
-	on:joinedReceived={sendJoinedToast}
+	on:joinedReceived
+	on:playerQuit
 	on:pinReceived={joinGame}
 	on:restartReceived={restart}
 	on:winningVoteReceived={updateWinningVote}

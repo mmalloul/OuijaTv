@@ -5,6 +5,10 @@
 	import type { Writable } from "svelte/store";
 	import { PlayerType } from "$lib/types/PlayerType";
 	import { page } from "$app/stores";
+	import { toastStore } from "$lib/stores/toast";
+	import { ToastType } from "$lib/types/ToastType";
+	import Ghost from "$lib/components/Ghost.svelte";
+	import { env } from "$env/dynamic/public";
 	import HostController from "$lib/components/controllers/HostController.svelte";
 	import PlayerController from "$lib/components/controllers/PlayerController.svelte";
 
@@ -16,11 +20,15 @@
 	let tick: number;
 	let letterVoted: string;
 	let canVote: boolean;
+	let players: Record<string, string> = {};
 
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
 
 	onMount(() => {
+		if ($playerType !== PlayerType.None && $page.params.pin != null) {
+			fetchAllPlayers();
+		}
 		showMenu.set(false);
 		if ($playerType === PlayerType.None) {
 			goto(`/join/${pin}`);
@@ -30,6 +38,54 @@
 	onDestroy(() => {
 		showMenu.set(true);
 	});
+
+	function fetchAllPlayers() {
+		fetch(`${env.PUBLIC_URL}/games/${$page.params.pin}`)
+			.then((response) => response.json())
+			.then((responseData) => {
+				let playerData = responseData.players;
+				playerData.forEach((player: { pid: string; name: string }) => {
+					addPlayer(player.pid, player.name);
+				});
+				refreshPlayerDict();
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+			});
+	}
+
+	function onPlayerJoin(event: any) {
+		const pid = event.detail.pid;
+		if (players[pid] == undefined) {
+			const username = event.detail.username;
+			const message = `${username} has joined the game 👻!`;
+			addPlayer(pid, username);
+			refreshPlayerDict();
+			sendToast(message);
+		}
+	}
+
+	function onPlayerQuit(event: any) {
+		const pid = event.detail.pid;
+		const message = `${players[pid]} has left the game 👋!`;
+
+		delete players[pid];
+		refreshPlayerDict();
+
+		sendToast(message);
+	}
+
+	function addPlayer(pid: string, name: string) {
+		players[pid] = name;
+	}
+
+	function refreshPlayerDict() {
+		players = structuredClone(players);
+	}
+
+	function sendToast(message: string) {
+		$toastStore.showToast(ToastType.Success, message);
+	}
 
 	function onVoteLetter(event: any) {
 		letterVoted = event.detail.id; // Bound to PlayerController so that it can send the vote.
@@ -53,6 +109,8 @@
 				bind:word
 				on:updateTick={setTick}
 				on:updateWord={setWord}
+				on:joinedReceived={onPlayerJoin}
+				on:playerQuit={onPlayerQuit}
 			/>
 		{:else if $playerType === PlayerType.Player}
 			<PlayerController
@@ -63,6 +121,8 @@
 				bind:canVote
 				on:updateTick={setTick}
 				on:updateWord={setWord}
+				on:joinedReceived={onPlayerJoin}
+				on:playerQuit={onPlayerQuit}
 			/>
 		{/if}
 
@@ -85,6 +145,13 @@
 		{/if}
 	</div>
 
+	{#if players}
+		{#each Object.values(players) as player}
+			<Ghost>
+				<p class="opacity-75">{player}</p>
+			</Ghost>
+		{/each}
+	{/if}
 	<Board bind:this={board} bind:isHost bind:canVote on:letterClicked={onVoteLetter} />
 </div>
 

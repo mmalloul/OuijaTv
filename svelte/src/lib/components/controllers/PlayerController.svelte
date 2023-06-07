@@ -114,6 +114,8 @@
 
 <WebSocketController
 	bind:this={socketController}
+	on:joinedReceived
+	on:playerQuit
 	on:promptReceived={promptUpdate}
 	on:restartReceived={restart}
 	on:winningVoteReceived={updateWinningVote}
