@@ -10,6 +10,7 @@
 
 	setContext("playerType", writable(PlayerType.None));
 
+	// hides menu when needed
 	let showMenu = writable(true);
 	setContext("showMenu", showMenu);
 </script>

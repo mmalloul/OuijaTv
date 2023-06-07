@@ -20,11 +20,7 @@ body {
 }
 
 .hide-component {
-	@apply p-2;
+	@apply p-2 lg: mb-10;
 	visibility: hidden;
 	height: 0;
-
-	@media (min-width: 1000px) {
-		margin-bottom: 40px;
-	}
 }
