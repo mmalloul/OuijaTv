@@ -133,8 +133,8 @@
 	{/if}
 </div>
 
-<div class="flex gap-2 player-options">
-	<div class="flex justify-end player-info rounded-lg">
+<div class="player-options">
+	<div class="player-info">
 		<span>
 			username: {username}
 		</span>
@@ -143,29 +143,23 @@
 
 <style lang="postcss">
 	.prompt {
-		@apply w-full text-center;
-		font-family: theme(fontFamily.amatic);
-		font-size: 3rem;
+		@apply w-full text-center font-amatic text-lg lg: text-3xl;
 		color: rgba(255, 255, 255, 0.9);
 		background-color: transparent;
 	}
 
 	.player-options {
-		position: absolute;
-		bottom: 0;
-		right: 1.5rem;
+		@apply absolute gap-2 bottom-0 right-6;
 	}
 
 	.player-info {
-		@apply opacity-50;
+		@apply opacity-50 text-center flex gap-2 flex justify-end rounded-lg;
 		border: 1px solid white;
 		margin: 0 0 1rem 0;
-		text-align: center;
-		padding-left: 10px;
 	}
 
 	.player-info > span {
-		@apply text-fontcolor text-4xl py-2 px-6;
+		@apply text-fontcolor text-lg py-1 px-2 lg:text-3xl py-2 px-6;
 		text-decoration: none;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);

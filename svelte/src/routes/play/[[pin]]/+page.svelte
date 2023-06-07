@@ -11,6 +11,7 @@
 	import { env } from "$env/dynamic/public";
 	import HostController from "$lib/components/controllers/HostController.svelte";
 	import PlayerController from "$lib/components/controllers/PlayerController.svelte";
+	import Icon from "@iconify/svelte";
 
 	const playerType: Writable<PlayerType> = getContext("playerType");
 	const showMenu = getContext<Writable<boolean>>("showMenu");
@@ -102,6 +103,9 @@
 
 <div class="page--game game">
 	<div class="game-header">
+		<div class="back-to-menu">
+			<a href="/"><Icon icon="formkit:arrowleft" />Exit</a>
+		</div>
 		{#if $playerType === PlayerType.Host}
 			<HostController
 				bind:board
@@ -126,7 +130,7 @@
 			/>
 		{/if}
 
-		<div class="voting-timer flex flex-1 flex-grow item-center justify-center">
+		<div class="voting-timer">
 			{#if tick}
 				<span class="timer">Voting ends in: {tick}</span>
 			{:else}
@@ -135,13 +139,13 @@
 		</div>
 	</div>
 
-	<div class="word flex item-center justify-center">
+	<div class="spirit-answer">
 		{#if word}
-			<span class="text-6xl tracking-0.5em">
+			<span class="tracking-0.5em">
 				{word}
 			</span>
 		{:else}
-			<span class="text-6xl"> Waiting for answer... </span>
+			<span> Waiting for answer... </span>
 		{/if}
 	</div>
 
@@ -157,16 +161,31 @@
 
 <style lang="postcss">
 	.game {
-		@apply flex flex-col items-center gap-4;
+		@apply flex flex-col items-center relative h-full lg: gap-2;
 	}
 
 	.game-header {
-		@apply flex flex-col md: flex-row justify-center items-center w-full flex-wrap;
+		@apply flex  md: flex-row justify-center items-center w-full flex-wrap;
 		transition: all 0.5s ease-in-out;
 	}
 
+	.back-to-menu {
+		@apply font-amatic text-center text-fontcolor flex flex-1 flex-grow;
+	}
+
+	.back-to-menu a {
+		@apply flex justify-center items-center px-2 rounded-md  text-lg lg: text-3xl;
+		transition: all 0.2s ease-in-out;
+		text-decoration: none;
+	}
+
+	.back-to-menu a:hover {
+		@apply cursor-pointer bg-accent;
+		transform: scale(1.03);
+	}
+
 	.timer {
-		@apply text-fontcolor text-4xl rounded-lg p-3;
+		@apply text-fontcolor rounded-lg text-lg px-2 lg: text-3xl;
 		text-decoration: none;
 		border: 1px solid white;
 		font-family: theme(fontFamily.amatic);
@@ -174,17 +193,17 @@
 	}
 
 	.voting-timer {
-		@apply opacity-50;
-		text-align: center;
+		@apply opacity-50 text-center flex flex-1 flex-grow items-center justify-center md: justify-end;
 	}
 
-	.word {
-		@apply text-accent text-4xl;
+	.spirit-answer {
+		@apply text-accent flex items-center justify-center;
 		text-decoration: none;
 		font-family: theme(fontFamily.amatic);
 	}
 
-	.word span {
+	.spirit-answer span {
+		@apply text-lg lg: text-3xl;
 		text-wrap: nowrap;
 	}
 </style>

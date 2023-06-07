@@ -6,15 +6,16 @@
 	import { setContext } from "svelte";
 	import { PlayerType } from "$lib/types/PlayerType";
 	import { Toaster } from "svelte-french-toast";
-	import Footer from "$lib/components/footer.svelte";
+	import Footer from "$lib/components/Footer.svelte";
 
 	setContext("playerType", writable(PlayerType.None));
 
+	// hides menu when needed
 	let showMenu = writable(true);
 	setContext("showMenu", showMenu);
 </script>
 
-<div class:invisible={!$showMenu}>
+<div class:hide-component={!$showMenu}>
 	<Menu />
 </div>
 

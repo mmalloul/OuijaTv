@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getContext, onMount, onDestroy } from "svelte";
+	import type { Writable } from "svelte/store";
 	import { openApiCall } from "$lib/functions/apiCall";
 	import toast, { Toaster } from "svelte-french-toast";
 	import BoardSvg from "$lib/components/BoardSVG.svelte";
@@ -19,6 +21,8 @@
 	let name = "";
 	let tags = "";
 	let sp = 0;
+
+	const showMenu = getContext<Writable<boolean>>("showMenu");
 
 	const letterPositions: Record<string, Vector2> = {};
 	class Vector2 {
@@ -77,57 +81,67 @@
 			seekerY = target.y;
 		}
 	}
+
+	onMount(() => {
+		showMenu.set(false);
+	});
+
+	onDestroy(() => {
+		showMenu.set(true);
+	});
 </script>
 
 <Toaster />
 {#if showCards}
-	<div>
-		<h1 class="awnser">SOLO Summon</h1>
-		<div class="subtask">
-			As you navigate to the website and click on the Ouija board feature, a sense of apprehension
-			washes over you. You know that this virtual board may not be as innocuous as it seems, and
-			that you could be inviting something dark and powerful into your life. Select the dark spirit
-			that you desire and use him by <b>clicking</b> on the card.
+	<div class="page">
+		<div>
+			<h1 class="awnser">SOLO Summon</h1>
+			<div class="subtask">
+				As you navigate to the website and click on the Ouija board feature, a sense of apprehension
+				washes over you. You know that this virtual board may not be as innocuous as it seems, and
+				that you could be inviting something dark and powerful into your life. Select the dark
+				spirit that you desire and use him by <b>clicking</b> on the card.
+			</div>
 		</div>
-	</div>
-	<div class="l-container">
-		<Card
-			spirit="1"
-			goToQuestion={handleGoToQuestion}
-			name="Sgt. Sabrina"
-			backgroundImage={spirit1}
-			tag="Friendly, Scary"
-			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
-		/>
-		<Card
-			spirit="2"
-			goToQuestion={handleGoToQuestion}
-			name="Asta"
-			backgroundImage={spirit2}
-			tag="Clever, Funny"
-			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
-		/>
-		<Card
-			spirit="3"
-			goToQuestion={handleGoToQuestion}
-			name="Miko Mana"
-			backgroundImage={spirit3}
-			tag="Funny, Rich, Clever"
-			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
-		/>
-		<Card
-			spirit="4"
-			goToQuestion={handleGoToQuestion}
-			name="The Crow"
-			backgroundImage={spirit4}
-			tag="Dark, Scary"
-			lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
-		/>
+		<div class="l-container">
+			<Card
+				spirit="1"
+				goToQuestion={handleGoToQuestion}
+				name="Sgt. Sabrina"
+				backgroundImage={spirit1}
+				tag="Friendly, Scary"
+				lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+			/>
+			<Card
+				spirit="2"
+				goToQuestion={handleGoToQuestion}
+				name="Asta"
+				backgroundImage={spirit2}
+				tag="Clever, Funny"
+				lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+			/>
+			<Card
+				spirit="3"
+				goToQuestion={handleGoToQuestion}
+				name="Miko Mana"
+				backgroundImage={spirit3}
+				tag="Funny, Rich, Clever"
+				lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+			/>
+			<Card
+				spirit="4"
+				goToQuestion={handleGoToQuestion}
+				name="The Crow"
+				backgroundImage={spirit4}
+				tag="Dark, Scary"
+				lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+			/>
+		</div>
 	</div>
 {/if}
 
 {#if showBoard}
-	<div class="h-90vh flex flex-col items-center">
+	<div class="page--game flex flex-col items-center">
 		<form class="flex">
 			<input bind:value={prompt} type="text" placeholder="STATE YOUR INTENTION" />
 		</form>

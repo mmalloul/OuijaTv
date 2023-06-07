@@ -27,12 +27,11 @@
 
 <style lang="postcss">
 	nav {
-		@apply flex justify-start md: justify-center;
+		@apply flex md: justify-center;
 	}
 
 	.menu {
-		@apply w-full p-4 md: p-6;
-		max-width: 1440px;
+		@apply w-full p-4 max-w-screen-2xl md: p-6;
 	}
 
 	.menu__button {
@@ -40,7 +39,7 @@
 	}
 
 	.menu__list {
-		@apply list-none m-0 p-0 flex justify-around hidden md:flex;
+		@apply list-none m-0 p-0 flex justify-between hidden md:flex;
 	}
 
 	.menu__list li {
