@@ -12,6 +12,7 @@
 	import { ToastType } from "#lib/types/ToastType";
 	import { lobbyStore } from "#lib/stores/lobbyStore";
 	import Ghost from "#lib/components/Ghost.svelte";
+	import env from "$env/dynamic/public";
 
 	let prompt: string;
 	let word: string;

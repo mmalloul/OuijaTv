@@ -64,7 +64,8 @@
 				case "quit":
 					dispatch("playerQuit", {
 						pid: messageContents
-					})
+					});
+					break;
 				default: {
 					break;
 				}
