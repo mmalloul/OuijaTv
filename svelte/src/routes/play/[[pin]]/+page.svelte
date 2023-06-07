@@ -174,7 +174,7 @@
 	}
 
 	.back-to-menu a {
-		@apply flex justify-center items-center p-2 rounded-md  text-xl md: text-3xl;
+		@apply flex justify-center items-center p-2 rounded-md  text-lg md: text-3xl;
 		transition: all 0.2s ease-in-out;
 		text-decoration: none;
 	}
@@ -185,7 +185,7 @@
 	}
 
 	.timer {
-		@apply text-fontcolor rounded-lg p-3 text-xl md: text-3xl;
+		@apply text-fontcolor rounded-lg p-3 text-lg md: text-3xl;
 		text-decoration: none;
 		border: 1px solid white;
 		font-family: theme(fontFamily.amatic);
