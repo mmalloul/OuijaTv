@@ -89,6 +89,7 @@
 	function restart() {
 		prompt = "";
 		word = "";
+		canPrompt = true;
 		board.resetSeeker();
 		$toastStore.showToast(ToastType.Success, "Game has been restarted!");
 	}
