@@ -126,7 +126,7 @@
 			/>
 		{/if}
 
-		<div class="voting-timer flex flex-1 flex-grow item-center justify-center">
+		<div class="voting-timer">
 			{#if tick}
 				<span class="timer">Voting ends in: {tick}</span>
 			{:else}
@@ -135,7 +135,7 @@
 		</div>
 	</div>
 
-	<div class="word flex item-center justify-center">
+	<div class="spirit-answer">
 		{#if word}
 			<span class="text-6xl tracking-0.5em">
 				{word}
@@ -157,7 +157,7 @@
 
 <style lang="postcss">
 	.game {
-		@apply flex flex-col items-center gap-4;
+		@apply flex flex-col items-center gap-4 relative h-full;
 	}
 
 	.game-header {
@@ -174,17 +174,16 @@
 	}
 
 	.voting-timer {
-		@apply opacity-50;
-		text-align: center;
+		@apply opacity-50 text-center flex flex-1 flex-grow items-center justify-center;
 	}
 
-	.word {
-		@apply text-accent text-4xl;
+	.spirit-answer {
+		@apply text-accent text-4xl flex items-center justify-center;
 		text-decoration: none;
 		font-family: theme(fontFamily.amatic);
 	}
 
-	.word span {
+	.spirit-answer span {
 		text-wrap: nowrap;
 	}
 </style>
