@@ -164,17 +164,13 @@
 	</div>
 
 	<div class="word flex item-center justify-center">
-	
-			{#if word}
+		{#if word}
 			<span class="text-6xl tracking-0.5em">
 				{word}
 			</span>
-			{:else}
-			<span class="text-6xl">
-				Waiting for answer...
-			</span>
-			{/if}
-
+		{:else}
+			<span class="text-6xl"> Waiting for answer... </span>
+		{/if}
 	</div>
 
 	<Board bind:this={board} bind:isHost on:letterClicked={onVoteLetter} />
