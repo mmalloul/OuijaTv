@@ -149,7 +149,7 @@
 />
 
 <div class="flex flex-1 flex-grow item-center justify-center">
-	<button on:click={onRestartButton} class="restart-button p-2 rounded-md absolute left-5 bottom-0">
+	<button on:click={onRestartButton} class="restart-button p-2 rounded-md left-5 bottom-0">
 		<Icon icon="mdi:restart" />
 	</button>
 </div>
