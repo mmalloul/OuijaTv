@@ -20,7 +20,7 @@ body {
 }
 
 .hide-component {
-	@apply p-6 lg: mb-10;
+	@apply p-2 lg: p-6 mb-10;
 	visibility: hidden;
 	height: 0;
 }

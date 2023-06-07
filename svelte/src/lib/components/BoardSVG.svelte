@@ -1398,6 +1398,7 @@
 		height: auto;
 		margin: auto;
 
+		// to make mobile more responsive
 		@screen <lg {
 			max-width: 600px;
 		}
