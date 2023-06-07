@@ -143,7 +143,7 @@
 
 <style lang="postcss">
 	.prompt {
-		@apply w-full text-center font-amatic text-xl md:text-3xl;
+		@apply w-full text-center font-amatic text-xl md:text-4xl;
 		color: rgba(255, 255, 255, 0.9);
 		background-color: transparent;
 	}

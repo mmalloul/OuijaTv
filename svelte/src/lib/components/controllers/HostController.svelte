@@ -188,7 +188,7 @@
 	}
 
 	input {
-		@apply px-4 py-2 text-center text-xl md:text-3xl;
+		@apply px-4 py-2 text-center text-xl md:text-4xl;
 		font-family: theme(fontFamily.amatic);
 		color: rgba(255, 255, 255, 0.9);
 		background-color: transparent;
