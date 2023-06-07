@@ -11,6 +11,7 @@
 	import { toastStore } from "#lib/stores/toast";
 	import { ToastType } from "#lib/types/ToastType";
 	import { lobbyStore } from "#lib/stores/lobbyStore";
+	import Ghost from "#lib/components/Ghost.svelte";
 
 	let prompt: string;
 	let word: string;
@@ -49,8 +50,8 @@
 			.then((responseData) => {
 				let playerData = responseData.players;
 
-				playerData.forEach((player: { pid: string; name: string; }) => {
-					addPlayer(player.pid, player.name)
+				playerData.forEach((player: { pid: string; name: string }) => {
+					addPlayer(player.pid, player.name);
 				});
 				refreshPlayerDict();
 			})
@@ -102,15 +103,12 @@
 		sendToast(message);
 	}
 
-
-	function addPlayer(pid: string, name: string)
-	{
+	function addPlayer(pid: string, name: string) {
 		players[pid] = name;
 	}
 
-	function refreshPlayerDict()
-	{
-		players = structuredClone(players)
+	function refreshPlayerDict() {
+		players = structuredClone(players);
 	}
 
 	function sendToast(message: string) {
@@ -230,7 +228,9 @@
 
 	{#if players}
 		{#each Object.values(players) as player}
-			<p class="text-white">{player}</p>
+			<Ghost>
+				<p class="opacity-75">{player}</p>
+			</Ghost>
 		{/each}
 	{/if}
 </div>
