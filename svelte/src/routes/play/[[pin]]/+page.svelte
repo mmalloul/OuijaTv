@@ -8,7 +8,7 @@
 	import { toastStore } from "$lib/stores/toast";
 	import { ToastType } from "$lib/types/ToastType";
 	import Ghost from "$lib/components/Ghost.svelte";
-	import env from "$env/dynamic/public";
+	import { env } from "$env/dynamic/public";
 	import HostController from "$lib/components/controllers/HostController.svelte";
 	import PlayerController from "$lib/components/controllers/PlayerController.svelte";
 
@@ -112,6 +112,8 @@
 				bind:word
 				on:updateTick={setTick}
 				on:updateWord={setWord}
+				on:joinedReceived={onPlayerJoin}
+				on:playerQuit={onPlayerQuit}
 			/>
 		{:else if $playerType === PlayerType.Player}
 			<PlayerController
@@ -122,6 +124,8 @@
 				bind:canVote
 				on:updateTick={setTick}
 				on:updateWord={setWord}
+				on:joinedReceived={onPlayerJoin}
+				on:playerQuit={onPlayerQuit}
 			/>
 		{/if}
 
