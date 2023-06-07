@@ -1,6 +1,8 @@
 import asyncio
 from dataclasses import dataclass, field
+import random
 from fastapi import WebSocket
+from typing import Optional
 from string import ascii_uppercase, digits
 from library.model.MessageType import ServerMessageType
 from library.model.Player import Player
@@ -21,6 +23,9 @@ class Game:
     voting_time: int = 0
     game_mode: str = ""
     winning_letter: str = ""
+    no_vote_streak: int = 0
+    stop_threshold: int = 3
+    countdown_task: Optional[asyncio.Task] = None  # instance variable for storing the countdown task
 
     def __post_init__(self) -> None:
         """Initialise vote dictionary."""
@@ -45,7 +50,10 @@ class Game:
     def start_countdown(self) -> None:
         """Start counting down."""
 
-        asyncio.create_task(self.countdown())
+        if self.countdown_task:  # If there's an existing countdown task, cancel it before starting a new one
+            self.countdown_task.cancel()
+
+        self.countdown_task = asyncio.create_task(self.countdown())
 
     def reset_votes(self) -> None:
         """Reset all votes to zero while keeping their keys."""
@@ -88,7 +96,6 @@ class Game:
         """Count down, notifying the host every second."""
 
         count = self.voting_time
-
         while count > -1:
             await asyncio.sleep(1)
             await self.broadcast(
@@ -98,26 +105,58 @@ class Game:
                 ),
             )
             count -= 1
-
         await self.pick_letter()
 
     async def pick_letter(self) -> None:
         """Adds most popular letter to word, notify all clients, and reset votes."""
-        
-        letter = max(self.votes, key=self.votes.get)
 
-        if letter == self.GOODBYE:
+        # If no letters have been voted,
+        if all(value == 0 for value in self.votes.values()):
+            self.no_vote_streak += 1
+
+            # Send a message that there are no votes.
             await self.broadcast(
-                ServerMessage(
-                    ServerMessageType.WORD, 
-                    letter
-                )
+                ServerMessage(ServerMessageType.NO_VOTES)
             )
 
-            await self.restart()
-            return
+            # if threshold is reached stop the countdown.
+            if self.no_vote_streak == self.stop_threshold:
+                # Cancel the countdown task if it's running
+                if self.countdown_task:  
+                    self.countdown_task.cancel()
 
-        self.word += letter
+                    await self.broadcast(
+                        ServerMessage(
+                            ServerMessageType.STOP_COUNTDOWN,
+                        )
+                    ) 
+                    return
+
+                self.no_vote_streak = 0  # Reset no_vote_streak after broadcasting stop message
+        else:
+            self.no_vote_streak = 0 # Rest no_vote_streak if there has been voted.
+            max_votes = max(self.votes.values())
+            top_voted = [k for k, v in self.votes.items() if v == max_votes]
+
+            if len(top_voted) > 1:
+                # If there are multiple letters with max votes, choose a random one among them
+                letter = random.choice(top_voted)
+            else:
+                # If there is a single letter with max votes, choose that one
+                letter = top_voted[0]
+
+            if letter == self.GOODBYE:
+                await self.broadcast(
+                    ServerMessage(
+                        ServerMessageType.WORD, 
+                        letter
+                    )
+                )
+
+                await self.restart()
+                return
+
+            self.word += letter
         self.start_countdown()
         
         await self.broadcast(
@@ -135,6 +174,10 @@ class Game:
         self.reset_votes()
         self.word = ""
         self.prompt = ""
+
+        # Cancel the countdown task if it's running
+        if self.countdown_task:  
+            self.countdown_task.cancel()
 
         # prepare messages
         message_restart = ServerMessage(ServerMessageType.RESTART)
