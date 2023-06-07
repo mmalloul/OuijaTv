@@ -137,11 +137,11 @@
 
 	<div class="spirit-answer">
 		{#if word}
-			<span class="text-6xl tracking-0.5em">
+			<span class="tracking-0.5em">
 				{word}
 			</span>
 		{:else}
-			<span class="text-6xl"> Waiting for answer... </span>
+			<span> Waiting for answer... </span>
 		{/if}
 	</div>
 
@@ -161,12 +161,12 @@
 	}
 
 	.game-header {
-		@apply flex flex-col md: flex-row justify-center items-center w-full flex-wrap;
+		@apply flex  md: flex-row justify-center items-center w-full flex-wrap;
 		transition: all 0.5s ease-in-out;
 	}
 
 	.timer {
-		@apply text-fontcolor text-4xl rounded-lg p-3;
+		@apply text-fontcolor rounded-lg p-3 text-xl md: text-4xl;
 		text-decoration: none;
 		border: 1px solid white;
 		font-family: theme(fontFamily.amatic);
@@ -184,6 +184,7 @@
 	}
 
 	.spirit-answer span {
+		@apply text-xl md:text-6xl;
 		text-wrap: nowrap;
 	}
 </style>

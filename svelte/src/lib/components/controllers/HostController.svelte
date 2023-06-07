@@ -139,26 +139,26 @@
 	on:tickReceived={updateTick}
 />
 
-<div class="flex flex-1 flex-grow item-center justify-center">
-	<button on:click={onRestartButton} class="restart-button p-2 rounded-md left-5 bottom-0">
+<div class="restart-button">
+	<button on:click={onRestartButton}>
 		<Icon icon="mdi:restart" />
 	</button>
 </div>
 
-<form class="flex flex-1 flex-grow item-center justify-center">
+<form class="promt-question">
 	<input
 		bind:value={prompt}
 		type="text"
 		placeholder={"STATE YOUR INTENTION"}
 		disabled={!canPrompt}
 	/>
-	<button on:click={sendPrompt} class="prompt-button rounded-md">
+	<button on:click={sendPrompt} class="prompt-button">
 		<Icon icon="formkit:arrowright" />
 	</button>
 </form>
 
-<div class="flex flex-1 flex-grow item-center justify-center gap-2 host-options">
-	<div class="flex justify-end link-share rounded-lg">
+<div class="link-share">
+	<div class="link-share-container">
 		<span>
 			{shareableURL}
 		</span>
@@ -170,8 +170,12 @@
 </div>
 
 <style lang="postcss">
+	.promt-question {
+		@apply flex flex-1 flex-grow items-center justify-center;
+	}
+
 	.prompt-button {
-		@apply text-fontcolor text-4xl;
+		@apply text-fontcolor text-4xl rounded-md;
 		text-decoration: none;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);
@@ -184,29 +188,29 @@
 	}
 
 	input {
-		@apply mx-50 text-center;
+		@apply px-4 py-2 text-center text-xl md:text-3xl;
 		font-family: theme(fontFamily.amatic);
-		font-size: 3rem;
 		color: rgba(255, 255, 255, 0.9);
 		background-color: transparent;
 		margin: 0;
 	}
 
-	.host-options {
+	.link-share {
+		@apply flex flex-1 flex-grow items-center justify-center gap-2;
 		position: absolute;
 		bottom: 0;
 		right: 1.5rem;
 	}
 
-	.link-share {
-		@apply opacity-50;
+	.link-share-container {
+		@apply opacity-50 flex justify-end rounded-lg;
 		border: 1px solid white;
 		margin: 0 0 1rem 0;
 		text-align: center;
 		padding-left: 10px;
 	}
 
-	.link-share > span {
+	.link-share-container > span {
 		@apply text-fontcolor text-4xl py-2 px-6;
 		text-decoration: none;
 		text-align: center;
@@ -222,16 +226,19 @@
 	.link-share-button:hover {
 		@apply cursor-pointer bg-accent opacity-85;
 	}
-
+	
 	.restart-button {
-		@apply text-fontcolor text-4xl;
+		@apply  flex flex-1 flex-grow items-center justify-center;
+	}
+	.restart-button button {
+		@apply text-fontcolor text-4xl p-2 rounded-md left-5 bottom-0;
 		text-decoration: none;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);
 		transition: all 0.2s ease-in-out;
 	}
-
-	.restart-button:hover {
+	
+	.restart-button button:hover {
 		@apply cursor-pointer bg-accent;
 		transform: scale(1.03);
 	}

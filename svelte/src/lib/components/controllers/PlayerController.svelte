@@ -133,8 +133,8 @@
 	{/if}
 </div>
 
-<div class="flex gap-2 player-options">
-	<div class="flex justify-end player-info rounded-lg">
+<div class="player-options">
+	<div class="player-info">
 		<span>
 			username: {username}
 		</span>
@@ -151,13 +151,11 @@
 	}
 
 	.player-options {
-		position: absolute;
-		bottom: 0;
-		right: 1.5rem;
+		@apply absolute gap-2 bottom-0 right-6;
 	}
 
 	.player-info {
-		@apply opacity-50;
+		@apply opacity-50 flex gap-2 flex justify-end rounded-lg;
 		border: 1px solid white;
 		margin: 0 0 1rem 0;
 		text-align: center;
