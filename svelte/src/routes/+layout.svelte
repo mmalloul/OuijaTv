@@ -4,8 +4,9 @@
 	import Menu from "$lib/components/Menu.svelte";
 	import { writable } from "svelte/store";
 	import { setContext } from "svelte";
-	import { PlayerType } from "#lib/types/PlayerType";
+	import { PlayerType } from "$lib/types/PlayerType";
 	import { Toaster } from "svelte-french-toast";
+	import Footer from "$lib/components/footer.svelte";
 
 	setContext("playerType", writable(PlayerType.None));
 
@@ -22,5 +23,7 @@
 <main class="grow">
 	<slot />
 </main>
+
+<Footer />
 
 <style windi:preflights:global windi:safelist:global></style>

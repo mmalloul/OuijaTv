@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 import toast, { type ToastPosition } from "svelte-french-toast";
-import { ToastType } from "#lib/types/ToastType";
+import { ToastType } from "$lib/types/ToastType";
 
 /**
  * This store makes it possible to use Toaster in a centralized way, instead of importing the Toaster packages and component separately in each file.

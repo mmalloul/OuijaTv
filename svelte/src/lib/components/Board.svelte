@@ -3,14 +3,17 @@
 	import { onMount, createEventDispatcher } from "svelte";
 
 	const letterPositions: Record<string, Vector2> = {};
+	const dispatch = createEventDispatcher();
+
+	export let canVote: boolean;
+	export let isHost: boolean;
+
 	let seekerPos: Vector2;
 	let ownVotePos: Vector2;
 
-	let canVote = true;
-
-	export let isHost: boolean;
-
-	const dispatch = createEventDispatcher();
+	$: if (canVote) {
+		resetPlayerSeeker();
+	}
 
 	onMount(() => {
 		loadLetterPositions();
@@ -19,6 +22,10 @@
 
 	export function resetSeeker() {
 		moveSeekerToLetter("@");
+		showMyVote("@");
+	}
+
+	function resetPlayerSeeker() {
 		showMyVote("@");
 	}
 
@@ -42,16 +49,11 @@
 
 	function onClickLetter(letterId: string) {
 		if (canVote) {
-			showMyVote(letterId);
-			canVote = false;
 			dispatch("letterClicked", {
 				id: letterId
 			});
+			showMyVote(letterId);
 		}
-	}
-
-	export function allowVoting() {
-		canVote = true;
 	}
 
 	function loadLetterPositions() {
