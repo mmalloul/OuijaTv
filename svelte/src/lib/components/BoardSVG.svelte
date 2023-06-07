@@ -1396,6 +1396,10 @@
 	.board-svg {
 		width: 100%;
 		height: auto;
+
+		@screen <lg {
+			max-width: 600px;
+		}
 	}
 
 	svg:hover {

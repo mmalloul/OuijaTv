@@ -175,7 +175,7 @@
 	}
 
 	.prompt-button {
-		@apply flex justify-center items-center text-fontcolor p-2 rounded-md text-lg md:text-3xl;
+		@apply flex justify-center items-center text-fontcolor p-2 rounded-md text-base lg: text-3xl;
 		text-decoration: none;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);
@@ -188,7 +188,7 @@
 	}
 
 	input {
-		@apply px-4 py-2 text-center text-lg md:text-4xl;
+		@apply px-4 py-2 text-center text-lg lg: text-4xl;
 		font-family: theme(fontFamily.amatic);
 		color: rgba(255, 255, 255, 0.9);
 		background-color: transparent;
@@ -206,7 +206,7 @@
 	}
 
 	.link-share-container > span {
-		@apply text-fontcolor font-amatic text-center p-1 text-lg md:text-3xl p-2;
+		@apply text-fontcolor font-amatic text-center p-1 text-base lg:text-3xl p-2;
 		text-decoration: none;
 	}
 
@@ -226,7 +226,7 @@
 	}
 
 	.restart-button button {
-		@apply flex justify-center items-center text-fontcolor p-2 rounded-md text-xl md:text-3xl;
+		@apply flex justify-center items-center text-fontcolor p-2 rounded-md text-base lg:text-3xl;
 		text-decoration: none;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);

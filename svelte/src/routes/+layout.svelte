@@ -14,7 +14,7 @@
 	setContext("showMenu", showMenu);
 </script>
 
-<div class:invisible={!$showMenu}>
+<div class:hide-component={!$showMenu}>
 	<Menu />
 </div>
 

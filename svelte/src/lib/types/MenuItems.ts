@@ -5,7 +5,7 @@ interface MenuItem {
 
 const items: MenuItem[] = [
 	{
-		name: "Conjure",
+		name: "Home",
 		route: "/"
 	},
 	{

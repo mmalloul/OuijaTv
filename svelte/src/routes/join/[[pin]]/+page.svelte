@@ -42,25 +42,23 @@
 	}
 </script>
 
-<div class="container">
-	<div class="flex-container">
-		<form class="column" on:submit|preventDefault>
-			<label for="username">Username:</label><br />
-			<input bind:value={username} type="text" id="username" name="username" />
-			<br /><br />
-			<label for="room-code">Room code:</label><br />
-			<input bind:value={roomCode} type="text" id="room-code" name="room-code" />
-			<br />
-			<button
-				class="custom-button"
-				type="submit"
-				on:click={() => joinRoom(roomCode)}
-				disabled={!inputValid(username, roomCode)}>Join</button
-			>
-		</form>
-		<div class="column input-warning">
-			<p>{warning}</p>
-		</div>
+<div class="page container">
+	<form on:submit|preventDefault>
+		<label for="username">Username:</label><br />
+		<input bind:value={username} type="text" id="username" name="username" />
+		<br /><br />
+		<label for="room-code">Room code:</label><br />
+		<input bind:value={roomCode} type="text" id="room-code" name="room-code" />
+		<br />
+		<button
+			class="custom-button"
+			type="submit"
+			on:click={() => joinRoom(roomCode)}
+			disabled={!inputValid(username, roomCode)}>Join</button
+		>
+	</form>
+	<div class="column input-warning">
+		<p>{warning}</p>
 	</div>
 </div>
 
@@ -83,30 +81,13 @@
 	}
 
 	.container {
-		@apply text-fontcolor text-4xl;
-		font-family: theme(fontFamily.amatic);
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		max-width: 30%;
-		transform: translate(-50%, -50%);
-	}
-
-	.flex-container {
-		display: flex;
-	}
-
-	.column {
-		flex: 1;
+		@apply flex justify-center items-center text-fontcolor font-amatic text-4xl;
 	}
 
 	.custom-button {
-		@apply text-fontcolor text-4xl;
+		@apply text-center w-full;
 		text-decoration: none;
-		text-align: center;
-		font-family: theme(fontFamily.amatic);
 		padding: 0.75em;
-		width: 100%;
 		border: 1px solid white;
 		transition: all 0.2s ease-in-out;
 	}

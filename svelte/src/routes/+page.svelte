@@ -5,7 +5,7 @@
 	let showLobbyCreationPanel = false;
 </script>
 
-<div class="home page">
+<div class="page container">
 	{#if !showLobbyCreationPanel}
 		<h1>Ouija.tv</h1>
 
@@ -20,11 +20,11 @@
 
 		<div class="top-row">
 			<button type="button" class="custom-button" on:click={() => (showLobbyCreationPanel = true)}>
-				<p>Provide</p>
+				<p>Host a lobby</p>
 			</button>
 
 			<button type="button" class="custom-button" on:click={() => goto("/join")}>
-				<p>Visit</p>
+				<p>Join a lobby</p>
 			</button>
 		</div>
 	{/if}
@@ -33,7 +33,7 @@
 </div>
 
 <style lang="postcss">
-	.home {
+	.container {
 		@apply flex flex-col items-center text-center md: justify-center;
 	}
 
