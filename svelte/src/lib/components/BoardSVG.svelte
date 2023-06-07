@@ -32,6 +32,18 @@
 	}
 </script>
 
+
+<style lang="postcss">
+	.board-svg {
+		width: 100%;
+		height: auto;
+	}
+
+	svg:hover {
+		cursor: pointer;
+	}
+</style>
+
 <svelte:window on:click={handleClick} />
 
 <svg
@@ -1392,12 +1404,3 @@
 	</defs>
 </svg>
 
-<style lang="postcss">
-	.board-svg {
-		width: 100%;
-	}
-
-	svg:hover {
-		cursor: pointer;
-	}
-</style>
