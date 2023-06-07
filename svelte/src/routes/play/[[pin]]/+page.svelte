@@ -39,27 +39,25 @@
 
 <div class="page--game game">
 	<div class="game-header">
-	{#if $playerType === PlayerType.Host}
-		<HostController
-			bind:board
-			bind:pin
-			bind:word
-			on:updateTick={setTick}
-			on:updateWord={setWord}
-		/>
-	{:else if $playerType === PlayerType.Player}
-
-		<PlayerController
-			bind:board
-			bind:pin
-			bind:word
-			bind:letterVoted
-			bind:canVote
-			on:updateTick={setTick}
-			on:updateWord={setWord}
-		/>
-	{/if}
-
+		{#if $playerType === PlayerType.Host}
+			<HostController
+				bind:board
+				bind:pin
+				bind:word
+				on:updateTick={setTick}
+				on:updateWord={setWord}
+			/>
+		{:else if $playerType === PlayerType.Player}
+			<PlayerController
+				bind:board
+				bind:pin
+				bind:word
+				bind:letterVoted
+				bind:canVote
+				on:updateTick={setTick}
+				on:updateWord={setWord}
+			/>
+		{/if}
 
 		<div class="voting-timer flex flex-1 flex-grow item-center justify-center">
 			{#if tick}

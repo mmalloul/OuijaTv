@@ -30,7 +30,7 @@
 	});
 
 	/**
-	 * Initialize the WebSocket for the player and send pin and username. 
+	 * Initialize the WebSocket for the player and send pin and username.
 	 * @param pin
 	 */
 	function initSocketForPlayer(pin: string) {
@@ -57,7 +57,7 @@
 		board.resetSeeker();
 		prompt = "";
 		canVote = false;
-		
+
 		// Send event to parent to reset word.
 		dispatch("updateWord", {
 			word: ""
@@ -93,7 +93,8 @@
 	}
 
 	function updateTick(event: any) {
-		dispatch("updateTick", { // Send event to parent for countdown timer.
+		dispatch("updateTick", {
+			// Send event to parent for countdown timer.
 			tick: event.detail.tick
 		});
 	}

@@ -3,10 +3,9 @@
 	import { env } from "$env/dynamic/public";
 	import { page } from "$app/stores";
 	import Icon from "@iconify/svelte";
-	import type WebSocketController from "$lib/components/controllers/WebSocketController.svelte";
+	import WebSocketController from "$lib/components/controllers/WebSocketController.svelte";
 	import { toastStore } from "$lib/stores/toast";
 	import { ToastType } from "$lib/types/ToastType";
-	import WebSocketController from "$lib/components/controllers/WebSocketController.svelte";
 	import { goto } from "$app/navigation";
 	import type Board from "$lib/components/Board.svelte";
 	import { lobbyStore } from "$lib/stores/lobbyStore";
@@ -25,7 +24,8 @@
 
 	$: host = $page.url.origin;
 	$: shareableURL = `${host}/join/${pin}`;
-	$: lobbyStore.subscribe((value) => { // This retrieves the data filled in from LobbyCreationPanel
+	$: lobbyStore.subscribe((value) => {
+		// This retrieves the data filled in from LobbyCreationPanel
 		lobbyName = value.lobbyName;
 		gameMode = value.gameMode;
 		votingTime = value.gameDuration;
@@ -37,7 +37,7 @@
 
 	/**
 	 * Init socket for Host, send the lobbyName, VotingTime and GameMode.
-	*/
+	 */
 	function initSocketForHost() {
 		const url = `${env.PUBLIC_WS_URL}/host?name=${lobbyName}&voting_time=${votingTime}&game_mode=${gameMode}`;
 		socketController.initSocket(url);
@@ -94,7 +94,7 @@
 
 	/**
 	 * When restart has been sent by backend the frontend ui gets reset for host.
-	*/
+	 */
 	function restart() {
 		canPrompt = true;
 		prompt = "";
@@ -149,9 +149,9 @@
 />
 
 <div class="flex flex-1 flex-grow item-center justify-center">
-    <button on:click={onRestartButton} class="restart-button p-2 rounded-md absolute left-5 bottom-0">
-	    <Icon icon="mdi:restart" />
-    </button>
+	<button on:click={onRestartButton} class="restart-button p-2 rounded-md absolute left-5 bottom-0">
+		<Icon icon="mdi:restart" />
+	</button>
 </div>
 
 <form class="flex flex-1 flex-grow item-center justify-center">
@@ -177,7 +177,6 @@
 		</button>
 	</div>
 </div>
-
 
 <style lang="postcss">
 	.prompt-button {
