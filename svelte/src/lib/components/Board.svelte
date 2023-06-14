@@ -43,7 +43,6 @@
 		moveSeeker();
 	}
 
-	//TODO: When the voting round is about to end, move the seeker faster.
 	function moveSeeker() {
 		// Check if seekerPos is in seekerWalkRadius of targetPos
 		// If so, move seekerPos by a random integer between -movementStep and movementStep
