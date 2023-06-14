@@ -2,7 +2,7 @@
 	import { onMount } from "svelte";
 	import GhostImage from "$lib/assets/ghost.png";
 
-	const timeBetweenSteps = 350;
+	const timeBetweenTicks = 350;
 	const minTicksBetweenRelocation = 5;
 	const maxTicksBetweenRelocation = 30;
 	const maxRelocationDistance = 300;
@@ -41,7 +41,7 @@
 
 		const interval = setInterval(() => {
 			onTick();
-		}, timeBetweenSteps);
+		}, timeBetweenTicks);
 
 		// Clean up the interval when the component is unmounted
 		return () => {
