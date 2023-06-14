@@ -7,7 +7,7 @@
 	const maxTicksBetweenRelocation = 30;
 	const maxRelocationDistance = 300;
 	// Percentage chance that the ghost will move towards the location instead of randomly
-	const steerPercentage = .25;
+	const steerPercentage = 0.25;
 
 	// Location that the ghost is targeting
 	let locationX = 0;
@@ -27,7 +27,6 @@
 	let movementStep = 25;
 	let ticksBetweenRelocation: number;
 
-
 	onMount(() => {
 		updateBounds();
 		// A reactive statement for maxX and maxY wouldn't work here because the reference doesn't update.
@@ -37,7 +36,10 @@
 		currentY = Math.floor(Math.random() * maxY);
 		locationX = currentX;
 		locationY = currentY;
-		ticksBetweenRelocation = randIntBetweenExclusive(minTicksBetweenRelocation, maxTicksBetweenRelocation);
+		ticksBetweenRelocation = randIntBetweenExclusive(
+			minTicksBetweenRelocation,
+			maxTicksBetweenRelocation
+		);
 
 		const interval = setInterval(() => {
 			onTick();
@@ -58,7 +60,10 @@
 		// Relocate every so often, otherwise move around the location
 		if (++tick > ticksBetweenRelocation) {
 			tick = 0;
-			ticksBetweenRelocation = randIntBetweenExclusive(minTicksBetweenRelocation, maxTicksBetweenRelocation);
+			ticksBetweenRelocation = randIntBetweenExclusive(
+				minTicksBetweenRelocation,
+				maxTicksBetweenRelocation
+			);
 			relocate();
 		} else {
 			moveAroundLocation();
@@ -76,7 +81,7 @@
 		/// Get the sign of the difference between the current and target location
 		let signX = Math.sign(locationX - currentX);
 		let signY = Math.sign(locationY - currentY);
-		// Move towards the location 
+		// Move towards the location
 		currentX += -signX * movementStep;
 		currentY += -signY * movementStep;
 	}
@@ -84,8 +89,8 @@
 	/// Moves the ghost in a random direction
 	function moveRandomly() {
 		// Get a random sign
-		let signX = Math.random() < .5 ? -1 : 1;
-		let signY = Math.random() < .5 ? -1 : 1;
+		let signX = Math.random() < 0.5 ? -1 : 1;
+		let signY = Math.random() < 0.5 ? -1 : 1;
 
 		currentX = clamp(currentX + signX * movementStep, 0, maxX);
 		currentY = clamp(currentY + signY * movementStep, 0, maxY);
@@ -97,30 +102,28 @@
 		// This is to prevent the ghost from teleporting across the screen.
 		// If the ghost is too close to the edge of the screen, it will pick a location that
 		// is closer to the center of the screen.
-		if (locationX < maxRelocationDistance)
-		{
+		if (locationX < maxRelocationDistance) {
 			locationX = clamp(locationX + randIntBetweenExclusive(0, maxRelocationDistance), 0, maxX);
-		}
-		else if (locationX > maxX - locationX)
-		{
+		} else if (locationX > maxX - locationX) {
 			locationX = clamp(locationX + randIntBetweenExclusive(-maxRelocationDistance, 0), 0, maxX);
-		}
-		else 
-		{
-			locationX = clamp(locationX + randIntBetweenExclusive(-maxRelocationDistance, maxRelocationDistance), 0, maxX);
+		} else {
+			locationX = clamp(
+				locationX + randIntBetweenExclusive(-maxRelocationDistance, maxRelocationDistance),
+				0,
+				maxX
+			);
 		}
 
-		if (locationY < maxRelocationDistance)
-		{
+		if (locationY < maxRelocationDistance) {
 			locationY = clamp(locationY + randIntBetweenExclusive(0, maxRelocationDistance), 0, maxY);
-		}
-		else if (locationY > maxY - locationY)
-		{
+		} else if (locationY > maxY - locationY) {
 			locationY = clamp(locationY + randIntBetweenExclusive(-maxRelocationDistance, 0), 0, maxY);
-		}
-		else 
-		{
-			locationY = clamp(locationY + randIntBetweenExclusive(-maxRelocationDistance, maxRelocationDistance), 0, maxY);
+		} else {
+			locationY = clamp(
+				locationY + randIntBetweenExclusive(-maxRelocationDistance, maxRelocationDistance),
+				0,
+				maxY
+			);
 		}
 		// Set the current location of the ghost to the new location
 		currentX = locationX;
@@ -147,7 +150,10 @@
 	}
 </script>
 
-<div class="-z-10 font duration-1000" style="position: absolute; left: {currentX}px; bottom: {currentY}px;">
+<div
+	class="-z-10 font duration-1000"
+	style="position: absolute; left: {currentX}px; bottom: {currentY}px;"
+>
 	<div class="flex flex-col items-center">
 		<img class="opacity-25" width={ghostWidth} src={GhostImage} alt="A spirit" />
 		<slot />
