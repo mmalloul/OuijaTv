@@ -1,8 +1,7 @@
 <script lang="ts">
+	import { onMount } from "svelte";
 
-    import { onMount } from "svelte";
-
-    const timeBetweenTicks = 350;
+	const timeBetweenTicks = 350;
 	const minTicksBetweenRelocation = 5;
 	const maxTicksBetweenRelocation = 30;
 	const maxRelocationDistance = 300;
@@ -10,7 +9,7 @@
 	const steerPercentage = 0.25;
 	const moveSmoothingms = 1500;
 
-    // Location that the ghost is targeting
+	// Location that the ghost is targeting
 	let locationX = 0;
 	let locationY = 0;
 	// Current location of the ghost
@@ -21,12 +20,12 @@
 	export let maxX = 0;
 	export let maxY = 0;
 
-    let tick = 0;
+	let tick = 0;
 	let movementStep = 25;
 	let ticksBetweenRelocation: number;
 
-    onMount(() => {
-        // set x and y to a random position between 0 and maxX/maxY
+	onMount(() => {
+		// set x and y to a random position between 0 and maxX/maxY
 		locationX = Math.floor(Math.random() * maxX);
 		locationY = Math.floor(Math.random() * maxY);
 		x = locationX;
@@ -44,8 +43,7 @@
 		return () => {
 			clearInterval(interval);
 		};
-    });
-
+	});
 
 	function onTick() {
 		// Relocate every so often, otherwise move around the location
@@ -61,7 +59,7 @@
 		}
 	}
 
-    /// Moves the ghost around the target location
+	/// Moves the ghost around the target location
 	function moveAroundLocation() {
 		// 25% chance to move towards the location, 75% chance to move randomly
 		performByPercentage(moveTowardsLocation, moveRandomly, steerPercentage);
@@ -142,7 +140,7 @@
 </script>
 
 <div
-style="position: absolute; left: {x}px; bottom: {y}px; 	transition-duration: {moveSmoothingms}ms;"
+	style="position: absolute; left: {x}px; bottom: {y}px; 	transition-duration: {moveSmoothingms}ms;"
 >
-	<slot/>
+	<slot />
 </div>
