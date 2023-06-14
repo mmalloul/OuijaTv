@@ -172,7 +172,13 @@
 			</Ghost>
 		{/each}
 	{/if}
-	<Board bind:timeLeft={tick} bind:this={board} bind:isHost bind:canVote on:letterClicked={onVoteLetter} />
+	<Board
+		bind:timeLeft={tick}
+		bind:this={board}
+		bind:isHost
+		bind:canVote
+		on:letterClicked={onVoteLetter}
+	/>
 </div>
 
 <style lang="postcss">
