@@ -1,14 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import GhostImage from "$lib/assets/ghost.png";
-	import Motor from "$lib/components/Motor.svelte";
-
-	const timeBetweenTicks = 350;
-	const minTicksBetweenRelocation = 5;
-	const maxTicksBetweenRelocation = 30;
-	const maxRelocationDistance = 300;
-	// Percentage chance that the ghost will move towards the location instead of randomly
-	const steerPercentage = 0.25;
+	import AbsolutePositionMotor from "$lib/components/AbsolutePositionMotor.svelte";
 
 	// Bounds of the window
 	let maxX = 0;
@@ -29,14 +22,14 @@
 	}
 </script>
 
-<Motor bind:maxX bind:maxY>
+<AbsolutePositionMotor bind:maxX bind:maxY>
 	<div class="-z-10 font">
 		<div class="flex flex-col items-center">
 			<img class="opacity-25" width={ghostWidth} src={GhostImage} alt="A spirit" />
 			<slot />
 		</div>
 	</div>
-</Motor>
+</AbsolutePositionMotor>
 
 <style lang="postcss">
 	.font {
