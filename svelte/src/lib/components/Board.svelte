@@ -7,6 +7,7 @@
 
 	export let canVote: boolean;
 	export let isHost: boolean;
+	export let timeLeft: number | undefined;
 
 	let seekerPos: Vector2;
 	let seekerTarget: Vector2;
@@ -54,10 +55,11 @@
 			seekerPos.x += randIntBetweenExclusive(-movementStep, movementStep);
 			seekerPos.y += randIntBetweenExclusive(-movementStep, movementStep);
 		} else {
-			// Move towards target
-			let angle = Math.atan2(seekerTarget.y - seekerPos.y, seekerTarget.x - seekerPos.x);
-			seekerPos.x += movementStep * Math.cos(angle);
-			seekerPos.y += movementStep * Math.sin(angle);
+			// Linearly interpolate seekerPos towards seekerTarget by timeLeft / 15
+			// TODO: Currently 15 is hardcoded as the max time for a round!
+			let timeLeftFactor = timeLeft ? (15 - timeLeft) / 15 : 1;
+			seekerPos.x += (seekerTarget.x - seekerPos.x) * timeLeftFactor;
+			seekerPos.y += (seekerTarget.y - seekerPos.y) * timeLeftFactor;
 		}
 	}
 
@@ -81,7 +83,6 @@
 	export function moveSeekerTargetToLetter(letter: string) {
 		let target = getLetterPosition(letter);
 		if (target) {
-			console.log(target);
 			seekerTarget = new Vector2(target.x, target.y);
 		}
 	}
