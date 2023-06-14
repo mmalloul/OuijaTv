@@ -32,7 +32,6 @@
 			onTick();
 		}, timeBetweenTicks);
 
-
 		// Clean up the interval when the component is unmounted
 		return () => {
 			clearInterval(interval);
