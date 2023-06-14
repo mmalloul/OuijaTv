@@ -109,7 +109,7 @@
 	 * @param letter the letter to move the seeker to.
 	 */
 	function updateWinningVote(letter: any) {
-		board.moveSeekerToLetter(letter.detail.winningVote);
+		board.moveSeekerTargetToLetter(letter.detail.winningVote);
 	}
 </script>
 
