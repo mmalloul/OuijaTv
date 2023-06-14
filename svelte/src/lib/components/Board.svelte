@@ -32,6 +32,7 @@
 			onTick();
 		}, timeBetweenTicks);
 
+
 		// Clean up the interval when the component is unmounted
 		return () => {
 			clearInterval(interval);
@@ -42,6 +43,7 @@
 		moveSeeker();
 	}
 
+	//TODO: When the voting round is about to end, move the seeker faster.
 	function moveSeeker() {
 		// Check if seekerPos is in seekerWalkRadius of targetPos
 		// If so, move seekerPos by a random integer between -movementStep and movementStep
@@ -55,10 +57,10 @@
 			seekerPos.x += randIntBetweenExclusive(-movementStep, movementStep);
 			seekerPos.y += randIntBetweenExclusive(-movementStep, movementStep);
 		} else {
-			// Linearly interpolate seekerPos towards seekerTarget by timeLeft / 15
-			let timeLeftFactor = timeLeft ? (roundTime - timeLeft) / roundTime : 1;
-			seekerPos.x += (seekerTarget.x - seekerPos.x) * timeLeftFactor;
-			seekerPos.y += (seekerTarget.y - seekerPos.y) * timeLeftFactor;
+			// Move towards target
+			let angle = Math.atan2(seekerTarget.y - seekerPos.y, seekerTarget.x - seekerPos.x);
+			seekerPos.x += movementStep * Math.cos(angle);
+			seekerPos.y += movementStep * Math.sin(angle);
 		}
 	}
 
@@ -82,6 +84,7 @@
 	export function moveSeekerTargetToLetter(letter: string) {
 		let target = getLetterPosition(letter);
 		if (target) {
+			console.log(target);
 			seekerTarget = new Vector2(target.x, target.y);
 		}
 	}
