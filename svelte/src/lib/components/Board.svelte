@@ -56,7 +56,8 @@
 			seekerPos.y += randIntBetweenExclusive(-movementStep, movementStep);
 		} else {
 			// Linearly interpolate seekerPos towards seekerTarget by timeLeft / 15
-			let timeLeftFactor = timeLeft ? (roundTime - timeLeft) / roundTime : 1;
+			// TODO: Currently 15 is hardcoded as the max time for a round!
+			let timeLeftFactor = timeLeft ? (15 - timeLeft) / 15 : 1;
 			seekerPos.x += (seekerTarget.x - seekerPos.x) * timeLeftFactor;
 			seekerPos.y += (seekerTarget.y - seekerPos.y) * timeLeftFactor;
 		}
