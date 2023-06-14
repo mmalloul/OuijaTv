@@ -9,7 +9,12 @@
 	export let isHost: boolean;
 
 	let seekerPos: Vector2;
+	let seekerTarget: Vector2;
 	let ownVotePos: Vector2;
+
+	const seekerWalkRadius = 20;
+	const timeBetweenTicks = 200;
+	const movementStep = 10;
 
 	$: if (canVote) {
 		resetPlayerSeeker();
@@ -18,10 +23,50 @@
 	onMount(() => {
 		loadLetterPositions();
 		resetSeeker();
+		seekerPos = structuredClone(seekerTarget);
+
+		const interval = setInterval(() => {
+			onTick();
+		}, timeBetweenTicks);
+
+
+		// Clean up the interval when the component is unmounted
+		return () => {
+			clearInterval(interval);
+		};
 	});
 
+	function onTick() {
+		moveSeeker();
+	}
+
+	//TODO: When the voting round is about to end, move the seeker faster.
+	function moveSeeker() {
+		// Check if seekerPos is in seekerWalkRadius of targetPos
+		// If so, move seekerPos by a random integer between -movementStep and movementStep
+		// If not, move seekerPos towards targetPos by movementStep
+		let distance = Math.sqrt(
+			Math.pow(seekerPos.x - seekerTarget.x, 2) + Math.pow(seekerPos.y - seekerTarget.y, 2)
+		);
+
+		if (distance < seekerWalkRadius) {
+			// Move randomly
+			seekerPos.x += randIntBetweenExclusive(-movementStep, movementStep);
+			seekerPos.y += randIntBetweenExclusive(-movementStep, movementStep);
+		} else {
+			// Move towards target
+			let angle = Math.atan2(seekerTarget.y - seekerPos.y, seekerTarget.x - seekerPos.x);
+			seekerPos.x += movementStep * Math.cos(angle);
+			seekerPos.y += movementStep * Math.sin(angle);
+		}
+	}
+
+	function randIntBetweenExclusive(min: number, max: number) {
+		return Math.floor(Math.random() * (max - min) + min);
+	}
+
 	export function resetSeeker() {
-		moveSeekerToLetter("@");
+		moveSeekerTargetToLetter("@");
 		showMyVote("@");
 	}
 
@@ -33,10 +78,11 @@
 		return letterPositions[letter.toUpperCase()];
 	}
 
-	export function moveSeekerToLetter(letter: string) {
+	export function moveSeekerTargetToLetter(letter: string) {
 		let target = getLetterPosition(letter);
 		if (target) {
-			seekerPos = new Vector2(target.x, target.y);
+			console.log(target);
+			seekerTarget = new Vector2(target.x, target.y);
 		}
 	}
 
