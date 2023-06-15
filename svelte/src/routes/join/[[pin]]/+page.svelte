@@ -12,9 +12,22 @@
 	let username = "";
 	let roomCode = $page.params.pin ?? "";
 
+	let validRoomCode: boolean = false;
+	let validUsername: boolean = false;
+
 	onMount(() => {
 		username = localStorage.getItem("username") || "";
+		validateName();
+		validateRoomCode();
 	});
+
+	function validateName() {
+		validUsername = username.length < username_max;
+	}
+
+	function validateRoomCode() {
+		validRoomCode = /^[a-zA-Z]{6}$/.test(roomCode);
+	}
 
 	function inputValid(name: string, code: string): boolean {
 		let warnings = [];
@@ -42,58 +55,39 @@
 	}
 </script>
 
-<div class="page container">
-	<form on:submit|preventDefault>
-		<label for="username">Username:</label><br />
-		<input bind:value={username} type="text" id="username" name="username" />
-		<br /><br />
-		<label for="room-code">Room code:</label><br />
-		<input bind:value={roomCode} type="text" id="room-code" name="room-code" />
-		<br />
+<div class="grow font flex justify-center py-32">
+	<form on:submit|preventDefault class="flex flex-col items-center">
+		<label class="mb-2" for="username">Username:</label>
+		<input class="mb-4" bind:value={username} on:input={validateName} type="text" id="username" name="username" />
+		<div class="h-4 mb-8 font--error">
+			{ validUsername ? "" : "Your username is too long! (Max. 16 characters)" }
+		</div>
+		<label class="mb-2" for="username">Roomcode:</label>
+		<input class="mb-4" bind:value={roomCode} on:input={validateRoomCode} type="text" id="room-code" name="room-code" />
+		<div class="h-4 mb-8 font--error">
+			{ validRoomCode ? "" : "Please enter a valid roomcode! (6 characters)" }
+		</div>
 		<button
-			class="custom-button"
+			class="mt-4 px-4 py-2 rounded-md font-bold border-2 border-fontcolor disabled:opacity-30 enabled:bg-white/10 hover:bg-accent active:bg-accent/75"
 			type="submit"
 			on:click={() => joinRoom(roomCode)}
-			disabled={!inputValid(username, roomCode)}>Join</button
+			disabled={!validUsername || !validRoomCode}>Join
+		</button
 		>
 	</form>
-	<div class="column input-warning">
-		<p>{warning}</p>
-	</div>
 </div>
 
 <style lang="postcss">
-	form * {
-		margin-top: 20px;
+	.font {
+		@apply text-fontcolor text-4xl;
+		font-family: theme(fontFamily.amatic);
 	}
 
-	form input {
-		background-color: transparent;
-		border: 1px solid white;
-		padding-left: 10px;
+	.font--error {
+		@apply text-2xl !text-red-500;
 	}
 
-	.input-warning {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		white-space: pre-line;
-	}
-
-	.container {
-		@apply flex justify-center items-center text-fontcolor font-amatic text-4xl;
-	}
-
-	.custom-button {
-		@apply text-center w-full;
-		text-decoration: none;
-		padding: 0.75em;
-		border: 1px solid white;
-		transition: all 0.2s ease-in-out;
-	}
-
-	.custom-button:hover {
-		@apply cursor-pointer bg-accent opacity-75;
-		transform: scale(1.01);
+	input {
+		@apply text-fontcolor bg-white bg-opacity-5 text-4xl border-1 border-light-300 p-3;
 	}
 </style>
