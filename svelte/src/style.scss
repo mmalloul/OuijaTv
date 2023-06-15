@@ -24,3 +24,7 @@ body {
 	visibility: hidden;
 	height: 0;
 }
+
+input {
+	@apply text-center text-fontcolor bg-white bg-opacity-5 text-4xl border-1 border-light-300 p-3 rounded-xl;
+}

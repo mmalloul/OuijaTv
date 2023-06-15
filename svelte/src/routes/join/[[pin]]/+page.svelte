@@ -67,8 +67,4 @@
 	.font--error {
 		@apply text-2xl !text-red-500;
 	}
-
-	input {
-		@apply text-fontcolor bg-white bg-opacity-5 text-4xl border-1 border-light-300 p-3;
-	}
 </style>
