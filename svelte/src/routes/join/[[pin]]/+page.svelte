@@ -12,8 +12,8 @@
 	let username = "";
 	let roomCode = $page.params.pin ?? "";
 
-	let validRoomCode: boolean = false;
-	let validUsername: boolean = false;
+	let validRoomCode = false;
+	let validUsername = false;
 
 	onMount(() => {
 		username = localStorage.getItem("username") || "";
