@@ -12,6 +12,7 @@
 	import HostController from "$lib/components/controllers/HostController.svelte";
 	import PlayerController from "$lib/components/controllers/PlayerController.svelte";
 	import Icon from "@iconify/svelte";
+	import TourGuide from "$lib/components/TourGuide.svelte";
 
 	const playerType: Writable<PlayerType> = getContext("playerType");
 	const showMenu = getContext<Writable<boolean>>("showMenu");
@@ -22,6 +23,7 @@
 	let letterVoted: string;
 	let canVote: boolean;
 	let players: Record<string, string> = {};
+	let tourGuide: TourGuide;
 
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
@@ -111,12 +113,17 @@
 	function updateWinningVote(letter: any) {
 		board.moveSeekerTargetToLetter(letter.detail.winningVote);
 	}
+
+	function startTheTour() {
+		if ($playerType === PlayerType.Host) tourGuide.startTourGameHost();
+		if ($playerType === PlayerType.Player) tourGuide.startTourGamePlayer();
+	}
 </script>
 
 <div class="page--game game">
 	<div class="game-header">
 		<div class="back-to-menu">
-			<a href="/"><Icon icon="formkit:arrowleft" />Exit</a>
+			<a id="exit-button" href="/"><Icon icon="formkit:arrowleft" />Exit</a>
 		</div>
 		{#if $playerType === PlayerType.Host}
 			<HostController
@@ -172,14 +179,25 @@
 			</Ghost>
 		{/each}
 	{/if}
-	<Board
+	
+	<div id="board">
+		<Board
 		bind:timeLeft={tick}
 		bind:this={board}
 		bind:isHost
 		bind:canVote
 		on:letterClicked={onVoteLetter}
 	/>
+	</div>
+
+	<button type="button" id="info-button" on:click={startTheTour}>
+		<p>
+			<Icon icon="ph:info-light" />
+		</p>
+	</button>
 </div>
+
+<TourGuide bind:this={tourGuide} />
 
 <style lang="postcss">
 	.game {
@@ -227,5 +245,37 @@
 	.spirit-answer span {
 		@apply text-lg lg: text-3xl;
 		text-wrap: nowrap;
+	}
+
+	#info-button {
+		@apply text-fontcolor m-2 absolute;
+		text-decoration: none;
+		text-align: center;
+		bottom: 0;
+		font-family: theme(fontFamily.amatic);
+		transition: all 0.2s ease-in-out;
+		font-size: calc(1em + 1vw); /* Responsive font-size */
+	}
+
+	#info-button:hover {
+		@apply cursor-pointer bg-dark opacity-75;
+		border-style: solid;
+	}
+
+	#info-button > p {
+		transition: all 0.2s ease-in-out;
+	}
+
+	#info-button:hover {
+		@apply cursor-pointer bg-dark opacity-75;
+		border-style: solid;
+	}
+
+	#info-button:hover > p {
+		@apply text-accent;
+	}
+
+	#info-button:hover > p {
+		transform: scale(1.05);
 	}
 </style>
