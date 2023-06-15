@@ -9,6 +9,7 @@
 	import spirit2 from "$lib/assets/spirit2.webp";
 	import spirit3 from "$lib/assets/spirit3.webp";
 	import spirit4 from "$lib/assets/spirit4.webp";
+	import Icon from "@iconify/svelte";
 
 	let showCards = true,
 		showBoard = false,
@@ -69,7 +70,7 @@
 		}
 		await new Promise((resolve) => setTimeout(resolve, 2000));
 		seekerX = 960.5;
-		seekerY = 766.5;
+		seekerY = 750.5;
 		showInput = true;
 		return;
 	}
@@ -89,12 +90,21 @@
 	onDestroy(() => {
 		showMenu.set(true);
 	});
+
+
+
+	function onRestartButton() {
+		throw new Error("Function not implemented.");
+	}
 </script>
 
 <Toaster />
 {#if showCards}
 	<div class="page">
 		<div>
+			<div class="back-to-menu">
+				<a href="/"><Icon icon="formkit:arrowleft" />Exit</a>
+			</div>
 			<h1 class="awnser">SOLO Summon</h1>
 			<div class="subtask">
 				As you navigate to the website and click on the Ouija board feature, a sense of apprehension
@@ -142,16 +152,19 @@
 
 {#if showBoard}
 	<div class="page--game flex flex-col items-center">
-		<form class="flex">
-			<input bind:value={prompt} type="text" placeholder="STATE YOUR INTENTION" />
-		</form>
-		{#if showInput}
-			{#if prompt != ""}
+		<div class="game-header">
+			<form class="flex">
+				<div class="back-to-menu">
+					<a href="/"><Icon icon="formkit:arrowleft" />Exit</a>
+				</div>
+				<input bind:value={prompt} 
+				type="text" 
+				placeholder="STATE YOUR INTENTION" />
 				<button type="button" class="custom-button" on:click={() => ask()}>
 					<p>Ask</p>
 				</button>
-			{/if}
-		{/if}
+			</form>
+		</div>
 
 		<div class="char">
 			<span class="text-light-50"> Name:</span>
@@ -170,10 +183,33 @@
 				stroke-width="13"
 			/>
 		</BoardSvg>
+		<div class="restart-button">
+			<button on:click={onRestartButton}>
+				Restart <Icon icon="mdi:restart" />
+			</button>
+		</div>
 	</div>
 {/if}
 
 <style lang="postcss">
+
+
+	.restart-button button {
+		@apply flex justify-center items-center text-fontcolor p-2 rounded-md text-lg lg:text-3xl;
+		text-decoration: none;
+		text-align: center;
+		font-family: theme(fontFamily.amatic);
+		transition: all 0.2s ease-in-out;
+	}
+
+	.restart-button button:hover {
+		@apply cursor-pointer bg-accent;
+		transform: scale(1.03);
+	}
+	.game-header {
+		@apply flex  md: flex-row justify-center items-center w-full flex-wrap;
+		transition: all 0.5s ease-in-out;
+	}
 	.te {
 		@apply text-accent;
 	}
@@ -224,6 +260,21 @@
 		width: 20%;
 		border-color: #dddddd;
 		transition: all 0.2s ease-in-out;
+	}
+
+	.back-to-menu {
+		@apply font-amatic text-center text-fontcolor flex flex-1 flex-grow;
+	}
+
+	.back-to-menu a {
+		@apply flex justify-center items-center px-2 rounded-md  text-lg lg: text-3xl;
+		transition: all 0.2s ease-in-out;
+		text-decoration: none;
+	}
+
+	.back-to-menu a:hover {
+		@apply cursor-pointer bg-accent;
+		transform: scale(1.03);
 	}
 
 	.custom-button > p {
