@@ -22,7 +22,7 @@
 	});
 
 	function validateName() {
-		validUsername = username.length < username_max;
+		validUsername = username.length != 0 && username.length < username_max;
 	}
 
 	function validateRoomCode() {
