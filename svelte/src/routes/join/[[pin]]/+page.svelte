@@ -39,22 +39,36 @@
 <div class="grow font flex justify-center py-32">
 	<form on:submit|preventDefault class="flex flex-col items-center">
 		<label class="mb-2" for="username">Username:</label>
-		<input class="mb-4" bind:value={username} on:input={validateName} type="text" id="username" name="username" />
+		<input
+			class="mb-4"
+			bind:value={username}
+			on:input={validateName}
+			type="text"
+			id="username"
+			name="username"
+		/>
 		<div class="h-4 mb-8 font--error">
-			{ validUsername ? "" : "Your username is too long! (Max. 16 characters)" }
+			{validUsername ? "" : "Your username is too long! (Max. 16 characters)"}
 		</div>
 		<label class="mb-2" for="username">Roomcode:</label>
-		<input class="mb-4" bind:value={roomCode} on:input={validateRoomCode} type="text" id="room-code" name="room-code" />
+		<input
+			class="mb-4"
+			bind:value={roomCode}
+			on:input={validateRoomCode}
+			type="text"
+			id="room-code"
+			name="room-code"
+		/>
 		<div class="h-4 mb-8 font--error">
-			{ validRoomCode ? "" : "Please enter a valid roomcode! (6 characters)" }
+			{validRoomCode ? "" : "Please enter a valid roomcode! (6 characters)"}
 		</div>
 		<button
 			class="mt-4 px-4 py-2 rounded-md font-bold border-2 border-fontcolor disabled:opacity-30 enabled:bg-white/10 hover:bg-accent active:bg-accent/75"
 			type="submit"
 			on:click={() => joinRoom(roomCode)}
-			disabled={!validUsername || !validRoomCode}>Join
-		</button
-		>
+			disabled={!validUsername || !validRoomCode}
+			>Join
+		</button>
 	</form>
 </div>
 
