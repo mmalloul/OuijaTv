@@ -21,9 +21,9 @@
 	let gameMode = gameModes[1]; // Set default gamemode to Multiplayer.
 
 	$: gameModeIsValid = gameMode !== null;
-	
+
 	function startTheTour() {
-		tourGuide.startTour();
+		tourGuide.startTourLobbyCreationPanel();
 	}
 
 	function startTheTour() {

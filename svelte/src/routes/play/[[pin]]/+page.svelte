@@ -122,6 +122,9 @@
 
 <div class="page--game game">
 	<div class="game-header">
+		<div class="back-to-menu">
+			<a id="exit-button" href="/"><Icon icon="formkit:arrowleft" />Exit</a>
+		</div>
 		{#if $playerType === PlayerType.Host}
 			<HostController
 				bind:board
@@ -176,15 +179,15 @@
 			</Ghost>
 		{/each}
 	{/if}
-
+	
 	<div id="board">
 		<Board
-			bind:timeLeft={tick}
-			bind:this={board}
-			bind:isHost
-			bind:canVote
-			on:letterClicked={onVoteLetter}
-		/>
+		bind:timeLeft={tick}
+		bind:this={board}
+		bind:isHost
+		bind:canVote
+		on:letterClicked={onVoteLetter}
+	/>
 	</div>
 
 	<button type="button" id="info-button" on:click={startTheTour}>
