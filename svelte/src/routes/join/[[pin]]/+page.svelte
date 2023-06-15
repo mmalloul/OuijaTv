@@ -29,25 +29,6 @@
 		validRoomCode = /^[a-zA-Z]{6}$/.test(roomCode);
 	}
 
-	function inputValid(name: string, code: string): boolean {
-		let warnings = [];
-		if (name.length === 0) {
-			warnings.push("Enter a username!");
-		} else if (name.length > username_max) {
-			warnings.push("Username too long!");
-		}
-
-		if (code.length === 0) {
-			warnings.push("Enter a roomcode!");
-		} else if (!/^[a-zA-Z]{6}$/.test(roomCode)) {
-			warnings.push("Enter a valid roomcode!");
-		}
-
-		warning = warnings.join("\n");
-
-		return warnings.length === 0;
-	}
-
 	function joinRoom(code: string) {
 		localStorage.setItem("username", username);
 		playerType.set(PlayerType.Player);
