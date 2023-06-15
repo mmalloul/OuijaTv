@@ -200,11 +200,6 @@
 		@apply text-fontcolor text-4xl;
 	}
 
-	input {
-		@apply text-accent text-4xl bg-dark border-1 border-light-300 p-3 text-white;
-		margin: 0 auto;
-	}
-
 	input,
 	.button {
 		box-sizing: border-box;
