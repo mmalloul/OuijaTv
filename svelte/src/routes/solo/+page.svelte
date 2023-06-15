@@ -188,10 +188,33 @@
 				stroke-width="13"
 			/>
 		</BoardSvg>
+		<div class="restart-button">
+			<button on:click={onRestartButton}>
+				Restart <Icon icon="mdi:restart" />
+			</button>
+		</div>
 	</div>
 {/if}
 
 <style lang="postcss">
+
+
+	.restart-button button {
+		@apply flex justify-center items-center text-fontcolor p-2 rounded-md text-lg lg:text-3xl;
+		text-decoration: none;
+		text-align: center;
+		font-family: theme(fontFamily.amatic);
+		transition: all 0.2s ease-in-out;
+	}
+
+	.restart-button button:hover {
+		@apply cursor-pointer bg-accent;
+		transform: scale(1.03);
+	}
+	.game-header {
+		@apply flex  md: flex-row justify-center items-center w-full flex-wrap;
+		transition: all 0.5s ease-in-out;
+	}
 	.te {
 		@apply text-accent;
 	}
