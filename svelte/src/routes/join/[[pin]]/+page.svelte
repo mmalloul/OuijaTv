@@ -8,7 +8,6 @@
 	const username_max = 18;
 	const playerType = getContext<Writable<PlayerType>>("playerType");
 
-	let warning = "";
 	let username = "";
 	let roomCode = $page.params.pin ?? "";
 
