@@ -142,9 +142,10 @@
 	</button>
 </div>
 
-<form class="promt-question">
+<form class="prompt-question">
 	<input
 		bind:value={prompt}
+		id="prompt"
 		type="text"
 		placeholder={"STATE YOUR INTENTION"}
 		disabled={!canPrompt}
@@ -167,7 +168,7 @@
 </div>
 
 <style lang="postcss">
-	.promt-question {
+	.prompt-question {
 		@apply flex flex-1 flex-grow items-center justify-center gap-2;
 	}
 
