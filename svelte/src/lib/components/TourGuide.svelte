@@ -25,7 +25,7 @@
 				},
 				{
 					element: "#gameMode",
-					intro: "Choose your gamemode! Either play multiplayer integrated with Twitch or go on a solo adventure against a AI spirit",
+					intro: "Choose your game mode! Either play multiplayer integrated with Twitch or go on a solo adventure against a AI spirit",
 					position: "right"
 				},
 				{
