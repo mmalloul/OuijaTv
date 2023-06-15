@@ -5,9 +5,13 @@
 	import { createEventDispatcher, getContext } from "svelte";
 	import type { Writable } from "svelte/store";
 	import Dropdown from "$lib/components/Dropdown.svelte";
+	import TourGuide from "$lib/components/TourGuide.svelte";
+	import Icon from "@iconify/svelte";
+
 	const dispatch = createEventDispatcher();
 	const playerType = getContext<Writable<PlayerType>>("playerType");
 	export let showLobbyCreationPanel = false;
+	let tourGuide: TourGuide;
 	let numUsers = 1;
 	let gameDuration = 15; // in seconds
 	let lobbyName = "";
@@ -17,6 +21,10 @@
 	let gameMode = gameModes[1]; // Set default gamemode to Multiplayer.
 
 	$: gameModeIsValid = gameMode !== null;
+	
+	function startTheTour() {
+		tourGuide.startTour();
+	}
 
 	/**
 	 * This function resets the form inputs when the lobby-creation-panel is closed by the user.
@@ -72,6 +80,9 @@
 {#if showLobbyCreationPanel}
 	<div class="panel mt-5">
 		<div class="panel-header">
+			<button type="button" id="info-button" on:click={startTheTour}
+				><p><Icon icon="ph:info-light" /></p></button
+			>
 			<h2>Provide</h2>
 
 			<button
@@ -115,6 +126,8 @@
 			</form>
 		</div>
 	</div>
+	<TourGuide bind:this={tourGuide} />
+
 {/if}
 
 <style lang="postcss">
@@ -199,4 +212,63 @@
 	label {
 		@apply text-fontcolor text-4xl;
 	}
+
+	input {
+		@apply text-accent text-4xl bg-dark border-1 border-light-300 p-3 text-white;
+		margin: 0 auto;
+	}
+
+	input,
+	.button {
+		box-sizing: border-box;
+		width: 240px;
+	}
+
+	@screen <sm {
+		input,
+		.actions {
+			width: 100%;
+		}
+	}
+
+	.actions {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+	}
+
+	
+	#info-button {
+		@apply text-fontcolor m-2 absolute;
+		text-decoration: none;
+		text-align: center;
+		top: 0px;
+		left: 0px;
+		font-family: theme(fontFamily.amatic);
+		transition: all 0.2s ease-in-out;
+		font-size: calc(1em + 1vw); /* Responsive font-size */
+	}
+
+	#info-button:hover {
+		@apply cursor-pointer bg-dark opacity-75;
+		border-style: solid;
+	}
+
+	#info-button > p {
+		transition: all 0.2s ease-in-out;
+	}
+
+	#info-button:hover {
+		@apply cursor-pointer bg-dark opacity-75;
+		border-style: solid;
+	}
+
+	#info-button:hover > p {
+		@apply text-accent;
+	}
+
+	#info-button:hover > p {
+		transform: scale(1.05);
+	}
+
 </style>
