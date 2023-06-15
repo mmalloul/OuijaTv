@@ -13,7 +13,7 @@
 
 	export function startTourLobbyCreationPanel() {
 		intro.setOptions({
-            showProgress: true,
+			showProgress: true,
 			exitOnEsc: true,
 			overlayOpacity: 0.65,
 			steps: [
@@ -24,7 +24,8 @@
 				},
 				{
 					element: "#gameMode",
-					intro: "Choose your game mode! Either play multiplayer integrated with Twitch or go on a solo adventure against a AI spirit.",
+					intro:
+						"Choose your game mode! Either play multiplayer integrated with Twitch or go on a solo adventure against a AI spirit.",
 					position: "right"
 				},
 				{
@@ -40,7 +41,7 @@
 
 	export function startTourGameHost() {
 		intro.setOptions({
-            showProgress: true,
+			showProgress: true,
 			exitOnEsc: true,
 			overlayOpacity: 0.65,
 			disableInteraction: true,
@@ -64,12 +65,14 @@
 				},
 				{
 					element: ".prompt-button",
-					intro: "When you're ready, you can send the question to the spirits. The spirits can only start voting once a question has been asked!",
+					intro:
+						"When you're ready, you can send the question to the spirits. The spirits can only start voting once a question has been asked!",
 					position: "right"
 				},
 				{
 					element: ".timer",
-					intro: "Once the question has been sent the clock will start ticking for each voting round. At the end of each round the most popular letter shall be picked.",
+					intro:
+						"Once the question has been sent the clock will start ticking for each voting round. At the end of each round the most popular letter shall be picked.",
 					position: "left"
 				},
 				{
@@ -79,7 +82,8 @@
 				},
 				{
 					element: ".restart-button",
-					intro: "You can restart the game by pressing this button, which shall reset all the current progress.",
+					intro:
+						"You can restart the game by pressing this button, which shall reset all the current progress.",
 					position: "right"
 				},
 				{
@@ -103,7 +107,7 @@
 
 	export function startTourGamePlayer() {
 		intro.setOptions({
-            showProgress: true,
+			showProgress: true,
 			exitOnEsc: true,
 			overlayOpacity: 0.65,
 			disableInteraction: true,
@@ -114,24 +118,29 @@
 				},
 				{
 					element: "#board",
-					intro: "The board shall be used by you and the other spirits to communicate with the host. The seeker will move around based on the votes."
+					intro:
+						"The board shall be used by you and the other spirits to communicate with the host. The seeker will move around based on the votes."
 				},
 				{
 					element: "#Seeker",
-					intro: "The bold seeker is the seeker for the game that everybody sees, this will move based on the current winning vote."
+					intro:
+						"The bold seeker is the seeker for the game that everybody sees, this will move based on the current winning vote."
 				},
 				{
 					element: "#MyVote",
-					intro: "The seeker with a lower opacity is your seeker which will showcase what you voted on. You can only vote once per round!"
+					intro:
+						"The seeker with a lower opacity is your seeker which will showcase what you voted on. You can only vote once per round!"
 				},
 				{
 					element: ".prompt",
-					intro: "The host will ask you a question for you to answer! You can only start voting once a question has been asked!",
+					intro:
+						"The host will ask you a question for you to answer! You can only start voting once a question has been asked!",
 					position: "left"
 				},
 				{
 					element: ".timer",
-					intro: "Once the question has been sent the clock will start ticking for each voting round. At the end of each round the most popular letter shall be picked.",
+					intro:
+						"Once the question has been sent the clock will start ticking for each voting round. At the end of each round the most popular letter shall be picked.",
 					position: "left"
 				},
 				{

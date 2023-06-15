@@ -132,7 +132,6 @@
 		</div>
 	</div>
 	<TourGuide bind:this={tourGuide} />
-
 {/if}
 
 <style lang="postcss">
@@ -242,7 +241,7 @@
 		width: 100%;
 	}
 
-	
+
 	#info-button {
 		@apply text-fontcolor m-2 absolute;
 		text-decoration: none;
@@ -275,5 +274,4 @@
 	#info-button:hover > p {
 		transform: scale(1.05);
 	}
-
 </style>
