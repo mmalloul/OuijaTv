@@ -179,7 +179,7 @@
 			</Ghost>
 		{/each}
 	{/if}
-	
+
 	<div id="board">
 		<Board
 		bind:timeLeft={tick}
