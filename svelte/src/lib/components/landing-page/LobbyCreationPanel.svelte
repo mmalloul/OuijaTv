@@ -4,6 +4,7 @@
 	import { goto } from "$app/navigation";
 	import { createEventDispatcher, getContext } from "svelte";
 	import type { Writable } from "svelte/store";
+	import Dropdown from "$lib/components/Dropdown.svelte";
 	const dispatch = createEventDispatcher();
 	const playerType = getContext<Writable<PlayerType>>("playerType");
 	export let showLobbyCreationPanel = false;
@@ -110,11 +111,9 @@
 					<p class="error-message">Please select a gamemode</p>
 				{/if}
 				<label for="gameMode">Game Mode:</label>
-				<select id="gameMode" bind:value={gameMode}>
-					{#each gameModes as mode (mode)}
-						<option>{mode}</option>
-					{/each}
-				</select>
+				<Dropdown bind:selection={gameMode} bind:options={gameModes}>
+
+				</Dropdown>
 
 				<label for="duration">Voting Time: {gameDuration} seconds</label>
 				<input type="range" id="duration" min="5" max="120" bind:value={gameDuration} />
