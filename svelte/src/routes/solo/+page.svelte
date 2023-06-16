@@ -12,8 +12,7 @@
 	import Icon from "@iconify/svelte";
 
 	let showCards = true,
-		showBoard = false,
-		showInput = true;
+		showBoard = false;
 	let seekerX: number;
 	let seekerY: number;
 	let circleStyle = "";
@@ -44,7 +43,6 @@
 			});
 			return;
 		} else {
-			showInput = false;
 			readBoard();
 			answer = await openApiCall(prompt, sp);
 			printWord(answer);
@@ -70,8 +68,7 @@
 		}
 		await new Promise((resolve) => setTimeout(resolve, 2000));
 		seekerX = 960.5;
-		seekerY = 750.5;
-		showInput = true;
+		seekerY = 800.5;
 		return;
 	}
 
