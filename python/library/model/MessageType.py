@@ -8,6 +8,7 @@ class ClientMessageType(Enum):
     RESTART = "restart"
     PROMPT = "prompt"
     WINNING_VOTE = "winningVote"
+    EXIT = "exit"
 
 
 class ServerMessageType(Enum):
@@ -23,3 +24,4 @@ class ServerMessageType(Enum):
     COUNTER = "counter"
     STOP_COUNTDOWN = "stopCountdown"
     WORD = "word"
+    HOST_EXIT = "hostExit"
