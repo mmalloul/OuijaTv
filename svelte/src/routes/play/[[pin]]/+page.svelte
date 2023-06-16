@@ -182,12 +182,12 @@
 
 	<div id="board">
 		<Board
-		bind:timeLeft={tick}
-		bind:this={board}
-		bind:isHost
-		bind:canVote
-		on:letterClicked={onVoteLetter}
-	/>
+			bind:timeLeft={tick}
+			bind:this={board}
+			bind:isHost
+			bind:canVote
+			on:letterClicked={onVoteLetter}
+		/>
 	</div>
 
 	<button type="button" id="info-button" on:click={startTheTour}>
