@@ -5,6 +5,7 @@
 	import { toastStore } from "$lib/stores/toast";
 	import { ToastType } from "$lib/types/ToastType";
 	import type Board from "$lib/components/Board.svelte";
+	import Icon from "@iconify/svelte";
 	const dispatch = createEventDispatcher();
 
 	export let pin: string;
@@ -104,6 +105,10 @@
 			canVote = false;
 		}
 	}
+
+	function exitGame() {
+		socketController.closeSocket();
+	}
 </script>
 
 <WebSocketController
@@ -118,6 +123,10 @@
 	on:stopCountdownReceived={restart}
 	on:noVotesReceived
 />
+
+<div class="back-to-menu">
+	<a href="/" on:click={exitGame}><Icon icon="formkit:arrowleft" />Exit</a>
+</div>
 
 <div class="flex flex-1 flex-grow item-center justify-center">
 	{#if prompt}
@@ -138,6 +147,21 @@
 </div>
 
 <style lang="postcss">
+	.back-to-menu {
+		@apply font-amatic text-center text-fontcolor flex flex-1 flex-grow;
+	}
+
+	.back-to-menu a {
+		@apply flex justify-center items-center px-2 rounded-md  text-lg lg: text-3xl;
+		transition: all 0.2s ease-in-out;
+		text-decoration: none;
+	}
+
+	.back-to-menu a:hover {
+		@apply cursor-pointer bg-accent;
+		transform: scale(1.03);
+	}
+
 	.prompt {
 		@apply w-full text-center font-amatic text-lg lg: text-3xl;
 		color: rgba(255, 255, 255, 0.9);
