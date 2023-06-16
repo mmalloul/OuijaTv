@@ -6,6 +6,7 @@
 	import { ToastType } from "$lib/types/ToastType";
 	import type Board from "$lib/components/Board.svelte";
 	import Icon from "@iconify/svelte";
+	import { goto } from "$app/navigation";
 	const dispatch = createEventDispatcher();
 
 	export let pin: string;
@@ -106,8 +107,17 @@
 		}
 	}
 
-	function exitGame() {
+	async function exitGame(event: any) {
+		event.preventDefault();
+		let type = event.type
+		
+		if(type === "exitReceived") {
+			$toastStore.showToast(ToastType.Success, "Host has stopped the game")
+		} else {
+			$toastStore.showToast(ToastType.Success, "You have left the game")
+		}
 		socketController.closeSocket();
+		await goto("/")
 	}
 </script>
 
@@ -122,6 +132,7 @@
 	on:tickReceived
 	on:stopCountdownReceived={restart}
 	on:noVotesReceived
+	on:exitReceived={exitGame}
 />
 
 <div class="back-to-menu">
