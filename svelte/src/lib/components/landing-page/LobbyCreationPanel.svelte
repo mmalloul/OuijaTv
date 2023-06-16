@@ -163,7 +163,7 @@
 	}
 
 	.panel-content {
-		@apply pointer-events-auto flex flex-col justify-center;
+		@apply pointer-events-auto flex flex-col justify-center w-32vh;
 	}
 
 	.form {
@@ -204,24 +204,5 @@
 
 	label {
 		@apply text-fontcolor text-4xl;
-	}
-
-	input,
-	.button {
-		box-sizing: border-box;
-		width: 240px;
-	}
-
-	@screen <sm {
-		input,
-		.actions {
-			width: 100%;
-		}
-	}
-
-	.actions {
-		display: flex;
-		justify-content: center;
-		width: 100%;
 	}
 </style>
