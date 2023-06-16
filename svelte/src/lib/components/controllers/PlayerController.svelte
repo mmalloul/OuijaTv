@@ -109,15 +109,15 @@
 
 	async function exitGame(event: any) {
 		event.preventDefault();
-		let type = event.type
-		
-		if(type === "exitReceived") {
-			$toastStore.showToast(ToastType.Success, "Host has stopped the game")
+		let type = event.type;
+
+		if (type === "exitReceived") {
+			$toastStore.showToast(ToastType.Success, "Host has stopped the game");
 		} else {
-			$toastStore.showToast(ToastType.Success, "You have left the game")
+			$toastStore.showToast(ToastType.Success, "You have left the game");
 		}
 		socketController.closeSocket();
-		await goto("/")
+		await goto("/");
 	}
 </script>
 

@@ -121,12 +121,12 @@
 			});
 		}
 	}
-	
+
 	async function exitGame() {
 		if (confirm("Do you want to stop the game?") === true) {
-			$toastStore.showToast(ToastType.Success, "You have stopped the game")
+			$toastStore.showToast(ToastType.Success, "You have stopped the game");
 			socketController.sendExit();
-			await goto("/")
+			await goto("/");
 		}
 	}
 </script>
