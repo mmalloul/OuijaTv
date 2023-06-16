@@ -72,6 +72,9 @@
 				case "stopCountdown":
 					dispatch("stopCountdownReceived");
 					break;
+				case "hostExit":
+					dispatch("exitReceived");
+					break;
 				default: {
 					break;
 				}
@@ -105,5 +108,11 @@
 
 	export function closeSocket() {
 		socket.close();
+	}
+
+	export function sendExit() {
+		if (socket && socket.readyState === WebSocket.OPEN) {
+			socket.send(JSON.stringify({ type: "exit" }));
+		}
 	}
 </script>
