@@ -8,8 +8,6 @@ class ClientMessageType(Enum):
     RESTART = "restart"
     PROMPT = "prompt"
     WINNING_VOTE = "winningVote"
-    EXIT = "exit"
-
 
 class ServerMessageType(Enum):
     PIN = "pin"
