@@ -122,9 +122,6 @@
 
 <div class="page--game game">
 	<div class="game-header">
-		<div class="back-to-menu">
-			<a id="exit-button" href="/"><Icon icon="formkit:arrowleft" />Exit</a>
-		</div>
 		{#if $playerType === PlayerType.Host}
 			<HostController
 				bind:board
@@ -207,21 +204,6 @@
 	.game-header {
 		@apply flex  md: flex-row justify-center items-center w-full flex-wrap;
 		transition: all 0.5s ease-in-out;
-	}
-
-	.back-to-menu {
-		@apply font-amatic text-center text-fontcolor flex flex-1 flex-grow;
-	}
-
-	.back-to-menu a {
-		@apply flex justify-center items-center px-2 rounded-md  text-lg lg: text-3xl;
-		transition: all 0.2s ease-in-out;
-		text-decoration: none;
-	}
-
-	.back-to-menu a:hover {
-		@apply cursor-pointer bg-accent;
-		transform: scale(1.03);
 	}
 
 	.timer {

@@ -9,7 +9,6 @@ class ClientMessageType(Enum):
     PROMPT = "prompt"
     WINNING_VOTE = "winningVote"
 
-
 class ServerMessageType(Enum):
     PIN = "pin"
     JOINED = "joined"
@@ -23,3 +22,4 @@ class ServerMessageType(Enum):
     COUNTER = "counter"
     STOP_COUNTDOWN = "stopCountdown"
     WORD = "word"
+    HOST_EXIT = "hostExit"
