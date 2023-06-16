@@ -236,7 +236,6 @@
 		width: 100%;
 	}
 
-
 	#info-button {
 		@apply text-fontcolor m-2 absolute;
 		text-decoration: none;

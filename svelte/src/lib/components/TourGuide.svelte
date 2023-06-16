@@ -56,11 +56,13 @@
 				},
 				{
 					element: "#Seeker",
-					intro: "This is the seeker. It will move towards the character that has the most popular vote among the spirits."
+					intro:
+						"This is the seeker. It will move towards the character that has the most popular vote among the spirits."
 				},
 				{
 					element: "#prompt",
-					intro: "You decide what to ask the spirits! You can ask them any question, or ask them to spell out a missing word in a sentence.",
+					intro:
+						"You decide what to ask the spirits! You can ask them any question, or ask them to spell out a missing word in a sentence.",
 					position: "left"
 				},
 				{
@@ -93,7 +95,8 @@
 				},
 				{
 					element: "#exit-button",
-					intro: "You can quit the game here. As you are the host, the lobby shall be closed at that point.",
+					intro:
+						"You can quit the game here. As you are the host, the lobby shall be closed at that point.",
 					position: "right"
 				},
 				{
@@ -118,13 +121,12 @@
 				},
 				{
 					element: "#board",
-					intro:
-					"This is the board. It shall be used by the spirits to communicate with you."
+					intro: "This is the board. It shall be used by the spirits to communicate with you."
 				},
 				{
 					element: "#Seeker",
 					intro:
-					"This is the seeker. It will move towards the character that has the most popular vote among the spirits."
+						"This is the seeker. It will move towards the character that has the most popular vote among the spirits."
 				},
 				{
 					element: "#MyVote",
@@ -140,7 +142,7 @@
 				{
 					element: ".timer",
 					intro:
-					"Once the question has been asked, the clock will start ticking. At the end of each round, the most popular letter shall be added to the answer.",
+						"Once the question has been asked, the clock will start ticking. At the end of each round, the most popular letter shall be added to the answer.",
 					position: "left"
 				},
 				{
@@ -154,7 +156,8 @@
 					position: "right"
 				},
 				{
-					intro: "Now wait for the host to ask you a question and communicate with them as a spirit! 👻"
+					intro:
+						"Now wait for the host to ask you a question and communicate with them as a spirit! 👻"
 				}
 			]
 		});
