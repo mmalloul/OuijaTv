@@ -62,7 +62,7 @@
 			{validRoomCode ? "" : "Please enter a valid roomcode! (6 characters)"}
 		</div>
 		<button
-			class="mt-4 px-4 py-2 rounded-md font-bold border-2 border-fontcolor disabled:opacity-30 enabled:bg-white/10 hover:bg-accent active:bg-accent/75"
+			class="big-button"
 			type="submit"
 			on:click={() => joinRoom(roomCode)}
 			disabled={!validUsername || !validRoomCode}
