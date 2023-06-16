@@ -111,9 +111,7 @@
 					<p class="error-message">Please select a gamemode</p>
 				{/if}
 				<label for="gameMode">Game Mode:</label>
-				<Dropdown bind:selection={gameMode} bind:options={gameModes}>
-
-				</Dropdown>
+				<Dropdown bind:selection={gameMode} bind:options={gameModes} />
 
 				<label for="duration">Voting Time: {gameDuration} seconds</label>
 				<input type="range" id="duration" min="5" max="120" bind:value={gameDuration} />
