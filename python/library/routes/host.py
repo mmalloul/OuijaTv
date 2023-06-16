@@ -39,6 +39,12 @@ async def create_game(host: WebSocket, name: str, voting_time: str, game_mode: s
                     )
                     game.start_countdown()
 
+                case ClientMessageType.EXIT:
+                    await game.broadcast(
+                        ServerMessage(
+                            ServerMessageType.HOST_EXIT,
+                        ),
+                    )
 
                 case _:
                     await game.notify_host(
@@ -50,4 +56,10 @@ async def create_game(host: WebSocket, name: str, voting_time: str, game_mode: s
                     
                     
     except WebSocketDisconnect:
+        await game.broadcast(
+            ServerMessage(
+            ServerMessageType.HOST_EXIT,
+            ),
+        )
         games.remove(pin)
+       
