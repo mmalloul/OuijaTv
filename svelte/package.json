@@ -42,6 +42,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"intro.js": "^7.0.1",
 		"openai": "^3.2.1",
 		"sass": "^1.62.0",
 		"svelte-french-toast": "^1.0.4-beta.0",
