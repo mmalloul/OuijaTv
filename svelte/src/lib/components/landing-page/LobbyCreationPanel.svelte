@@ -112,7 +112,7 @@
 				<label for="duration">Voting Time: {gameDuration} seconds</label>
 				<input type="range" id="duration" min="5" max="120" bind:value={gameDuration} />
 				<div class="actions">
-					<button type="submit" class="button">Create</button>
+					<button type="submit" class="big-button">Create</button>
 				</div>
 			</form>
 		</div>
@@ -120,6 +120,10 @@
 {/if}
 
 <style lang="postcss">
+	.big-button {
+		@apply w-12vh h-10vh text-4xl;
+	}
+
 	.panel {
 		@apply flex flex-col justify-center items-center bg-dark text-fontcolor text-center p-4 md: p-6;
 		width: 100%;
