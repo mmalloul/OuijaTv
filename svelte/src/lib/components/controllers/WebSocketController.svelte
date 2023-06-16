@@ -102,4 +102,8 @@
 			socket.send(JSON.stringify({ type: "winningVote", content: winningVote }));
 		}
 	}
+
+	export function closeSocket() {
+		socket.close();
+	}
 </script>
