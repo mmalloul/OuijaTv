@@ -109,7 +109,7 @@
 	 * @param letter the letter to move the seeker to.
 	 */
 	function updateWinningVote(letter: any) {
-		board.moveSeekerToLetter(letter.detail.winningVote);
+		board.moveSeekerTargetToLetter(letter.detail.winningVote);
 	}
 </script>
 
@@ -172,7 +172,13 @@
 			</Ghost>
 		{/each}
 	{/if}
-	<Board bind:this={board} bind:isHost bind:canVote on:letterClicked={onVoteLetter} />
+	<Board
+		bind:timeLeft={tick}
+		bind:this={board}
+		bind:isHost
+		bind:canVote
+		on:letterClicked={onVoteLetter}
+	/>
 </div>
 
 <style lang="postcss">

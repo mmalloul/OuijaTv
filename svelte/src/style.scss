@@ -24,3 +24,11 @@ body {
 	visibility: hidden;
 	height: 0;
 }
+
+input {
+	@apply text-center text-fontcolor bg-white bg-opacity-5 text-4xl border-1 border-light-300 p-3 rounded-xl;
+}
+
+.big-button {
+	@apply mt-4 px-4 py-2 rounded-md font-bold border-2 border-fontcolor disabled:opacity-30 enabled:bg-white/10 hover:bg-accent active:bg-accent/75;
+}

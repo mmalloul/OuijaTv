@@ -4,6 +4,7 @@
 	import { goto } from "$app/navigation";
 	import { createEventDispatcher, getContext } from "svelte";
 	import type { Writable } from "svelte/store";
+	import Dropdown from "$lib/components/Dropdown.svelte";
 	const dispatch = createEventDispatcher();
 	const playerType = getContext<Writable<PlayerType>>("playerType");
 	export let showLobbyCreationPanel = false;
@@ -104,17 +105,12 @@
 					<p class="error-message">Please select a gamemode</p>
 				{/if}
 				<label for="gameMode">Game Mode:</label>
-				<select id="gameMode" bind:value={gameMode}>
-					{#each gameModes as mode (mode)}
-						<option>{mode}</option>
-					{/each}
-				</select>
+				<Dropdown bind:selection={gameMode} bind:options={gameModes} />
 
 				<label for="duration">Voting Time: {gameDuration} seconds</label>
 				<input type="range" id="duration" min="5" max="120" bind:value={gameDuration} />
-
 				<div class="actions">
-					<button type="submit" class="button">Create</button>
+					<button type="submit" class="big-button">Create</button>
 				</div>
 			</form>
 		</div>
@@ -122,6 +118,10 @@
 {/if}
 
 <style lang="postcss">
+	.big-button {
+		@apply w-12vh h-10vh text-4xl;
+	}
+
 	.panel {
 		@apply flex flex-col justify-center items-center bg-dark text-fontcolor text-center p-4 md: p-6;
 		width: 100%;
@@ -157,7 +157,7 @@
 	}
 
 	.panel-content {
-		@apply pointer-events-auto flex flex-col justify-center;
+		@apply pointer-events-auto flex flex-col justify-center w-32vh;
 	}
 
 	.form {
@@ -198,29 +198,5 @@
 
 	label {
 		@apply text-fontcolor text-4xl;
-	}
-
-	input {
-		@apply text-accent text-4xl bg-dark border-1 border-light-300 p-3 text-white;
-		margin: 0 auto;
-	}
-
-	input,
-	.button {
-		box-sizing: border-box;
-		width: 240px;
-	}
-
-	@screen <sm {
-		input,
-		.actions {
-			width: 100%;
-		}
-	}
-
-	.actions {
-		display: flex;
-		justify-content: center;
-		width: 100%;
 	}
 </style>
