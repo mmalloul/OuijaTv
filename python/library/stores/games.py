@@ -28,6 +28,9 @@ def new(host: WebSocket, gameName: str, voting_time: str, game_mode: str, length
 
 def remove(pin: str, player: Player | None = None) -> None:
 
+    if pin not in items: 
+        return
+        
     if player:
         items[pin].players.remove(player)
     else:

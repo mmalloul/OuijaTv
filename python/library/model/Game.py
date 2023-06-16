@@ -1,6 +1,7 @@
 import asyncio
 from dataclasses import dataclass, field
 import random
+from fastapi.websockets import WebSocketState
 from fastapi import WebSocket
 from typing import Optional
 from string import ascii_uppercase, digits
@@ -196,10 +197,12 @@ class Game:
         await player.socket.send_json(message.json)
     
 
-    async def broadcast(self, message: ServerMessage) -> None:
+    async def broadcast(self, message: ServerMessage, notify_host=True) -> None:
         """Send a message to all sockets."""
-
+        
         for player in self.players:
-            await player.socket.send_json(message.json)
+            if player.socket.client_state == player.socket.application_state == WebSocketState.CONNECTED:
+                await player.socket.send_json(message.json)
 
-        await self.host.send_json(message.json)
+        if notify_host:
+            await self.host.send_json(message.json)
