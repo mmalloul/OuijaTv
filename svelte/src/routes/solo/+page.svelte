@@ -197,8 +197,6 @@
 {/if}
 
 <style lang="postcss">
-
-
 	.restart-button button {
 		@apply flex justify-center items-center text-fontcolor p-2 rounded-md text-lg lg:text-3xl;
 		text-decoration: none;
