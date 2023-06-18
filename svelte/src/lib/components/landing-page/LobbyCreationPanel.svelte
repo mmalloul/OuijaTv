@@ -41,9 +41,8 @@
 	 * The submit won't work if the criteria of the lobbyname is not passed.
 	 */
 	function handleSubmit() {
-
-		if(gameMode === "Solo"){
-			goto("solo")
+		if (gameMode === "Solo") {
+			goto("solo");
 			return;
 		}
 
@@ -131,7 +130,6 @@
 				<div class="actions">
 					<button type="submit" class="big-button">Create</button>
 				</div>
-
 			</form>
 		</div>
 	</div>
