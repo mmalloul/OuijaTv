@@ -156,10 +156,11 @@
 				<div class="back-to-menu">
 					<a href="/"><Icon icon="formkit:arrowleft" />Exit</a>
 				</div>
-				<input bind:value={prompt} 
-				type="text" 
-				placeholder="STATE YOUR INTENTION" 
-				disabled={!canPrompt}
+				<input
+					bind:value={prompt}
+					type="text"
+					placeholder="STATE YOUR INTENTION"
+					disabled={!canPrompt}
 				/>
 				<button type="button" class="custom-button" on:click={() => ask()}>
 					<p>Ask</p>
@@ -168,12 +169,12 @@
 		</div>
 
 		<Ghost>
-			<p class="opacity-75">	
+			<p class="opacity-75">
 				<span class="text-light-50"> Name:</span>
 				<span class="te"> {name} <br /></span>
 				<span class="text-light-50"> Tags:</span>
 				<span class="te"> {tags}</span>
-		</p>
+			</p>
 		</Ghost>
 
 		<BoardSvg>
@@ -229,7 +230,7 @@
 		background-color: transparent;
 	}
 	.custom-button {
-		@apply text-fontcolor text-4xl  border-1 rounded-md ;
+		@apply text-fontcolor text-4xl  border-1 rounded-md;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);
 		width: 20%;

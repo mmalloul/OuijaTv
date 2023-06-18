@@ -33,9 +33,8 @@
 	 * The submit won't work if the criteria of the lobbyname is not passed.
 	 */
 	function handleSubmit() {
-
-		if(gameMode === "Solo"){
-			goto("solo")
+		if (gameMode === "Solo") {
+			goto("solo");
 			return;
 		}
 
@@ -115,11 +114,10 @@
 
 				<label for="duration">Voting Time: {gameDuration} seconds</label>
 				<input type="range" id="duration" min="5" max="120" bind:value={gameDuration} />
-				
+
 				<div class="actions">
 					<button type="submit" class="big-button">Create</button>
 				</div>
-
 			</form>
 		</div>
 	</div>
