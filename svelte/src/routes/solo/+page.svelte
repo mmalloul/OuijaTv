@@ -173,7 +173,6 @@
 			{:else}
 				<span> Waiting for answer... </span>
 			{/if}
-
 		</div>
 		<Ghost>
 			<p class="opacity-75">
@@ -199,7 +198,7 @@
 {/if}
 
 <style lang="postcss">
-		.spirit-answer {
+	.spirit-answer {
 		@apply text-accent flex items-center justify-center;
 		text-decoration: none;
 		font-family: theme(fontFamily.amatic);
