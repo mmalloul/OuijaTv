@@ -15,6 +15,7 @@
 	let showCards = true,
 		showBoard = false;
 	let canPrompt = true;
+	let canShow = false;
 	let seekerX: number;
 	let seekerY: number;
 	let circleStyle = "";
@@ -73,6 +74,7 @@
 		seekerX = 960.5;
 		seekerY = 800.5;
 		canPrompt = true;
+		canShow = true;
 		return;
 	}
 
@@ -163,7 +165,16 @@
 				</button>
 			</form>
 		</div>
+		<div class="spirit-answer">
+			{#if canShow}
+				<span class="tracking-0.5em">
+					{answer}
+				</span>
+			{:else}
+				<span> Waiting for answer... </span>
+			{/if}
 
+		</div>
 		<Ghost>
 			<p class="opacity-75">
 				<span class="text-light-50"> Name:</span>
@@ -188,6 +199,16 @@
 {/if}
 
 <style lang="postcss">
+		.spirit-answer {
+		@apply text-accent flex items-center justify-center;
+		text-decoration: none;
+		font-family: theme(fontFamily.amatic);
+	}
+
+	.spirit-answer span {
+		@apply text-lg lg: text-3xl;
+		text-wrap: nowrap;
+	}
 	.game-header {
 		@apply flex  md: flex-row justify-center items-center w-full flex-wrap;
 		transition: all 0.5s ease-in-out;
