@@ -188,11 +188,7 @@
 				stroke-width="13"
 			/>
 		</BoardSvg>
-		<div class="restart-button">
-			<button on:click={onRestartButton}>
-				Restart <Icon icon="mdi:restart" />
-			</button>
-		</div>
+
 	</div>
 {/if}
 
