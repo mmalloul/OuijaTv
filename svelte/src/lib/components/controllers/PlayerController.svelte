@@ -136,7 +136,10 @@
 />
 
 <div class="back-to-menu">
-	<a href="/" on:click={exitGame}><Icon icon="formkit:arrowleft" />Exit</a>
+	<a id="exit-button" href="/" on:click={exitGame}>
+		<Icon icon="formkit:arrowleft" />
+		Exit
+	</a>
 </div>
 
 <div class="flex flex-1 flex-grow item-center justify-center">

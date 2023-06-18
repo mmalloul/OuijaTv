@@ -145,7 +145,10 @@
 />
 
 <div class="back-to-menu">
-	<a on:click={exitGame}><Icon icon="formkit:arrowleft" />Exit</a>
+	<a id="exit-button" on:click={exitGame}>
+		<Icon icon="formkit:arrowleft" />
+		Exit
+	</a>
 </div>
 
 <div class="restart-button">
