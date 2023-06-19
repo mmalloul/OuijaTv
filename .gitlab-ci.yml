@@ -31,7 +31,11 @@ pytest-test-job:
 
     - ./venv/bin/pip install -r requirements.txt
   script:
-    - ./venv/bin/python -m pytest --junitxml=../report.xml
+    - ./venv/bin/python -m pytest --junitxml=report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: python/report.xml
   tags:
     - hva
 
