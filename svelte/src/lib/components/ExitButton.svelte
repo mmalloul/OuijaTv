@@ -1,7 +1,14 @@
 <script lang="ts">
 	import Icon from "@iconify/svelte";
-    export let onExit: (event?: MouseEvent) => Promise<void>;
+	export let onExit: (event?: MouseEvent) => Promise<void>;
 </script>
+
+<div class="back-to-menu">
+	<a id="exit-button" on:click={onExit}>
+		<Icon icon="formkit:arrowleft" />
+		Exit
+	</a>
+</div>
 
 <style lang="postcss">
 	.back-to-menu {
@@ -19,10 +26,3 @@
 		transform: scale(1.03);
 	}
 </style>
-
-<div class="back-to-menu">
-	<a id="exit-button" on:click={onExit}>
-		<Icon icon="formkit:arrowleft" />
-		Exit
-	</a>
-</div>

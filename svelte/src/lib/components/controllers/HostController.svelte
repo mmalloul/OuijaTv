@@ -129,7 +129,7 @@
 			socketController.closeSocket();
 			await goto("/");
 		}
-	}
+	};
 </script>
 
 <WebSocketController
