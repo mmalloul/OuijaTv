@@ -7,8 +7,10 @@ from library.stores.games import items as games
 app = FastAPI()
 
 origins = [
-    "ouija.tv",
-    "staging.ouija.tv"
+    "https://ouija.tv",
+    "https://staging.ouija.tv",
+    "https://www.ouija.tv",
+    "https://www.staging.ouija.tv",
 ]
 
 app.add_middleware(
