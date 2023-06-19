@@ -23,11 +23,11 @@ pytest-test-job:
   stage: test
   before_script:
     - cd python
+    - apt-get update -q -y
     - apt-get install -y python3-pip
     - apt install python3.11-venv
     - mkdir ./venv/
     - python3 -m venv ./venv
-    - apt-get update -q -y
 
     - ./venv/bin/pip install -r requirements.txt
   script:
