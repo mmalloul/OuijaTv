@@ -3,3 +3,4 @@ fastapi==0.95.1
 openai==0.27.0
 wsproto
 websockets
+pytest
