@@ -18,6 +18,10 @@ origins = [
     "https://www.ouija.tv:25565",
     "http://ouija.tv:25565",
     "https://ouija.tv:25565",
+    "http://www.ouija.tv:25566",
+    "https://www.ouija.tv:25566",
+    "http://ouija.tv:25566",
+    "https://ouija.tv:25566",
 ]
 
 app.add_middleware(
