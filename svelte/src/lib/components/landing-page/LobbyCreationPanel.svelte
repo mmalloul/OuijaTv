@@ -85,7 +85,7 @@
 	<div class="panel mt-5">
 		<div class="panel-header">
 			<button type="button" id="info-button" on:click={startTheTour}
-				><p><Icon icon="ph:info-light" /></p></button
+				><p><Icon icon="ph:question-light" /></p></button
 			>
 			<h2>Provide</h2>
 
