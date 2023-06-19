@@ -85,6 +85,7 @@
 	 */
 	function onRestartButton() {
 		if (confirm("Do you want to restart the game?") === true) {
+			showFinalWord.set(false);
 			socketController.sendRestart();
 		}
 	}

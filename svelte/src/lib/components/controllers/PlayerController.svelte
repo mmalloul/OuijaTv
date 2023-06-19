@@ -61,6 +61,7 @@
 		board.resetSeeker();
 		prompt = "";
 		canVote = false;
+		showFinalWord.set(false);
 
 		// Send event to parent to reset word.
 		dispatch("updateWord", {
