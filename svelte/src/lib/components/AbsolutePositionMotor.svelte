@@ -13,15 +13,12 @@
 	export let maxX = 0;
 	export let maxY = 0;
 
-
 	// Location that the ghost is targeting
 	let locationX = Math.floor(Math.random() * maxX);
 	let locationY = Math.floor(Math.random() * maxY);
 	// Current location of the ghost
 	let x = 0;
 	let y = 0;
-
-
 
 	let tick = 0;
 	let movementStep = 25;
