@@ -25,6 +25,7 @@
 	let canVote: boolean;
 	let players: Record<string, string> = {};
 	let tourGuide: TourGuide;
+	let roundTime: number;
 	let showFinalWord = writable(false);
 
 	$: pin = $page.params.pin;
@@ -32,7 +33,7 @@
 
 	onMount(() => {
 		if ($playerType !== PlayerType.None && $page.params.pin != null) {
-			fetchAllPlayers();
+			fetchGameData();
 		}
 		showMenu.set(false);
 		if ($playerType === PlayerType.None) {
@@ -44,10 +45,11 @@
 		showMenu.set(true);
 	});
 
-	function fetchAllPlayers() {
+	function fetchGameData() {
 		fetch(`${env.PUBLIC_URL}/games/${$page.params.pin}`)
 			.then((response) => response.json())
 			.then((responseData) => {
+				roundTime = responseData.voting_time;
 				let playerData = responseData.players;
 				playerData.forEach((player: { pid: string; name: string }) => {
 					addPlayer(player.pid, player.name);
@@ -194,6 +196,7 @@
 			bind:this={board}
 			bind:isHost
 			bind:canVote
+			bind:roundTime
 			on:letterClicked={onVoteLetter}
 		/>
 	</div>

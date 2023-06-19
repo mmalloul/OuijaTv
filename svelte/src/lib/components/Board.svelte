@@ -8,8 +8,7 @@
 	export let canVote: boolean;
 	export let isHost: boolean;
 	export let timeLeft: number | undefined;
-	// TODO: Currently 15 is hardcoded as the max time for a round!
-	const roundTime = 15;
+	export let roundTime: number;
 
 	let seekerPos: Vector2;
 	let seekerTarget: Vector2;
