@@ -44,8 +44,6 @@
 		if (gameMode === "Solo") {
 			goto("solo");
 		} else {
-			console.log("test");
-
 			if (lobbyNameIsValid && gameMode) {
 				playerType.set(PlayerType.Host);
 
