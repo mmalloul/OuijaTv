@@ -13,6 +13,7 @@
 			.then((response) => response.json())
 			.then((responseData) => {
 				games = responseData;
+				console.log(games)
 			})
 			.catch((error) => {
 				console.error("Error:", error);

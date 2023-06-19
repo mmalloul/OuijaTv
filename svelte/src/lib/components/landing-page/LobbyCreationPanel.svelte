@@ -43,9 +43,10 @@
 	function handleSubmit() {
 		if (gameMode === "Solo") {
 			goto("solo");
-			return;
-		}
-
+			
+		} else {
+			console.log("test");
+			
 		if (lobbyNameIsValid && gameMode) {
 			playerType.set(PlayerType.Host);
 
@@ -65,6 +66,7 @@
 		if (!gameMode) {
 			gameModeIsValid = false;
 		}
+	}
 	}
 
 	/**
