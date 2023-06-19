@@ -15,7 +15,7 @@
 	let gameDuration = 15; // in seconds
 	let lobbyName = "";
 	let twitchChannel = "";
-	let isTwitchInputVisible: boolean = false;
+	let isTwitchInputVisible = false;
 	let lobbyNameIsValid: boolean;
 	let lobbyNameIsEmpty: boolean;
 
