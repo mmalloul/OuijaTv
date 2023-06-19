@@ -4,6 +4,7 @@
 	import { page } from "$app/stores";
 	import { getContext, onMount } from "svelte";
 	import type { Writable } from "svelte/store";
+	import ExitButton from "$lib/components/ExitButton.svelte";
 
 	const username_max = 18;
 	const playerType = getContext<Writable<PlayerType>>("playerType");
@@ -33,43 +34,49 @@
 		playerType.set(PlayerType.Player);
 		goto(`/play/${code}`);
 	}
+
+
 </script>
 
-<div class="grow font flex justify-center py-32">
-	<form on:submit|preventDefault class="flex flex-col items-center">
-		<label class="mb-2" for="username">Username:</label>
-		<input
-			class="mb-4"
-			bind:value={username}
-			on:input={validateName}
-			type="text"
-			id="username"
-			name="username"
-		/>
-		<div class="h-4 mb-8 font--error">
-			{validUsername ? "" : "Your username is too long! (Max. 16 characters)"}
-		</div>
-		<label class="mb-2" for="username">Roomcode:</label>
-		<input
-			class="mb-4"
-			bind:value={roomCode}
-			on:input={validateRoomCode}
-			type="text"
-			id="room-code"
-			name="room-code"
-		/>
-		<div class="h-4 mb-8 font--error">
-			{validRoomCode ? "" : "Please enter a valid roomcode! (6 characters)"}
-		</div>
-		<button
-			class="big-button"
-			type="submit"
-			on:click={() => joinRoom(roomCode)}
-			disabled={!validUsername || !validRoomCode}
-			>Join
-		</button>
-	</form>
+<div class="page">
+	<ExitButton  onExit={(MouseEvent) => Promise.resolve()}></ExitButton>
+	<div class="grow font flex justify-center py-32">
+		<form on:submit|preventDefault class="flex flex-col items-center">
+			<label class="mb-2" for="username">Username:</label>
+			<input
+				class="mb-4"
+				bind:value={username}
+				on:input={validateName}
+				type="text"
+				id="username"
+				name="username"
+			/>
+			<div class="h-4 mb-8 font--error">
+				{validUsername ? "" : "Your username is too long! (Max. 16 characters)"}
+			</div>
+			<label class="mb-2" for="username">Roomcode:</label>
+			<input
+				class="mb-4"
+				bind:value={roomCode}
+				on:input={validateRoomCode}
+				type="text"
+				id="room-code"
+				name="room-code"
+			/>
+			<div class="h-4 mb-8 font--error">
+				{validRoomCode ? "" : "Please enter a valid roomcode! (6 characters)"}
+			</div>
+			<button
+				class="big-button"
+				type="submit"
+				on:click={() => joinRoom(roomCode)}
+				disabled={!validUsername || !validRoomCode}
+				>Join
+			</button>
+		</form>
+	</div>
 </div>
+
 
 <style lang="postcss">
 	.font {
