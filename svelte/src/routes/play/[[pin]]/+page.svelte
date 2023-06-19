@@ -32,9 +32,11 @@
 	$: isHost = $playerType === PlayerType.Host;
 
 	onMount(() => {
-		if ($playerType !== PlayerType.None && $page.params.pin != null) {
-			fetchGameData();
-		}
+		page.subscribe((p) => {
+			if ($playerType !== PlayerType.None && p.params.pin != null) {
+				fetchGameData();
+			}
+		});
 		showMenu.set(false);
 		if ($playerType === PlayerType.None) {
 			goto(`/join/${pin}`);
@@ -196,7 +198,7 @@
 			bind:this={board}
 			bind:isHost
 			bind:canVote
-			bind:roundTime
+			{roundTime}
 			on:letterClicked={onVoteLetter}
 		/>
 	</div>
