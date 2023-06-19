@@ -43,8 +43,6 @@
 	let unsubscribe: Unsubscriber;
 
 	onMount(() => {
-		console.log($playerType);
-
 		unsubscribe = page.subscribe((p) => {
 			if (p.params.pin) {
 				if ($playerType !== PlayerType.None) {
