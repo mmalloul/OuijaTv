@@ -30,6 +30,8 @@ pytest-test-job:
     when: always
     reports:
       junit: report.xml
+  tags:
+    - hva
 
 vitest-test-job:
   stage: test # It can run at the same time as unit-test-job (in parallel).
