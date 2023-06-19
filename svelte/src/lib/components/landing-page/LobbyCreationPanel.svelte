@@ -13,7 +13,7 @@
 	export let showLobbyCreationPanel = false;
 	let tourGuide: TourGuide;
 	let gameDuration = 15; // in seconds
-	let lobbyName: string = "";
+	let lobbyName = "";
 	let twitchChannel: string | null = null;
 	let isTwitchInputVisible = false;
 	let lobbyNameIsValid: boolean;
