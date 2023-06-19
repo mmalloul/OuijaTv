@@ -24,6 +24,7 @@
 	let lobbyName: string;
 	let votingTime: number;
 	let gameMode: string;
+	let hideSubmit = false;
 
 	$: host = $page.url.origin;
 	$: shareableURL = `${host}/join/${pin}`;
@@ -62,6 +63,7 @@
 		if (canPrompt && prompt && prompt !== "") {
 			socketController.sendPrompt({ type: "prompt", content: prompt });
 			canPrompt = false;
+			hideSubmit = true;
 			$toastStore.showToast(ToastType.Success, "Question sent to spirits👻");
 		}
 	}
@@ -96,6 +98,7 @@
 	function restart() {
 		canPrompt = true;
 		prompt = "";
+		hideSubmit = false;
 
 		dispatch("updateWord", {
 			word: ""
@@ -167,9 +170,11 @@
 		placeholder={"STATE YOUR INTENTION"}
 		disabled={!canPrompt}
 	/>
-	<button on:click={sendPrompt} class="prompt-button">
-		Submit <Icon icon="formkit:arrowright" />
-	</button>
+	{#if !hideSubmit}
+		<button on:click={sendPrompt} class="prompt-button">
+			Submit <Icon icon="formkit:arrowright" />
+		</button>
+	{/if}
 </form>
 
 <div class="link-share">
