@@ -1,11 +1,10 @@
 import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from library import routes
 from library.stores.games import items as games
 
 app = FastAPI()
-
 
 app.add_middleware(
     CORSMiddleware,
@@ -14,7 +13,6 @@ app.add_middleware(
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["Content-Type"],
 )
-
 
 app.include_router(routes.host)
 app.include_router(routes.join)
