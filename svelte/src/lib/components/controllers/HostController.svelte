@@ -24,7 +24,7 @@
 	let lobbyName: string;
 	let votingTime: number;
 	let gameMode: string;
-	let twitchChannel: string | undefined;
+	let twitchChannel: string | null;
 	let hideSubmit = false;
 
 	$: host = $page.url.origin;
@@ -34,10 +34,7 @@
 		lobbyName = value.lobbyName;
 		gameMode = value.gameMode;
 		votingTime = value.gameDuration;
-
-		if (value.twitchChannel) {
-			twitchChannel = value.twitchChannel;
-		}
+		twitchChannel = value.twitchChannel;
 	});
 
 	onMount(() => {
