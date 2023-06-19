@@ -2,7 +2,8 @@
 	import { goto } from "$app/navigation";
 	import Board from "$lib/components/Board.svelte";
 	import { getContext, onMount, onDestroy } from "svelte";
-	import type { Writable } from "svelte/store";
+
+	import { writable, type Writable } from "svelte/store";
 	import { PlayerType } from "$lib/types/PlayerType";
 	import { page } from "$app/stores";
 	import { toastStore } from "$lib/stores/toast";
@@ -24,6 +25,7 @@
 	let canVote: boolean;
 	let players: Record<string, string> = {};
 	let tourGuide: TourGuide;
+	let showFinalWord = writable(false);
 
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
@@ -127,6 +129,7 @@
 				bind:board
 				bind:pin
 				bind:word
+				bind:showFinalWord
 				on:tickReceived={setTick}
 				on:updateWord={setWord}
 				on:joinedReceived={onPlayerJoin}
@@ -141,6 +144,7 @@
 				bind:word
 				bind:letterVoted
 				bind:canVote
+				bind:showFinalWord
 				on:tickReceived={setTick}
 				on:updateWord={setWord}
 				on:joinedReceived={onPlayerJoin}
@@ -159,7 +163,7 @@
 		</div>
 	</div>
 
-	<div class="spirit-answer">
+	<div class="spirit-answer {$showFinalWord ? 'animate__animated tada-then-pulse' : ''}">
 		{#if word}
 			<span class="tracking-0.5em">
 				{word}
@@ -197,6 +201,12 @@
 <TourGuide bind:this={tourGuide} />
 
 <style lang="postcss">
+	@import "animate.css";
+
+	.tada-then-pulse {
+		animation: tada 2s, pulse 5s 2s forwards;
+	}
+
 	.game {
 		@apply flex flex-col items-center relative h-full lg: gap-2;
 	}

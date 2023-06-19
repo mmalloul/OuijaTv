@@ -9,12 +9,14 @@
 	import { goto } from "$app/navigation";
 	import type Board from "$lib/components/Board.svelte";
 	import { lobbyStore } from "$lib/stores/lobbyStore";
-	import ExitButton from "../ExitButton.svelte";
+	import ExitButton from "$lib/components/ExitButton.svelte";
+	import type { Writable } from "svelte/store";
 	const dispatch = createEventDispatcher();
 
 	export let pin: string;
 	export let board: Board;
 	export let word: string;
+	export let showFinalWord: Writable<boolean>;
 
 	let socketController: WebSocketController;
 	let prompt: string;
@@ -51,6 +53,10 @@
 	function sendPrompt() {
 		if (prompt == "" || !prompt) {
 			$toastStore.showToast(ToastType.Error, "You should enter a question!");
+		}
+
+		if ($showFinalWord) {
+			$toastStore.showToast(ToastType.Error, "You should restart the game first!");
 		}
 
 		if (canPrompt && prompt && prompt !== "") {
@@ -114,8 +120,8 @@
 	function updateWord(event: any) {
 		let newWord = event.detail.word;
 		if (newWord === "!") {
-			prompt = "";
-			canPrompt = true;
+			$toastStore.showToast(ToastType.Success, "Game ended, restart or stop the game!");
+			showFinalWord.set(true);
 		} else {
 			dispatch("updateWord", {
 				word: newWord

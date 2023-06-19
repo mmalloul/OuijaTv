@@ -6,7 +6,8 @@
 	import { ToastType } from "$lib/types/ToastType";
 	import type Board from "$lib/components/Board.svelte";
 	import { goto } from "$app/navigation";
-	import ExitButton from "../ExitButton.svelte";
+	import ExitButton from "$lib/components/ExitButton.svelte";
+	import type { Writable } from "svelte/store";
 	const dispatch = createEventDispatcher();
 
 	export let pin: string;
@@ -14,6 +15,7 @@
 	export let word: string;
 	export let letterVoted: string;
 	export let canVote = false;
+	export let showFinalWord: Writable<boolean>;
 
 	let socketController: WebSocketController;
 	let username: string;
@@ -87,9 +89,9 @@
 		let newWord = event.detail.word;
 
 		if (newWord === "!") {
-			prompt = "";
+			showFinalWord.set(true);
+			$toastStore.showToast(ToastType.Success, "Game ended.");
 		} else if (newWord !== "") {
-			// The "A" is temporarily because no logic in backend when nothing voted. Now it just sends "A" from backend when nothing voted.
 			word = newWord;
 			canVote = true;
 		}
