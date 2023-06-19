@@ -69,12 +69,11 @@
 	function handleSubmit() {
 		if (gameMode === "Solo") {
 			goto("solo");
-		} else {
-			if (lobbyNameIsValid && gameMode) {
-				playerType.set(PlayerType.Host);
+			return;
+		} 
 
-				// Since our url has to stay simple (/play/[pin]) a lobbyStore has been added.
-				// Without lobbyStore the url would /play?lobbyName=${lobbyName}&gameDuration=${gameDuration}`
+		// Since our url has to stay simple (/play/[pin]) a lobbyStore has been added.
+		// Without lobbyStore the url would /play?lobbyName=${lobbyName}&gameDuration=${gameDuration}`
 		if (lobbyNameIsValid && gameMode && checkTwitchChannel()) {
 			playerType.set(PlayerType.Host);
 
