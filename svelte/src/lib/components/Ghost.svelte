@@ -3,12 +3,12 @@
 	import GhostImage from "$lib/assets/ghost.png";
 	import AbsolutePositionMotor from "$lib/components/AbsolutePositionMotor.svelte";
 
-	// Bounds of the window
-	let maxX = 0;
-	let maxY = 0;
-
 	// Width of the ghost image
 	let ghostWidth = 75;
+
+	// Bounds of the window
+	let maxX = window.innerWidth - ghostWidth * 2;
+	let maxY = window.innerHeight - ghostWidth * 2;
 
 	onMount(() => {
 		updateBounds();
