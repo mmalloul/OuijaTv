@@ -31,6 +31,7 @@
 			</div>
 		</button>
 	</div>
+
 	{#if selectionOpen}
 		<div id="dropdown-contents" style="width: {getParentWidth()}px">
 			{#each options as option, i}
@@ -55,7 +56,7 @@
 	}
 
 	#dropdown-box {
-		@apply flex w-inherit p-4 border-1 border-fontcolor rounded-xl;
+		@apply flex p-4 border-1 border-fontcolor rounded-xl;
 	}
 
 	#dropdown-box button {

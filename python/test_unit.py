@@ -11,7 +11,7 @@ from library.stores.games import items as storesGames
 from library.stores.games import new as newGame, remove as removeGame
 
 import asyncio
-
+import os
 
 class TestGame(unittest.TestCase):
 
@@ -145,6 +145,7 @@ class TestGameStores (unittest.TestCase):
         assert(len(storesGames) == 1)
 
     def test_remove_game_by_pin(self):
+        os.environ["PUBLIC_TWITCH_URL"] = "http://localhost:9000"
         assert(len(storesGames) == 0)
         game = newGame(MagicMock(), "Test Game", "15", "Test Mode", 6)
         pin = game[0]

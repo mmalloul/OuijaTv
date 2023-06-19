@@ -1,2 +1,7 @@
 python-dotenv
 twitchio==2.6.0
+uvicorn[standard]==0.22.0
+fastapi==0.95.1
+wsproto
+websockets
+requests

@@ -24,6 +24,7 @@
 	let lobbyName: string;
 	let votingTime: number;
 	let gameMode: string;
+	let twitchChannel: string | null;
 	let hideSubmit = false;
 
 	$: host = $page.url.origin;
@@ -33,6 +34,7 @@
 		lobbyName = value.lobbyName;
 		gameMode = value.gameMode;
 		votingTime = value.gameDuration;
+		twitchChannel = value.twitchChannel;
 	});
 
 	onMount(() => {
@@ -43,7 +45,9 @@
 	 * Init socket for Host, send the lobbyName, VotingTime and GameMode.
 	 */
 	function initSocketForHost() {
-		const url = `${env.PUBLIC_WS_URL}/host?name=${lobbyName}&voting_time=${votingTime}&game_mode=${gameMode}`;
+		const twitchChannelParam =
+			twitchChannel && twitchChannel.trim().length > 0 ? `&twitch_channel=${twitchChannel}` : "";
+		const url = `${env.PUBLIC_WS_URL}/host?name=${lobbyName}&voting_time=${votingTime}&game_mode=${gameMode}${twitchChannelParam}`;
 		socketController.initSocket(url);
 	}
 

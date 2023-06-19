@@ -7,20 +7,40 @@
 	import Dropdown from "$lib/components/Dropdown.svelte";
 	import TourGuide from "$lib/components/TourGuide.svelte";
 	import Icon from "@iconify/svelte";
+	import type { LobbyData } from "$lib/types/LobbyData";
+	export let showLobbyCreationPanel = false;
+
+	let tourGuide: TourGuide;
+	let gameDuration = 15; // in seconds
+	let lobbyName = "";
+	let twitchChannel: string | null = null;
+	let isTwitchInputVisible = false;
+	let lobbyNameIsValid: boolean;
+	let lobbyNameIsEmpty: boolean;
+	let gameModes: string[] = ["Solo", "Multiplayer"];
+	let gameMode = gameModes[1]; // Set default gamemode to Multiplayer
 
 	const dispatch = createEventDispatcher();
 	const playerType = getContext<Writable<PlayerType>>("playerType");
-	export let showLobbyCreationPanel = false;
-	let tourGuide: TourGuide;
-	let numUsers = 1;
-	let gameDuration = 15; // in seconds
-	let lobbyName = "";
-	let lobbyNameIsValid: boolean | null = null;
-	let lobbyNameIsEmpty: boolean | null = null;
-	let gameModes: string[] = ["Solo", "Multiplayer"];
-	let gameMode = gameModes[1]; // Set default gamemode to Multiplayer.
 
-	$: gameModeIsValid = gameMode !== null;
+	$: gameModeIsValid = gameModes.includes(gameMode);
+	$: isGameModeMultiplayer = gameMode === gameModes[1];
+
+	$: twitchChannelIsValid =
+		twitchChannel !== null && twitchChannel.length >= 4 && twitchChannel.length <= 25;
+
+	$: lobbyNameIsEmpty = lobbyName === "";
+	/**
+	 * This is a reactive statement, which means it constantly checks if the input for lobbyname has changed.
+	 * If it has changed it will check the requirements for the lobbyname.
+	 */
+
+	$: {
+		if (!lobbyNameIsEmpty) {
+			const alphaDigitsWhitespace = /^(?=.*\S)[a-zA-Z0-9 ]+$/;
+			lobbyNameIsValid = alphaDigitsWhitespace.test(lobbyName);
+		}
+	}
 
 	function startTheTour() {
 		tourGuide.startTourLobbyCreationPanel();
@@ -30,11 +50,17 @@
 	 * This function resets the form inputs when the lobby-creation-panel is closed by the user.
 	 */
 	const resetForm = () => {
-		numUsers = 1;
 		gameDuration = 10;
 		lobbyName = "";
 		gameMode = gameModes[1]; // Set to multiplayer.
 	};
+
+	/**
+	 * This functions checks if the twitch option is being used and if its valid.
+	 */
+	function checkTwitchChannel() {
+		return isTwitchInputVisible && twitchChannelIsValid ? true : !isTwitchInputVisible;
+	}
 
 	/**
 	 * This functions handles the submit when pressed.
@@ -43,40 +69,24 @@
 	function handleSubmit() {
 		if (gameMode === "Solo") {
 			goto("solo");
-		} else {
-			if (lobbyNameIsValid && gameMode) {
-				playerType.set(PlayerType.Host);
-
-				// Since our url has to stay simple (/play/[pin]) a lobbyStore has been added.
-				// Without lobbyStore the url would /play?lobbyName=${lobbyName}&gameDuration=${gameDuration}`
-				lobbyStore.set({
-					lobbyName,
-					gameMode,
-					gameDuration
-				});
-
-				// Go to the game lobby.
-				goto("/play");
-			} else if (lobbyName.length === 0) {
-				lobbyNameIsEmpty = true;
-			}
-			if (!gameMode) {
-				gameModeIsValid = false;
-			}
+			return;
 		}
-	}
 
-	/**
-	 * This is a reactive statement, which means it constantly checks if the input for lobbyname has changed.
-	 * If it has changed it will check the requirements for the lobbyname.
-	 */
-	$: {
-		if (lobbyName !== "") {
-			const regex = /^[a-zA-Z]+$/;
-			lobbyNameIsValid = regex.test(lobbyName);
-			lobbyNameIsEmpty = false;
-		} else {
-			lobbyNameIsValid = null;
+		// Since our url has to stay simple (/play/[pin]) a lobbyStore has been added.
+		// Without lobbyStore the url would /play?lobbyName=${lobbyName}&gameDuration=${gameDuration}`
+		if (lobbyNameIsValid && gameMode && checkTwitchChannel()) {
+			playerType.set(PlayerType.Host);
+
+			const lobbyData: LobbyData = {
+				lobbyName,
+				gameMode,
+				gameDuration,
+				twitchChannel
+			};
+
+			lobbyStore.set(lobbyData);
+
+			goto("/play");
 		}
 	}
 </script>
@@ -99,33 +109,72 @@
 
 		<div class="panel-content">
 			<form class="form" on:submit|preventDefault={handleSubmit}>
-				<label for="lobby-name">Name your vessel: </label>
-				{#if lobbyNameIsValid === false}
-					<p class="error-message">Name can only contain alphabetical characters</p>
-				{/if}
+				<div class="flex flex-col gap-2">
+					<label for="lobby-name">Name your vessel: </label>
+					{#if lobbyNameIsValid === false}
+						<p class="error-message">Name can only contain alphabetical and numeric characters</p>
+					{/if}
 
-				{#if lobbyNameIsEmpty === true}
-					<p class="error-message">A vessel needs a name</p>
-				{/if}
+					{#if lobbyNameIsEmpty === true}
+						<p class="error-message">A vessel needs a name</p>
+					{/if}
 
-				<input
-					type="text"
-					id="lobby-name"
-					bind:value={lobbyName}
-					class:invalid={lobbyNameIsValid === false}
-					placeholder="Enter lobby name"
-				/>
-
-				{#if gameModeIsValid === false}
-					<p class="error-message">Please select a gamemode</p>
-				{/if}
-				<label for="gameMode">Game Mode:</label>
-				<div id="gameMode">
-					<Dropdown bind:selection={gameMode} bind:options={gameModes} />
+					<input
+						type="text"
+						id="lobby-name"
+						bind:value={lobbyName}
+						class:invalid={lobbyNameIsValid === false}
+						placeholder="Enter lobby name"
+					/>
 				</div>
 
-				<label for="duration">Voting Time: {gameDuration} seconds</label>
-				<input type="range" id="duration" min="5" max="120" bind:value={gameDuration} />
+				<div class="flex flex-col gap-2">
+					{#if gameModeIsValid === false}
+						<p class="error-message">Please select a gamemode</p>
+					{/if}
+
+					<label for="gameMode">Game Mode:</label>
+
+					<div id="gameMode">
+						<Dropdown bind:selection={gameMode} bind:options={gameModes} />
+					</div>
+				</div>
+
+				{#if isGameModeMultiplayer}
+					<div class="flex flex-col gap-2">
+						<div class="flex justify-center">
+							<label for="toggleInput">Twitch:</label>
+
+							<input
+								class="twitch-toggle"
+								type="checkbox"
+								id="toggleInput"
+								bind:checked={isTwitchInputVisible}
+							/>
+						</div>
+
+						{#if isTwitchInputVisible}
+							<label for="lobby-name">Twitch Channel: </label>
+
+							{#if twitchChannelIsValid === false}
+								<p class="error-message">Twitch channel not valid:</p>
+							{/if}
+
+							<input
+								type="text"
+								id="channel-name"
+								bind:value={twitchChannel}
+								class:invalid={twitchChannelIsValid === false}
+								placeholder="Enter Twitch Channel Name"
+							/>
+						{/if}
+					</div>
+				{/if}
+				<div class="flex flex-col gap-2">
+					<label for="duration">Voting Time: {gameDuration} seconds</label>
+					<input type="range" id="duration" min="5" max="120" bind:value={gameDuration} />
+				</div>
+
 				<div class="actions">
 					<button type="submit" class="big-button">Create</button>
 				</div>
@@ -137,7 +186,7 @@
 
 <style lang="postcss">
 	.big-button {
-		@apply w-12vh h-10vh text-4xl;
+		@apply w-50 text-4xl;
 	}
 
 	.panel {
@@ -149,13 +198,6 @@
 		text-decoration: none;
 		font-family: theme(fontFamily.amatic);
 		max-width: 600px;
-	}
-
-	select {
-		@apply bg-metal text-fontcolor;
-		font-size: 1.5em;
-		display: block;
-		margin: 0 auto;
 	}
 
 	.panel-header {
@@ -203,15 +245,9 @@
 		@apply text-accent text-2xl;
 	}
 
-	.button {
-		@apply text-fontcolor text-4xl;
-		text-align: center;
-		padding: 0.75rem;
-		border: 1px solid white;
-	}
-
-	.button:hover {
-		@apply text-accent;
+	.twitch-toggle {
+		margin: 0;
+		width: 50px;
 	}
 
 	label {
@@ -223,8 +259,7 @@
 		margin: 0 auto;
 	}
 
-	input,
-	.button {
+	input {
 		box-sizing: border-box;
 		width: 240px;
 	}

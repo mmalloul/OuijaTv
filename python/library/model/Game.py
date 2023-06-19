@@ -8,12 +8,17 @@ from string import ascii_uppercase, digits
 from library.model.MessageType import ServerMessageType
 from library.model.Player import Player
 from library.model.Message import ServerMessage
+from dotenv import load_dotenv
+import os
+import requests
 
+# Load variables from .env file
+load_dotenv('../../.env')
 
 @dataclass
 class Game:
     """Equivalent to a "vesel", "room", or "lobby"."""
-    
+
     host: WebSocket
     players: list[Player] = field(default_factory=list)
     votes: dict[str, int] = field(default_factory=dict)   
@@ -23,6 +28,7 @@ class Game:
     name: str = ""
     voting_time: int = 0
     game_mode: str = ""
+    twitch_channel: str = ""
     winning_letter: str = ""
     no_vote_streak: int = 0
     stop_threshold: int = 3
@@ -39,7 +45,6 @@ class Game:
         """Add a player to the game."""
 
         self.players.append(player)
-
 
     def find_player(self, socket: WebSocket) -> Player | None:
         """Find a player through their socket."""
@@ -205,3 +210,12 @@ class Game:
 
         if notify_host:
             await self.host.send_json(message.json)
+
+    async def start_twitch_bot(self, twitch_channel, pin):
+        if twitch_channel != None:
+            url = f"{os.getenv('PUBLIC_TWITCH_URL')}/twitch/start?channel_name={twitch_channel}&room_token={pin}"
+            requests.post(url)
+
+            return {"message": f"Requesting chatbot server to start bot in room: {pin}"}
+        else:
+            return {"message": f"No twitch_channel provided"}
