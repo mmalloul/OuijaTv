@@ -43,27 +43,26 @@
 	function handleSubmit() {
 		if (gameMode === "Solo") {
 			goto("solo");
-			return;
-		}
+		} else {
+			if (lobbyNameIsValid && gameMode) {
+				playerType.set(PlayerType.Host);
 
-		if (lobbyNameIsValid && gameMode) {
-			playerType.set(PlayerType.Host);
+				// Since our url has to stay simple (/play/[pin]) a lobbyStore has been added.
+				// Without lobbyStore the url would /play?lobbyName=${lobbyName}&gameDuration=${gameDuration}`
+				lobbyStore.set({
+					lobbyName,
+					gameMode,
+					gameDuration
+				});
 
-			// Since our url has to stay simple (/play/[pin]) a lobbyStore has been added.
-			// Without lobbyStore the url would /play?lobbyName=${lobbyName}&gameDuration=${gameDuration}`
-			lobbyStore.set({
-				lobbyName,
-				gameMode,
-				gameDuration
-			});
-
-			// Go to the game lobby.
-			goto("/play");
-		} else if (lobbyName.length === 0) {
-			lobbyNameIsEmpty = true;
-		}
-		if (!gameMode) {
-			gameModeIsValid = false;
+				// Go to the game lobby.
+				goto("/play");
+			} else if (lobbyName.length === 0) {
+				lobbyNameIsEmpty = true;
+			}
+			if (!gameMode) {
+				gameModeIsValid = false;
+			}
 		}
 	}
 
