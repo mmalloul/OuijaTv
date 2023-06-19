@@ -26,7 +26,7 @@
 	let tags = "";
 	let sp = 0;
 	let lore = spiritLore;
-	
+
 	const showMenu = getContext<Writable<boolean>>("showMenu");
 
 	const letterPositions: Record<string, Vector2> = {};
@@ -119,7 +119,7 @@
 				name="Sgt. Sabrina"
 				backgroundImage={spirit1}
 				tag="Friendly, Scary"
-				lore= {lore[0]}
+				lore={lore[0]}
 			/>
 			<Card
 				spirit="2"
