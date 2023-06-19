@@ -7,7 +7,7 @@
 	import { Circle } from "svelte-loading-spinners"; // Import the spinner
 
 	let games: any[] = [];
-	let loading: boolean = false;
+	let loading = false;
 
 	onMount(() => {
 		fetchGames();
