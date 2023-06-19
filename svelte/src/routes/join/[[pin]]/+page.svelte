@@ -34,12 +34,10 @@
 		playerType.set(PlayerType.Player);
 		goto(`/play/${code}`);
 	}
-
-
 </script>
 
 <div class="page">
-	<ExitButton  onExit={(MouseEvent) => Promise.resolve()}></ExitButton>
+	<ExitButton onExit={(MouseEvent) => Promise.resolve()} />
 	<div class="grow font flex justify-center py-32">
 		<form on:submit|preventDefault class="flex flex-col items-center">
 			<label class="mb-2" for="username">Username:</label>
@@ -76,7 +74,6 @@
 		</form>
 	</div>
 </div>
-
 
 <style lang="postcss">
 	.font {
