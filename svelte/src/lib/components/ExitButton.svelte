@@ -1,10 +1,18 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
 	export let onExit: (event?: MouseEvent) => Promise<void>;
+	import { goto } from "$app/navigation";
+	import Icon from "@iconify/svelte";
+
+	const exitButtonClick = async (event?: MouseEvent) => {
+		if (onExit) {
+			await onExit(event);
+		}
+		await goto("/");
+	};
 </script>
 
 <div class="back-to-menu">
-	<a id="exit-button" on:click={onExit}>
+	<a id="exit-button" on:click|preventDefault={exitButtonClick}>
 		<Icon icon="formkit:arrowleft" />
 		Exit
 	</a>

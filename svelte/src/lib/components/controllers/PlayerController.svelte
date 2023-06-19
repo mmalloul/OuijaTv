@@ -110,7 +110,6 @@
 	const exitGame = async (): Promise<void> => {
 		$toastStore.showToast(ToastType.Success, "You have left the game");
 		socketController.closeSocket();
-		await goto("/");
 	};
 
 	async function exitReceived() {
