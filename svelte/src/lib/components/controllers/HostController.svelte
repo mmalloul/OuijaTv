@@ -9,12 +9,14 @@
 	import { goto } from "$app/navigation";
 	import type Board from "$lib/components/Board.svelte";
 	import { lobbyStore } from "$lib/stores/lobbyStore";
-	import ExitButton from "../ExitButton.svelte";
+	import ExitButton from "$lib/components/ExitButton.svelte";
+	import type { Writable } from "svelte/store";
 	const dispatch = createEventDispatcher();
 
 	export let pin: string;
 	export let board: Board;
 	export let word: string;
+	export let showFinalWord: Writable<boolean>;
 
 	let socketController: WebSocketController;
 	let prompt: string;
@@ -22,6 +24,7 @@
 	let lobbyName: string;
 	let votingTime: number;
 	let gameMode: string;
+	let hideSubmit = false;
 
 	$: host = $page.url.origin;
 	$: shareableURL = `${host}/join/${pin}`;
@@ -53,9 +56,14 @@
 			$toastStore.showToast(ToastType.Error, "You should enter a question!");
 		}
 
+		if ($showFinalWord) {
+			$toastStore.showToast(ToastType.Error, "You should restart the game first!");
+		}
+
 		if (canPrompt && prompt && prompt !== "") {
 			socketController.sendPrompt({ type: "prompt", content: prompt });
 			canPrompt = false;
+			hideSubmit = true;
 			$toastStore.showToast(ToastType.Success, "Question sent to spirits👻");
 		}
 	}
@@ -79,6 +87,7 @@
 	 */
 	function onRestartButton() {
 		if (confirm("Do you want to restart the game?") === true) {
+			showFinalWord.set(false);
 			socketController.sendRestart();
 		}
 	}
@@ -89,6 +98,7 @@
 	function restart() {
 		canPrompt = true;
 		prompt = "";
+		hideSubmit = false;
 
 		dispatch("updateWord", {
 			word: ""
@@ -114,8 +124,8 @@
 	function updateWord(event: any) {
 		let newWord = event.detail.word;
 		if (newWord === "!") {
-			prompt = "";
-			canPrompt = true;
+			$toastStore.showToast(ToastType.Success, "Game ended, restart or stop the game!");
+			showFinalWord.set(true);
 		} else {
 			dispatch("updateWord", {
 				word: newWord
@@ -160,9 +170,11 @@
 		placeholder={"STATE YOUR INTENTION"}
 		disabled={!canPrompt}
 	/>
-	<button on:click={sendPrompt} class="prompt-button">
-		Submit <Icon icon="formkit:arrowright" />
-	</button>
+	{#if !hideSubmit}
+		<button on:click={sendPrompt} class="prompt-button">
+			Submit <Icon icon="formkit:arrowright" />
+		</button>
+	{/if}
 </form>
 
 <div class="link-share">
@@ -193,7 +205,7 @@
 		transform: scale(1.03);
 	}
 
-	.promt-question {
+	.prompt-question {
 		@apply flex flex-1 flex-grow items-center justify-center gap-2;
 	}
 

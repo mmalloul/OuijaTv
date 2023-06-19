@@ -150,7 +150,6 @@ class Game:
                     )
                 )
 
-                await self.restart()
                 return
 
             self.word += letter
