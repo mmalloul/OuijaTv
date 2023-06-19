@@ -3,16 +3,18 @@ from library.model.MessageType import ServerMessageType, ClientMessageType
 from library.stores import games
 from library.model import ServerMessage, ClientMessage
 
-
 router = APIRouter()
 
 
 @router.websocket("/host")
-async def create_game(host: WebSocket, name: str, voting_time: str, game_mode: str):
+async def create_game(host: WebSocket, name: str, voting_time: str, game_mode: str, twitch_channel: str = None):
+    print(f"New game: {name} {voting_time} {game_mode} {twitch_channel}")
+    pin, game = games.new(host, name, int(voting_time), game_mode, twitch_channel)
 
-    pin, game = games.new(host, name, int(voting_time), game_mode)
+    await game.start_twitch_bot(twitch_channel, pin)
 
     await host.accept()
+
     await game.notify_host(
         ServerMessage(
             ServerMessageType.PIN, 

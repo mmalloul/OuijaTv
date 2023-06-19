@@ -20,7 +20,8 @@ def get_all_games():
             ],
             "name": game.name,
             "voting_time": game.voting_time,
-            "game_mode": game.game_mode
+            "game_mode": game.game_mode,
+            "twitch_channel": game.twitch_channel,
         }
         for key, game in games.items()
     ]
@@ -42,7 +43,8 @@ def get_game_by_pin(pin: str):
             ],
             "name": game.name,
             "voting_time": game.voting_time,
-            "game_mode": game.game_mode
+            "game_mode": game.game_mode,
+            "twitch_channel": game.twitch_channel,
         }
     else:
         raise HTTPException(status_code=404, detail="Game not found")

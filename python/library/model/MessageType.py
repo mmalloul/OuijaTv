@@ -24,3 +24,5 @@ class ServerMessageType(Enum):
     STOP_COUNTDOWN = "stopCountdown"
     WORD = "word"
     HOST_EXIT = "hostExit"
+    START_ROUND = "StartRound"
+    STOP_ROUND = "StopRound"
