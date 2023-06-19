@@ -70,7 +70,7 @@
 		if (gameMode === "Solo") {
 			goto("solo");
 			return;
-		} 
+		}
 
 		// Since our url has to stay simple (/play/[pin]) a lobbyStore has been added.
 		// Without lobbyStore the url would /play?lobbyName=${lobbyName}&gameDuration=${gameDuration}`
