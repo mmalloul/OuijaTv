@@ -1,7 +1,5 @@
 from enum import Enum
 
-# TODO: change to HostMessageType and PlayerMessageType?
-
 class MessageType(Enum):
     RESTART = "restart"
     PROMPT = "prompt"

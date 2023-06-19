@@ -13,20 +13,23 @@
 	export let showLobbyCreationPanel = false;
 	let tourGuide: TourGuide;
 	let gameDuration = 15; // in seconds
-	let lobbyName = "";
-	let twitchChannel = "";
+	let lobbyName: string = "";
+	let twitchChannel: string | null = null;
 	let isTwitchInputVisible = false;
 	let lobbyNameIsValid: boolean;
 	let lobbyNameIsEmpty: boolean;
 
 	let gameModes: string[] = ["Solo", "Multiplayer"];
-	let gameMode = gameModes[1]; // Set default gamemode to Multiplayer.
+	let gameMode = gameModes[1]; // Set default gamemode to Multiplayer
+
 	$: gameModeIsValid = gameModes.includes(gameMode);
 	$: isGameModeMultiplayer = gameMode === gameModes[1];
 
-	$: twitchChannelIsValid = twitchChannel.length >= 4 && twitchChannel.length <= 25;
+	$: twitchChannelIsValid =
+		twitchChannel !== null && twitchChannel.length >= 4 && twitchChannel.length <= 25;
 
 	$: lobbyNameIsEmpty = lobbyName == "";
+
 	/**
 	 * This is a reactive statement, which means it constantly checks if the input for lobbyname has changed.
 	 * If it has changed it will check the requirements for the lobbyname.
@@ -34,8 +37,8 @@
 
 	$: {
 		if (!lobbyNameIsEmpty) {
-			const regex = /^(?=.*\S)[a-zA-Z0-9 ]+$/;
-			lobbyNameIsValid = regex.test(lobbyName);
+			const alphaDigitsWhitespace = /^(?=.*\S)[a-zA-Z0-9 ]+$/;
+			lobbyNameIsValid = alphaDigitsWhitespace.test(lobbyName);
 		}
 	}
 
@@ -78,12 +81,9 @@
 			const lobbyData: LobbyData = {
 				lobbyName,
 				gameMode,
-				gameDuration
+				gameDuration,
+				twitchChannel
 			};
-
-			if (isTwitchInputVisible) {
-				lobbyData.twitchChannel = twitchChannel;
-			}
 
 			lobbyStore.set(lobbyData);
 

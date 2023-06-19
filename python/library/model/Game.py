@@ -213,9 +213,9 @@ class Game:
 
     async def start_twitch_bot(self, twitch_channel, pin):
         if twitch_channel != None:
-            base_url = os.getenv('PUBLIC_TWITCH_URL')
-            url = f'{base_url}/twitch/start?channel_name={twitch_channel}&room_token={pin}'
+            url = f"{os.getenv('PUBLIC_TWITCH_URL')}/twitch/start?channel_name={twitch_channel}&room_token={pin}"
             requests.post(url)
+
             return {"message": f"Requesting chatbot server to start bot in room: {pin}"}
         else:
             return {"message": f"No twitch_channel provided"}

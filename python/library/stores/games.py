@@ -45,5 +45,9 @@ def remove(pin: str, player: Player | None = None) -> None:
 def stop_twitch_bot(pin):
     base_url = os.getenv('PUBLIC_TWITCH_URL')
     url = f'{base_url}/twitch/stop?room_token={pin}'
-    requests.post(url)
-    return {"message": f"Requesting chatbot server to kill bot in room: {pin}"}
+    try:
+        requests.post(url)
+        print(f"Requesting chatbot server to kill bot in room: {pin}")
+    except Exception as e:
+        print(f"Error occurred: {str(e)}")
+   

@@ -2,7 +2,6 @@ from enum import Enum
 
 # TODO: change to HostMessageType and PlayerMessageType?
 
-
 class ClientMessageType(Enum):
     VOTE = "vote"
     RESTART = "restart"
@@ -24,5 +23,3 @@ class ServerMessageType(Enum):
     STOP_COUNTDOWN = "stopCountdown"
     WORD = "word"
     HOST_EXIT = "hostExit"
-    START_ROUND = "StartRound"
-    STOP_ROUND = "StopRound"
