@@ -200,7 +200,7 @@
 
 	<button type="button" id="info-button" on:click={startTheTour}>
 		<p>
-			<Icon icon="ph:info-light" />
+			<Icon icon="ph:question-light" />
 		</p>
 	</button>
 </div>
@@ -257,7 +257,7 @@
 	}
 
 	#info-button:hover {
-		@apply cursor-pointer bg-dark opacity-75;
+		@apply cursor-pointer;
 		border-style: solid;
 	}
 
@@ -266,7 +266,7 @@
 	}
 
 	#info-button:hover {
-		@apply cursor-pointer bg-dark opacity-75;
+		@apply cursor-pointer;
 		border-style: solid;
 	}
 
