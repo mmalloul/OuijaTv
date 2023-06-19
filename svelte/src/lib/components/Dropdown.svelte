@@ -22,7 +22,7 @@
 
 <div id="dropdown-wrapper">
 	<div id="dropdown-box">
-		<button on:click={() => toggleSelection()}>
+		<button type="button" on:click={() => toggleSelection()}>
 			<p>
 				{selection}
 			</p>
@@ -34,7 +34,7 @@
 	{#if selectionOpen}
 		<div id="dropdown-contents" style="width: {getParentWidth()}px">
 			{#each options as option, i}
-				<button on:click={() => select(option)} class={option == selection ? "selected" : ""}
+				<button type="button" on:click={() => select(option)} class={option == selection ? "selected" : ""}
 					>{option}</button
 				>
 				{#if i !== options.length - 1}
