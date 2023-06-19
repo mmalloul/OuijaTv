@@ -119,7 +119,7 @@ class TestGame(unittest.TestCase):
         self.game.word = "someWord"
         self.game.prompt = "somePrompt"
 
-        self.game.countdown_task = AsyncMock()
+        self.game.countdown_task = MagicMock()
         asyncio.run(self.game.restart())
         
         self.game.countdown_task.cancel.assert_called_once()
