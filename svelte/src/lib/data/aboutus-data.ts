@@ -1,3 +1,5 @@
+import type { TextBlock } from "$lib/types/TextBlock";
+
 const items: TextBlock[] = [
 	{
 		title: "",

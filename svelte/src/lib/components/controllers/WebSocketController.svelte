@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from "svelte";
-	import PlayerController from "./PlayerController.svelte";
 
 	let socket: WebSocket;
 	const dispatch = createEventDispatcher();

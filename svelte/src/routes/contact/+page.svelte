@@ -1,6 +1,6 @@
 <script lang="ts">
 	import TextBlock from "$lib/components/TextBlock.svelte";
-	import textBlocks from "$lib/text/contact-text";
+	import textBlocks from "$lib/data/contact-data";
 </script>
 
 <div class="page contact">

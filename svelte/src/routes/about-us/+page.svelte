@@ -1,8 +1,8 @@
 <script lang="ts">
 	import FounderCard from "$lib/components/founder-card.svelte";
 	import TextBlock from "$lib/components/TextBlock.svelte";
-	import textBlocks from "$lib/text/aboutus-text";
-	import founders from "$lib/types/Founder";
+	import textBlocks from "$lib/data/aboutus-data";
+	import founders from "$lib/data/founders-data";
 </script>
 
 <div class="page aboutus flex flex-col justify-center">
