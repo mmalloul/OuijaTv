@@ -23,6 +23,9 @@ pytest-test-job:
   stage: test
   before_script:
     - cd python
+    - apt-get update -q -y
+    - apt-get install -y python-pip
+    - pip install -r requirements.txt
   script:
     - python3 -m pytest --junitxml=../report.xml
   tags:
