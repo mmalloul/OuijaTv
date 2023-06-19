@@ -34,8 +34,10 @@
 	{#if selectionOpen}
 		<div id="dropdown-contents" style="width: {getParentWidth()}px">
 			{#each options as option, i}
-				<button type="button" on:click={() => select(option)} class={option == selection ? "selected" : ""}
-					>{option}</button
+				<button
+					type="button"
+					on:click={() => select(option)}
+					class={option == selection ? "selected" : ""}>{option}</button
 				>
 				{#if i !== options.length - 1}
 					<hr />
