@@ -163,7 +163,11 @@
 		</div>
 	</div>
 
-	<div class="spirit-answer {$showFinalWord ? 'animate__animated tada-then-pulse' : ''}">
+	<div
+		class="spirit-answer"
+		class:animate__animated={$showFinalWord}
+		class:tada-then-pulse={$showFinalWord}
+	>
 		{#if word}
 			<span class="tracking-0.5em">
 				{word}
