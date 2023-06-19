@@ -8,6 +8,7 @@ app = FastAPI()
 
 origins = [
     "ouija.tv",
+    "staging.ouija.tv"
 ]
 
 app.add_middleware(
