@@ -200,7 +200,7 @@
 		transform: scale(1.03);
 	}
 
-	.promt-question {
+	.prompt-question {
 		@apply flex flex-1 flex-grow items-center justify-center gap-2;
 	}
 
