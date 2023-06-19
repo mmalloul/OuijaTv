@@ -9,6 +9,7 @@
 	import { goto } from "$app/navigation";
 	import type Board from "$lib/components/Board.svelte";
 	import { lobbyStore } from "$lib/stores/lobbyStore";
+	import ExitButton from "../ExitButton.svelte";
 	const dispatch = createEventDispatcher();
 
 	export let pin: string;
@@ -122,7 +123,7 @@
 		}
 	}
 
-	async function exitGame() {
+	const exitGame = async (): Promise<void> => {
 		if (confirm("Do you want to stop the game?") === true) {
 			$toastStore.showToast(ToastType.Success, "You have stopped the game");
 			socketController.closeSocket();
@@ -144,12 +145,7 @@
 	on:noVotesReceived
 />
 
-<div class="back-to-menu">
-	<a id="exit-button" on:click={exitGame}>
-		<Icon icon="formkit:arrowleft" />
-		Exit
-	</a>
-</div>
+<ExitButton onExit={exitGame} />
 
 <div class="restart-button">
 	<button on:click={onRestartButton}>

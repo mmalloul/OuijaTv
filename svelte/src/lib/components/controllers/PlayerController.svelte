@@ -5,8 +5,8 @@
 	import { toastStore } from "$lib/stores/toast";
 	import { ToastType } from "$lib/types/ToastType";
 	import type Board from "$lib/components/Board.svelte";
-	import Icon from "@iconify/svelte";
 	import { goto } from "$app/navigation";
+	import ExitButton from "../ExitButton.svelte";
 	const dispatch = createEventDispatcher();
 
 	export let pin: string;
@@ -107,15 +107,16 @@
 		}
 	}
 
-	async function exitGame(event: any) {
-		event.preventDefault();
-		let type = event.type;
 
-		if (type === "exitReceived") {
-			$toastStore.showToast(ToastType.Success, "Host has stopped the game");
-		} else {
-			$toastStore.showToast(ToastType.Success, "You have left the game");
-		}
+	
+	const exitGame = async (): Promise<void> => {
+		$toastStore.showToast(ToastType.Success, "You have left the game");
+		socketController.closeSocket();
+		await goto("/");
+	}
+
+	async function exitReceived() {
+		$toastStore.showToast(ToastType.Success, "Host has stopped the game");
 		socketController.closeSocket();
 		await goto("/");
 	}
@@ -132,15 +133,10 @@
 	on:tickReceived
 	on:stopCountdownReceived={restart}
 	on:noVotesReceived
-	on:exitReceived={exitGame}
+	on:exitReceived={exitReceived}
 />
 
-<div class="back-to-menu">
-	<a id="exit-button" href="/" on:click={exitGame}>
-		<Icon icon="formkit:arrowleft" />
-		Exit
-	</a>
-</div>
+<ExitButton onExit={exitGame} />
 
 <div class="flex flex-1 flex-grow item-center justify-center">
 	{#if prompt}
