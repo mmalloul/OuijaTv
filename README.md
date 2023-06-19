@@ -12,6 +12,10 @@ To run Python back end:\
 `cd python`\
 `python server.py`
 
+To run Chatbot:\
+`cd chatbot`\
+`python server.py`
+
 ### Docker
 
 To be able to run the application locally you have to do the following.
@@ -34,12 +38,16 @@ services:
       - 8000:8000
     environment:
       PUBLIC_API_KEY_OPENAI: <SECRET>
-  
+      PUBLIC_TWITCH_URL: http://chatbot:9000
+
   chatbot:
+    ports:
+      - 9000:9000
     environment:
       TWITCH_CLIENT_ID: <SECRET>
       TWITCH_REFRESH_TOKEN: <SECRET>
       TWITCH_TOKEN: <SECRET>
+      PUBLIC_WS_URL: ws://backend:8000
 
 ```
 
