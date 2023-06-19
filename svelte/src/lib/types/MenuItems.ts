@@ -9,10 +9,6 @@ const items: MenuItem[] = [
 		route: "/"
 	},
 	{
-		name: "Solo",
-		route: "/solo"
-	},
-	{
 		name: "Browse",
 		route: "/browse"
 	},

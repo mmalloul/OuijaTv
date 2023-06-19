@@ -41,6 +41,11 @@
 	 * The submit won't work if the criteria of the lobbyname is not passed.
 	 */
 	function handleSubmit() {
+		if (gameMode === "Solo") {
+			goto("solo");
+			return;
+		}
+
 		if (lobbyNameIsValid && gameMode) {
 			playerType.set(PlayerType.Host);
 

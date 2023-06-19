@@ -9,10 +9,14 @@
 	import spirit2 from "$lib/assets/spirit2.webp";
 	import spirit3 from "$lib/assets/spirit3.webp";
 	import spirit4 from "$lib/assets/spirit4.webp";
+	import Icon from "@iconify/svelte";
+	import Ghost from "$lib/components/Ghost.svelte";
+	import { spiritLore } from "$lib/assets/spiritLore";
 
 	let showCards = true,
-		showBoard = false,
-		showInput = true;
+		showBoard = false;
+	let canPrompt = true;
+	let canShow = false;
 	let seekerX: number;
 	let seekerY: number;
 	let circleStyle = "";
@@ -21,6 +25,7 @@
 	let name = "";
 	let tags = "";
 	let sp = 0;
+	let lore = spiritLore;
 
 	const showMenu = getContext<Writable<boolean>>("showMenu");
 
@@ -43,9 +48,9 @@
 			});
 			return;
 		} else {
-			showInput = false;
 			readBoard();
 			answer = await openApiCall(prompt, sp);
+			canPrompt = false;
 			printWord(answer);
 		}
 	}
@@ -69,8 +74,9 @@
 		}
 		await new Promise((resolve) => setTimeout(resolve, 2000));
 		seekerX = 960.5;
-		seekerY = 766.5;
-		showInput = true;
+		seekerY = 800.5;
+		canPrompt = true;
+		canShow = true;
 		return;
 	}
 
@@ -95,6 +101,9 @@
 {#if showCards}
 	<div class="page">
 		<div>
+			<div class="back-to-menu">
+				<a href="/"><Icon icon="formkit:arrowleft" />Exit</a>
+			</div>
 			<h1 class="awnser">SOLO Summon</h1>
 			<div class="subtask">
 				As you navigate to the website and click on the Ouija board feature, a sense of apprehension
@@ -110,7 +119,7 @@
 				name="Sgt. Sabrina"
 				backgroundImage={spirit1}
 				tag="Friendly, Scary"
-				lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+				lore={lore[0]}
 			/>
 			<Card
 				spirit="2"
@@ -118,7 +127,7 @@
 				name="Asta"
 				backgroundImage={spirit2}
 				tag="Clever, Funny"
-				lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+				lore={lore[1]}
 			/>
 			<Card
 				spirit="3"
@@ -126,7 +135,7 @@
 				name="Miko Mana"
 				backgroundImage={spirit3}
 				tag="Funny, Rich, Clever"
-				lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+				lore={lore[2]}
 			/>
 			<Card
 				spirit="4"
@@ -134,7 +143,7 @@
 				name="The Crow"
 				backgroundImage={spirit4}
 				tag="Dark, Scary"
-				lore="Lorem ipsum dolor, sit amet consectetur adipisicing elit..."
+				lore={lore[3]}
 			/>
 		</div>
 	</div>
@@ -142,23 +151,40 @@
 
 {#if showBoard}
 	<div class="page--game flex flex-col items-center">
-		<form class="flex">
-			<input bind:value={prompt} type="text" placeholder="STATE YOUR INTENTION" />
-		</form>
-		{#if showInput}
-			{#if prompt != ""}
+		<div class="game-header">
+			<form class="flex">
+				<div class="back-to-menu">
+					<a href="/"><Icon icon="formkit:arrowleft" />Exit</a>
+				</div>
+				<input
+					bind:value={prompt}
+					type="text"
+					placeholder="STATE YOUR INTENTION"
+					disabled={!canPrompt}
+				/>
 				<button type="button" class="custom-button" on:click={() => ask()}>
 					<p>Ask</p>
 				</button>
-			{/if}
-		{/if}
-
-		<div class="char">
-			<span class="text-light-50"> Name:</span>
-			<span class="te"> {name} <br /></span>
-			<span class="text-light-50"> Tags:</span>
-			<span class="te"> {tags}</span>
+			</form>
 		</div>
+		<div class="spirit-answer">
+			{#if canShow}
+				<span class="tracking-0.5em">
+					{answer}
+				</span>
+			{:else}
+				<span> Waiting for answer... </span>
+			{/if}
+		</div>
+		<Ghost>
+			<p class="opacity-75">
+				<span class="text-light-50"> Name:</span>
+				<span class="te"> {name} <br /></span>
+				<span class="text-light-50"> Tags:</span>
+				<span class="te"> {tags}</span>
+			</p>
+		</Ghost>
+
 		<BoardSvg>
 			<circle
 				id="Seeker"
@@ -174,14 +200,22 @@
 {/if}
 
 <style lang="postcss">
+	.spirit-answer {
+		@apply text-accent flex items-center justify-center;
+		text-decoration: none;
+		font-family: theme(fontFamily.amatic);
+	}
+
+	.spirit-answer span {
+		@apply text-lg lg: text-3xl;
+		text-wrap: nowrap;
+	}
+	.game-header {
+		@apply flex  md: flex-row justify-center items-center w-full flex-wrap;
+		transition: all 0.5s ease-in-out;
+	}
 	.te {
 		@apply text-accent;
-	}
-	.char {
-		@apply text-3xl pt-2;
-		font-family: theme(fontFamily.amatic);
-		width: 250px;
-		text-align: center;
 	}
 	.l-container {
 		display: grid;
@@ -211,19 +245,34 @@
 		font-family: theme(fontFamily.amatic);
 	}
 	input {
-		@apply w-full mx-50 w-200  text-center;
+		@apply w-full mx-10 w-200  text-center;
 		font-family: theme(fontFamily.amatic);
-		font-size: 3rem;
+		font-size: 2rem;
 		color: rgba(255, 255, 255, 0.9);
 		background-color: transparent;
 	}
 	.custom-button {
-		@apply text-fontcolor text-4xl  border-1;
+		@apply text-fontcolor text-4xl  border-1 rounded-md;
 		text-align: center;
 		font-family: theme(fontFamily.amatic);
 		width: 20%;
 		border-color: #dddddd;
 		transition: all 0.2s ease-in-out;
+	}
+
+	.back-to-menu {
+		@apply font-amatic text-center text-fontcolor flex flex-1 flex-grow;
+	}
+
+	.back-to-menu a {
+		@apply flex justify-center items-center px-2 rounded-md  text-lg lg: text-3xl;
+		transition: all 0.2s ease-in-out;
+		text-decoration: none;
+	}
+
+	.back-to-menu a:hover {
+		@apply cursor-pointer bg-accent;
+		transform: scale(1.03);
 	}
 
 	.custom-button > p {

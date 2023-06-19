@@ -122,6 +122,9 @@
 
 <div class="page--game game">
 	<div class="game-header">
+		<div class="back-to-menu">
+			<a id="exit-button" href="/"><Icon icon="formkit:arrowleft" />Exit</a>
+		</div>
 		{#if $playerType === PlayerType.Host}
 			<HostController
 				bind:board
