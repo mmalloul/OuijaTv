@@ -74,7 +74,7 @@
 						{/each}
 					</tbody>
 				{:else}
-					<p>Currently no active vessels... Go conjure one!</p>
+					<p class="pl-4 pt-3">Currently no active vessels...</p>
 				{/if}
 			</table>
 		</div>
