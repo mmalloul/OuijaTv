@@ -175,7 +175,7 @@ class Game:
 
         # Cancel the countdown task if it's running
         if self.countdown_task:  
-            self.countdown_task.cancel()
+            await self.countdown_task.cancel()
 
         # prepare messages
         message_restart = ServerMessage(ServerMessageType.RESTART)
