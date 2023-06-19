@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
 	import { env } from "$env/dynamic/public";
 	import { onMount } from "svelte";
 
@@ -34,7 +35,9 @@
 					<tr>
 						<td>{game.name}</td>
 						<td>{game.pin}</td>
-						<td><button class="bg-accent">Join</button></td>
+						<td>
+							<button on:click={() => goto(`/play/${game.pin}`)} class="bg-accent"> Join </button>
+						</td>
 					</tr>
 				{/each}
 			</tbody>
