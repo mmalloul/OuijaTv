@@ -26,10 +26,6 @@
 		tourGuide.startTourLobbyCreationPanel();
 	}
 
-	function startTheTour() {
-		tourGuide.startTourLobbyCreationPanel();
-	}
-
 	/**
 	 * This function resets the form inputs when the lobby-creation-panel is closed by the user.
 	 */
@@ -134,7 +130,6 @@
 				<div class="actions">
 					<button type="submit" class="big-button">Create</button>
 				</div>
-
 			</form>
 		</div>
 	</div>
