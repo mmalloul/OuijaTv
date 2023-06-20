@@ -31,7 +31,7 @@ services:
     build:
       context: ./python
       dockerfile: Dockerfile
-    restart: always
+    restart: on-failure
     volumes:
       - ./python:/app
     networks:
@@ -45,7 +45,7 @@ services:
     build:
       context: ./chatbot
       dockerfile: Dockerfile
-    restart: always
+    restart: on-failure
     volumes:
       - ./chatbot:/app
     networks:
