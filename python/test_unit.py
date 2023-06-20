@@ -1,13 +1,12 @@
 import unittest
 from unittest.mock import MagicMock
 from unittest.mock import AsyncMock
-from Game import VoteData
 
 from library.model.Message import ServerMessage
 from library.model.MessageType import ServerMessageType
 from fastapi.websockets import WebSocketState
 from library.model import Game
-
+from library.model.VoteData import VoteData
 from library.stores.games import items as storesGames
 from library.stores.games import new as newGame, remove as removeGame
 

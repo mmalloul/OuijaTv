@@ -1,6 +1,5 @@
 import asyncio
 from dataclasses import dataclass, field
-import random
 from fastapi.websockets import WebSocketState
 from fastapi import WebSocket
 from typing import Optional
@@ -8,17 +7,13 @@ from string import ascii_uppercase, digits
 from library.model.MessageType import ServerMessageType
 from library.model.Player import Player
 from library.model.Message import ServerMessage
+from library.model.VoteData import VoteData
 from dotenv import load_dotenv
 import os
 import requests
-from typing import NamedTuple
 
 # Load variables from .env file
 load_dotenv('../../.env')
-
-class VoteData(NamedTuple):
-    count: int
-    id: int
 
 @dataclass
 class Game:
