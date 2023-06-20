@@ -43,7 +43,7 @@ class TestGame(unittest.TestCase):
         self.game.players = [MagicMock(voted=True), MagicMock(voted=True)]
         self.game.votes = {"A": 2, "B": 1}
         self.game.reset_votes()
-        self.assertEqual(self.game.votes, {'A': VoteData(count=0, id=0), 'B': VoteData(count=0, id=0)})
+        self.assertEqual(self.game.votes, {"A": VoteData(count=0, id=0), "B": VoteData(count=0, id=0)})
         for player in self.game.players:
             self.assertFalse(player.voted)
 
