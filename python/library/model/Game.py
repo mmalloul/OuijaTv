@@ -11,21 +11,26 @@ from library.model.Message import ServerMessage
 from dotenv import load_dotenv
 import os
 import requests
+from typing import NamedTuple
 
 # Load variables from .env file
 load_dotenv('../../.env')
 
+class VoteData(NamedTuple):
+    count: int
+    id: int
+
 @dataclass
 class Game:
     """Equivalent to a "vesel", "room", or "lobby"."""
-
     host: WebSocket
     players: list[Player] = field(default_factory=list)
-    votes: dict[str, int] = field(default_factory=dict)   
     prompt: str = ""
     GOODBYE: str = "!" # In the svg the goodbye button id = "!".
     word: str = ""
     name: str = ""
+    votes: dict[str, VoteData] = field(default_factory=dict)   
+    vote_id: int = 0
     voting_time: int = 0
     game_mode: str = ""
     twitch_channel: str = ""
@@ -39,7 +44,7 @@ class Game:
 
         if not self.votes:
             options = [*(ascii_uppercase + digits), self.GOODBYE]
-            self.votes = {option: 0 for option in options}
+            self.votes = {option: VoteData(0,0) for option in options}
 
     def join(self, player: Player) -> None:
         """Add a player to the game."""
@@ -65,10 +70,12 @@ class Game:
         """Reset all votes to zero while keeping their keys."""
 
         for vote in self.votes:
-            self.votes[vote] = 0
+            self.votes[vote] = VoteData(0, 0)
 
         for player in self.players:
             player.voted = False
+
+        self.vote_id = 0
             
 
     async def vote(self, vote: str, player: Player) -> None:
@@ -78,9 +85,16 @@ class Game:
 
             player.voted = True
             
-            self.winning_letter = max(self.votes, key= self.votes.get)
-            self.votes[vote] += 1
-            new_winning_letter = max(self.votes, key= self.votes.get)
+            voteData = self.votes[vote]
+            print(self.vote_id)
+            self.votes[vote] = VoteData(voteData.count + 1, self.vote_id)
+            self.vote_id += 1
+            print(self.votes)
+
+            # Determine the new winning letter by looking at the highest voteData.count in self.votes
+            # If there are multiple letters with the same voteData.count, pick the one with the highest self.vote_id.
+            new_winning_letter = max(self.votes, key=lambda x: (self.votes[x].count, self.votes[x].id))
+
 
             if (self.winning_letter != new_winning_letter):
                 self.winning_letter = new_winning_letter
@@ -139,25 +153,19 @@ class Game:
                 self.no_vote_streak = 0
         else:
             self.no_vote_streak = 0
-            max_votes = max(self.votes.values())
-            top_voted = [k for k, v in self.votes.items() if v == max_votes]
+            
+            winning_option = max(self.votes, key=lambda x: (self.votes[x].count, self.votes[x].id))
 
-            if len(top_voted) > 1:
-                letter = random.choice(top_voted)
-            else:
-                letter = top_voted[0]
-
-            if letter == self.GOODBYE:
+            if winning_option == self.GOODBYE:
                 await self.broadcast(
                     ServerMessage(
                         ServerMessageType.WORD, 
-                        letter
+                        winning_option
                     )
                 )
-
                 return
 
-            self.word += letter
+            self.word += winning_option
 
         self.start_countdown()
         
