@@ -2,7 +2,7 @@
 	import { goto } from "$app/navigation";
 	import Board from "$lib/components/Board.svelte";
 	import { getContext, onMount, onDestroy } from "svelte";
-
+	import { Shadow } from "svelte-loading-spinners";
 	import { writable, type Writable } from "svelte/store";
 	import { PlayerType } from "$lib/types/PlayerType";
 	import { page } from "$app/stores";
@@ -27,6 +27,12 @@
 	let tourGuide: TourGuide;
 	let roundTime: number;
 	let showFinalWord = writable(false);
+	let joined = false;
+
+	$: hideGame =
+		($playerType === PlayerType.Host && !pin) ||
+		($playerType === PlayerType.Player && !joined) ||
+		$playerType === PlayerType.None;
 
 	const ghostLimit = 20;
 
@@ -73,6 +79,7 @@
 			addPlayer(pid, username);
 			refreshPlayerDict();
 			sendToast(message);
+			joined = true;
 		}
 	}
 
@@ -128,63 +135,70 @@
 	}
 </script>
 
-<div class="page--game game">
-	<div class="game-header">
-		<div class="back-to-menu">
-			<a id="exit-button" href="/"><Icon icon="formkit:arrowleft" />Exit</a>
-		</div>
-		{#if $playerType === PlayerType.Host}
-			<HostController
-				bind:board
-				bind:pin
-				bind:word
-				bind:showFinalWord
-				on:tickReceived={setTick}
-				on:updateWord={setWord}
-				on:joinedReceived={onPlayerJoin}
-				on:playerQuit={onPlayerQuit}
-				on:winningVoteReceived={updateWinningVote}
-				on:noVotesReceived={noVotesReceived}
-			/>
-		{:else if $playerType === PlayerType.Player}
-			<PlayerController
-				bind:board
-				bind:pin
-				bind:word
-				bind:letterVoted
-				bind:canVote
-				bind:showFinalWord
-				on:tickReceived={setTick}
-				on:updateWord={setWord}
-				on:joinedReceived={onPlayerJoin}
-				on:playerQuit={onPlayerQuit}
-				on:winningVoteReceived={updateWinningVote}
-				on:noVotesReceived={noVotesReceived}
-			/>
-		{/if}
+{#if hideGame}
+	<div class="flex items-center justify-center py-74">
+		<Shadow />
+	</div>
+{/if}
 
-		<div class="voting-timer">
-			{#if tick}
-				<span class="timer">Voting ends in: {tick}</span>
+<div class="page--game game">
+	<div class:hide-component={hideGame}>
+		<div class="game-header">
+			<div class="back-to-menu">
+				<a id="exit-button" href="/"><Icon icon="formkit:arrowleft" />Exit</a>
+			</div>
+			{#if $playerType === PlayerType.Host}
+				<HostController
+					bind:board
+					bind:pin
+					bind:word
+					bind:showFinalWord
+					on:tickReceived={setTick}
+					on:updateWord={setWord}
+					on:joinedReceived={onPlayerJoin}
+					on:playerQuit={onPlayerQuit}
+					on:winningVoteReceived={updateWinningVote}
+					on:noVotesReceived={noVotesReceived}
+				/>
+			{:else if $playerType === PlayerType.Player}
+				<PlayerController
+					bind:board
+					bind:pin
+					bind:word
+					bind:letterVoted
+					bind:canVote
+					bind:showFinalWord
+					on:tickReceived={setTick}
+					on:updateWord={setWord}
+					on:joinedReceived={onPlayerJoin}
+					on:playerQuit={onPlayerQuit}
+					on:winningVoteReceived={updateWinningVote}
+					on:noVotesReceived={noVotesReceived}
+				/>
+			{/if}
+
+			<div class="voting-timer">
+				{#if tick}
+					<span class="timer">Voting ends in: {tick}</span>
+				{:else}
+					<span class="timer">Voting will start soon...</span>
+				{/if}
+			</div>
+		</div>
+
+		<div
+			class="spirit-answer"
+			class:animate__animated={$showFinalWord}
+			class:tada-then-pulse={$showFinalWord}
+		>
+			{#if word}
+				<span class="tracking-0.5em">
+					{word}
+				</span>
 			{:else}
-				<span class="timer">Voting will start soon...</span>
+				<span> Waiting for answer... </span>
 			{/if}
 		</div>
-	</div>
-
-	<div
-		class="spirit-answer"
-		class:animate__animated={$showFinalWord}
-		class:tada-then-pulse={$showFinalWord}
-	>
-		{#if word}
-			<span class="tracking-0.5em">
-				{word}
-			</span>
-		{:else}
-			<span> Waiting for answer... </span>
-		{/if}
-	</div>
 
 	{#if players}
 		<!-- limited to 20 players	 -->
@@ -195,17 +209,17 @@
 		{/each}
 	{/if}
 
-	<div id="board">
-		<Board
-			bind:timeLeft={tick}
-			bind:this={board}
-			bind:isHost
-			bind:canVote
-			{roundTime}
-			on:letterClicked={onVoteLetter}
-		/>
+		<div id="board">
+			<Board
+				bind:timeLeft={tick}
+				bind:this={board}
+				bind:isHost
+				bind:canVote
+				{roundTime}
+				on:letterClicked={onVoteLetter}
+			/>
+		</div>
 	</div>
-
 	<button type="button" id="info-button" on:click={startTheTour}>
 		<p>
 			<Icon icon="ph:question-light" />
