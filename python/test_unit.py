@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 from unittest.mock import AsyncMock
+from Game import VoteData
 
 from library.model.Message import ServerMessage
 from library.model.MessageType import ServerMessageType
@@ -43,7 +44,7 @@ class TestGame(unittest.TestCase):
         self.game.players = [MagicMock(voted=True), MagicMock(voted=True)]
         self.game.votes = {"A": 2, "B": 1}
         self.game.reset_votes()
-        self.assertEqual(self.game.votes, {"A": 0, "B": 0})
+        self.assertEqual(self.game.votes, {'A': VoteData(count=0, id=0), 'B': VoteData(count=0, id=0)})
         for player in self.game.players:
             self.assertFalse(player.voted)
 
