@@ -1,5 +1,6 @@
 from twitchio.ext import commands
 from library.model.Player import Player
+from library.model.Game import Game
 from string import ascii_uppercase, digits
 import os
 from dotenv import load_dotenv
@@ -16,19 +17,17 @@ class Bot(commands.Bot):
     token: str = os.getenv("TWITCH_TOKEN")
     play: str = "PLAY"
     goodbye: str = "GOODBYE"
+    prefix: str = "!"
 
-    def __init__(self, channel_name: str, room_token: str, game):
+    def __init__(self, channel_name: str, game: Game):
         """
         Initialize the Bot object.
 
         Parameters:
         - channel_name: The name of the Twitch channel.
-        - room_token: The token for the game room.
         - game: The game object associated with the bot.
         """
-        print(f"Initializing bot with channel name: {channel_name} and room token: {room_token}")
-        super().__init__(token=self.token, prefix='!', initial_channels=[channel_name])
-        self.room_token = room_token
+        super().__init__(token=self.token, prefix="!", initial_channels=[channel_name])
         self.game = game
 
     async def event_ready(self):
@@ -48,26 +47,24 @@ class Bot(commands.Bot):
         if message.author.name.lower() != self.nick.lower():
             name = message.author.name
 
-            # Extracting the vote from the message
+            # Remove leading and trailing whitespace and convert to uppercase
             message_content = message.content.strip().upper()
 
-            # Check if the message is a vote or play message
-            if message_content.startswith('!'):
-                player = self.game.get_player_by_name(name)
-
-                if player is None:
-                    player = Player(name, self.game)
-
+            # Check if the message starts with an exclamation mark
+            if message_content.startswith(self.prefix):
                 message_content = message_content[1:]  # Remove the exclamation mark
 
                 print(f"New message from {name}: {message_content}")
 
+                # Check if the player is already in the game, if not it will create a new player
+                player: Player = self.game.get_player_by_name(name) or Player(name, self.game)
+
                 if message_content == self.play:
-                    await self.game.join_game(player)
+                    await self.game.connect_player_to_game(player)
                 else:
                     await self.process_vote(player, message_content)
 
-    async def process_vote(self, player, vote):
+    async def process_vote(self, player: Player, vote: str):
         """
         Process a vote message.
 
@@ -79,6 +76,8 @@ class Bot(commands.Bot):
         Vote must be a single alphabetic, numeric character, or 'GOODBYE'.
         """
         if (vote in ascii_uppercase or vote in digits) or vote == self.goodbye:
+            if vote == self.goodbye:
+                vote = "!"
             await self.game.player_votes(player, vote)
         else:
             print(f"Invalid vote: {vote}. Vote must be a single alphabetic, numeric character, or 'GOODBYE'.")
