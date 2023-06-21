@@ -129,9 +129,7 @@
 	<div class="panel">
 		<div class="panel-header">
 			<button type="button" id="info-button" on:click={startTheTour}>
-				<p>
-					<Icon icon="charm:help" />
-				</p>
+				<Icon icon="charm:help" />
 			</button>
 
 			<h2>Provide</h2>
@@ -145,9 +143,7 @@
 					dispatch("close");
 				}}
 			>
-				<p>
-					<Icon icon="zondicons:close-outline" />
-				</p>
+			<Icon icon="zondicons:close-outline" />
 			</button>
 		</div>
 
@@ -267,13 +263,6 @@
 
 	.close-button:hover {
 		@apply text-accent;
-	}
-
-	.close-button:hover > p {
-		@apply text-accent;
-	}
-
-	.close-button:hover > p {
 		transform: scale(1.05);
 	}
 
@@ -310,25 +299,8 @@
 		transition: all 0.2s ease-in-out;
 	}
 
-	#info-button:hover {
-		@apply cursor-pointer bg-dark opacity-75;
-		border-style: solid;
-	}
-
-	#info-button > p {
-		transition: all 0.2s ease-in-out;
-	}
-
-	#info-button:hover {
-		@apply cursor-pointer bg-dark opacity-75;
-		border-style: solid;
-	}
-
-	#info-button:hover > p {
+	#info-button:hover  {
 		@apply text-accent;
-	}
-
-	#info-button:hover > p {
 		transform: scale(1.05);
 	}
 </style>
