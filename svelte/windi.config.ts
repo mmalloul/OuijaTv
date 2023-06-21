@@ -13,7 +13,8 @@ export default defineConfig({
 			fontFamily: {
 				medieval: ["MedievalSharp", "serif"],
 				eczar: ["Eczar-Regular", "sans-serif"],
-				amatic: ["Amatic-SC-Regular", "sans-serif"]
+				amatic: ["Amatic-SC-Regular", "sans-serif"],
+				montserrat: ["Montserrat-Variable", "sans-serif"]
 			},
 			borderRadius: {}
 		}
