@@ -29,10 +29,6 @@
 </script>
 
 <div class="page flex flex-col">
-	<div>
-		<ExitButton onExit={(MouseEvent) => Promise.resolve()} />
-	</div>
-
 	<div class="grid-table">
 		<button on:click={fetchGames} class="refresh-button">
 			<Icon icon="mdi:restart" />
