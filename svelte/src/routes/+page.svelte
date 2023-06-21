@@ -8,24 +8,37 @@
 <div class="page container">
 	{#if !showLobbyCreationPanel}
 		<h1>Ouija.tv</h1>
+		<h4 class="text-2xl lg:text-5xl">Unleash the mysteries of the paranormal with Ouija.tv!</h4>
 
-		<h4>
-			Unleash the mysteries of the paranormal with Ouija.tv, a cutting-edge application that
-			reinvents the traditional Ouija board for the digital age. With a seamless integration of
-			Twitch chat, you can engage your viewers in an exciting, interactive experience, where your
-			collective input guides the planchette. Solo explorers can engage in a compelling match with
-			our sophisticated AI. Whether you're an experienced Ouija player or a curious novice, Ouija.tv
-			puts the mystery and excitement of the classic lounge game at your fingertips.
-		</h4>
+		<div
+			class="text-start font-montserrat text-center text-xs text-fontcolor max-w-[50ch] sm:text-base lg:text-lg"
+		>
+			<p class="px-8">
+				We reinvented the Ouija board for the digital age:<br />
+				<strong>Host</strong> a lobby and <strong>invite</strong> your friends to join your lobby as
+				spirits.<br />
+			</p>
+			<p class="px-8 mt-2">
+				You can ask them a question, or let them fill out an empty word. The spirits will guide the
+				seeker to the letters by voting, and spell out their answer one letter at a time.
+			</p>
+			<div
+				class="flex flex-row items-center justify-center space-x-8 font-amatic text-xl lg:text-3xl"
+			>
+				<button type="button" class="big-button" on:click={() => (showLobbyCreationPanel = true)}>
+					<p>Host a lobby</p>
+				</button>
 
-		<div class="top-row">
-			<button type="button" class="custom-button" on:click={() => (showLobbyCreationPanel = true)}>
-				<p>Host a lobby</p>
-			</button>
-
-			<button type="button" class="custom-button" on:click={() => goto("/join")}>
-				<p>Join a lobby</p>
-			</button>
+				<button type="button" class="big-button" on:click={() => goto("/join")}>
+					<p>Join a lobby</p>
+				</button>
+			</div>
+			<p class="px-8 mt-4">
+				<strong>Streamers:</strong> With a seamless integration of Twitch chat, you can engage your
+				viewers in an exciting, interactive experience, where their collective input guides you on
+				your streams!<br />
+				<strong>Solo explorers:</strong> Engage in a spiritual session with our sophisticated AI.
+			</p>
 		</div>
 	{/if}
 
@@ -34,7 +47,7 @@
 
 <style lang="postcss">
 	.container {
-		@apply flex flex-col items-center text-center md: justify-center;
+		@apply flex flex-col items-center md: justify-center;
 	}
 
 	h1 {
@@ -45,12 +58,10 @@
 	}
 
 	h4 {
-		@apply text-fontcolor text-4xl;
+		@apply text-fontcolor mb-4;
 		text-decoration: none;
 		font-family: theme(fontFamily.amatic);
 		line-height: 1.35em;
-		margin-bottom: 3rem;
-		font-size: calc(1em + 1vw); /* Responsive font-size */
 		overflow: auto; /* Adds scroll when the content overflows */
 	}
 
