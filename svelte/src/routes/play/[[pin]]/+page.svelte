@@ -185,7 +185,8 @@
 	</div>
 
 	{#if players}
-		{#each Object.values(players) as player}
+		<!-- limited to 20 players	 -->
+		{#each Object.values(players).slice(0, 20) as player}
 			<Ghost>
 				<p class="opacity-75">{player}</p>
 			</Ghost>
