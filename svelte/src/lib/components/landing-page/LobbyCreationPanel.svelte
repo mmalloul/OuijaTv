@@ -128,9 +128,11 @@
 {#if showLobbyCreationPanel}
 	<div class="panel">
 		<div class="panel-header">
-			<button type="button" id="info-button" on:click={startTheTour}
-				><p><Icon icon="ph:question-light" /></p></button
-			>
+			<button type="button" id="info-button" on:click={startTheTour}>
+				<p>
+					<Icon icon="charm:help" />
+				</p>
+			</button>
 
 			<h2>Provide</h2>
 
@@ -143,7 +145,9 @@
 					dispatch("close");
 				}}
 			>
-				<Icon icon="zondicons:close-outline" />
+				<p>
+					<Icon icon="zondicons:close-outline" />
+				</p>
 			</button>
 		</div>
 
@@ -255,12 +259,22 @@
 	}
 
 	.close-button {
-		@apply absolute top-0 right-0 text-fontcolor text-lg md: text-4xl;
+		@apply absolute top-0 right-0 m-2 text-fontcolor text-lg md: text-3xl;
 		text-decoration: none;
+		text-align: center;
+		transition: all 0.2s ease-in-out;
 	}
 
 	.close-button:hover {
 		@apply text-accent;
+	}
+
+	.close-button:hover > p {
+		@apply text-accent;
+	}
+
+	.close-button:hover > p {
+		transform: scale(1.05);
 	}
 
 	.big-button {
@@ -290,13 +304,10 @@
 	}
 
 	#info-button {
-		@apply text-fontcolor m-2 absolute;
+		@apply absolute top-0 left-0 m-2 text-fontcolor text-lg md: text-3xl;
 		text-decoration: none;
 		text-align: center;
-		top: 0px;
-		left: 0px;
 		transition: all 0.2s ease-in-out;
-		font-size: calc(1em + 1vw); /* Responsive font-size */
 	}
 
 	#info-button:hover {
