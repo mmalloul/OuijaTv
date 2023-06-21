@@ -55,7 +55,7 @@ pytest-test-job-chatbot:
   artifacts:
     when: always
     reports:
-      junit: python/report.xml
+      junit: chatbot/report.xml
   tags:
     - hva
 
