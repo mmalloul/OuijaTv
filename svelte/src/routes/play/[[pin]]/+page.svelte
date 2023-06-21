@@ -29,12 +29,15 @@
 	let showFinalWord = writable(false);
 
 	const ghostLimit = 20;
+	const delayBeforeRedirectOn404 = 2000;
 
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
 
+	let unsubscribe = () => {};
+
 	onMount(() => {
-		page.subscribe((p) => {
+		unsubscribe = page.subscribe((p) => {
 			if ($playerType !== PlayerType.None && p.params.pin != null) {
 				fetchGameData();
 			}
@@ -47,11 +50,22 @@
 
 	onDestroy(() => {
 		showMenu.set(true);
+		unsubscribe();
 	});
 
 	function fetchGameData() {
+
+		// Fetch game data, check if 404, if 404 then redirect to join page
 		fetch(`${env.PUBLIC_URL}/games/${$page.params.pin}`)
-			.then((response) => response.json())
+			.then((response) => {
+				if (response.status === 404) {
+					$toastStore.showToast(ToastType.Error, "Room does not exist! Redirecting to join page.");
+					setTimeout(function() {
+						goto(`/join/`);
+					}, delayBeforeRedirectOn404)
+				}
+				return response.json();
+			})
 			.then((responseData) => {
 				roundTime = responseData.voting_time;
 				let playerData = responseData.players;
@@ -72,7 +86,7 @@
 			const message = `${username} has joined the game 👻!`;
 			addPlayer(pid, username);
 			refreshPlayerDict();
-			sendToast(message);
+			$toastStore.showToast(ToastType.Success, message);
 		}
 	}
 
@@ -83,7 +97,7 @@
 		delete players[pid];
 		refreshPlayerDict();
 
-		sendToast(message);
+		$toastStore.showToast(ToastType.Success, message);
 	}
 
 	function addPlayer(pid: string, name: string) {
@@ -92,10 +106,6 @@
 
 	function refreshPlayerDict() {
 		players = structuredClone(players);
-	}
-
-	function sendToast(message: string) {
-		$toastStore.showToast(ToastType.Success, message);
 	}
 
 	function onVoteLetter(event: any) {
