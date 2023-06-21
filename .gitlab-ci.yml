@@ -124,16 +124,16 @@ build-production:
     # File is outside of build context, so make local copy.
     - cp ${ENV_FILE} .env
     - cd svelte
-    - docker build -f Dockerfile -t $DOCKER_REPO:v-0.1 .
-    - docker push $DOCKER_REPO:v-0.1
+    - docker build -f Dockerfile -t $DOCKER_REPO:v-1.0 .
+    - docker push $DOCKER_REPO:v-1.0
     - cd ..
     - cd python
-    - docker build -f Dockerfile -t $DOCKER_REPO_BACKEND:v-0.1 .
-    - docker push $DOCKER_REPO_BACKEND:v-0.1
+    - docker build -f Dockerfile -t $DOCKER_REPO_BACKEND:v-1.0 .
+    - docker push $DOCKER_REPO_BACKEND:v-1.0
     - cd ..
     - cd chatbot
-    - docker build -f Dockerfile -t $DOCKER_REPO_CHATBOT:v-0.1 .
-    - docker push $DOCKER_REPO_CHATBOT:v-0.1
+    - docker build -f Dockerfile -t $DOCKER_REPO_CHATBOT:v-1.0 .
+    - docker push $DOCKER_REPO_CHATBOT:v-1.0
   rules:
     - if: $CI_COMMIT_BRANCH == 'production'
   tags:
@@ -149,16 +149,16 @@ build-staging:
     # File is outside of build context, so make local copy.
     - cp ${ENV_FILE} .env
     - cd svelte
-    - docker build -f Dockerfile -t $DOCKER_REPO_STAGING:v-0.1 .
-    - docker push $DOCKER_REPO_STAGING:v-0.1
+    - docker build -f Dockerfile -t $DOCKER_REPO_STAGING:v-1.0 .
+    - docker push $DOCKER_REPO_STAGING:v-1.0
     - cd ..
     - cd python
-    - docker build -f Dockerfile -t $DOCKER_REPO_BACKEND_STAGING:v-0.1 .
-    - docker push $DOCKER_REPO_BACKEND_STAGING:v-0.1
+    - docker build -f Dockerfile -t $DOCKER_REPO_BACKEND_STAGING:v-1.0 .
+    - docker push $DOCKER_REPO_BACKEND_STAGING:v-1.0
     - cd ..
     - cd chatbot
-    - docker build -f Dockerfile -t $DOCKER_REPO_CHATBOT_STAGING:v-0.1 .
-    - docker push $DOCKER_REPO_CHATBOT_STAGING:v-0.1
+    - docker build -f Dockerfile -t $DOCKER_REPO_CHATBOT_STAGING:v-1.0 .
+    - docker push $DOCKER_REPO_CHATBOT_STAGING:v-1.0
   rules:
     - if: $CI_COMMIT_BRANCH == 'staging'
   tags:
