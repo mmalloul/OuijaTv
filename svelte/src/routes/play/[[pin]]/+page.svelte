@@ -17,6 +17,7 @@
 
 	const playerType: Writable<PlayerType> = getContext("playerType");
 	const showMenu = getContext<Writable<boolean>>("showMenu");
+	const ghostLimit = 20;
 
 	let board: Board;
 	let word: string;
@@ -33,8 +34,6 @@
 		($playerType === PlayerType.Host && !pin) ||
 		($playerType === PlayerType.Player && !joined) ||
 		$playerType === PlayerType.None;
-
-	const ghostLimit = 20;
 
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
@@ -135,14 +134,8 @@
 	}
 </script>
 
-{#if hideGame}
-	<div class="flex items-center justify-center py-74">
-		<Shadow />
-	</div>
-{/if}
-
-<div class="page--game game">
-	<div class:hide-component={hideGame}>
+<div class="page--game game" class:hide-component={hideGame}>
+	<div>
 		<div class="game-header">
 			<div class="back-to-menu">
 				<a id="exit-button" href="/"><Icon icon="formkit:arrowleft" />Exit</a>
@@ -209,7 +202,7 @@
 			{/each}
 		{/if}
 
-		<div id="board">
+		<div id="board" class:hide-component={hideGame}>
 			<Board
 				bind:timeLeft={tick}
 				bind:this={board}
@@ -225,9 +218,15 @@
 			<Icon icon="ph:question-light" />
 		</p>
 	</button>
+
+	<TourGuide bind:this={tourGuide} />
 </div>
 
-<TourGuide bind:this={tourGuide} />
+{#if hideGame}
+	<div class="flex items-center justify-center py-74">
+		<Shadow />
+	</div>
+{/if}
 
 <style lang="postcss">
 	@import "animate.css";
