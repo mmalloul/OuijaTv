@@ -19,9 +19,11 @@
 </script>
 
 <div class="b-game-card" on:click={handleClick} on:keydown={handleKeyDown} tabindex="0">
-	<div class="b-game-card__cover" style={`background-image: url(${backgroundImage});`}>
-		<div class="name">{name}</div>
-		<div class="tag">{tag}</div>
+	<div class="b-game-card__cover relative rounded-[50px]" style={`background-image: url(${backgroundImage});`}>
+		<div class="bg-dark bg-opacity-50 py-2 rounded-t-xl">
+			<div class="name font-medieval">{name}</div>
+			<div class="tag">{tag}</div>
+		</div>
 		<div class="b-game-card__lore">{lore}</div>
 	</div>
 </div>
@@ -69,13 +71,12 @@
 
 		.tag {
 			text-align: center;
-			background: #eee;
 			margin: 0 50px 5px 50px;
 			width: auto;
 			color: black;
 			font-size: large;
 			font-weight: bold;
-			@apply text-accent;
+			@apply text-fontcolor;
 			font-family: theme(fontFamily.amatic);
 		}
 		&__cover {
