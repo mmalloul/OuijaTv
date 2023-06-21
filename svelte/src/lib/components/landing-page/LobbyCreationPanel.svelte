@@ -12,14 +12,14 @@
 
 	let tourGuide: TourGuide;
 	let gameDuration = 15; // in seconds
-	let lobbyName: string = "";
+	let lobbyName = "";
 	let twitchChannel: string | null = null;
 	let isTwitchInputVisible = false;
 	let lobbyNameIsValid: boolean;
 	let gameModeIsValid: boolean;
 	let isGameModeMultiplayer: boolean;
 	let twitchChannelIsValid: boolean;
-	let formIsValid: boolean = true;
+	let formIsValid = true;
 	let gameModes: string[] = ["Solo", "Multiplayer"];
 	let soloGameMode: string = gameModes[0];
 	let multiplayerGameMode: string = gameModes[1];
