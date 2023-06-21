@@ -25,6 +25,7 @@
 	let soloGameMode: string = gameModes[0];
 	let multiplayerGameMode: string = gameModes[1];
 	let gameMode = multiplayerGameMode; // Set default gamemode to Multiplayer
+	let showTwitchDiv = false;
 
 	const dispatch = createEventDispatcher();
 	const playerType = getContext<Writable<PlayerType>>("playerType");
@@ -201,7 +202,7 @@
 						/>
 					</div>
 
-					<div class:opacity-30={!isTwitchInputVisible}>
+					<div class:opacity-30={!isTwitchInputVisible && !showTwitchDiv}>
 						<div class="flex flex-col ">
 							<label for="channel-name">Channel Name:</label>
 
@@ -230,7 +231,7 @@
 		</div>
 	</div>
 
-	<TourGuide bind:this={tourGuide} />
+	<TourGuide bind:this={tourGuide} bind:showTwitchDiv />
 {/if}
 
 <style lang="postcss">

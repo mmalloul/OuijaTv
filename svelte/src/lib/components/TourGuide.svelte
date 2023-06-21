@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { onDestroy, onMount } from "svelte";
 	import type { IntroJs } from "intro.js";
 
+	export let showTwitchDiv: boolean;
 	let intro: IntroJs;
 
 	onMount(async () => {
@@ -9,9 +10,28 @@
 		await import("intro.js/introjs.css");
 
 		intro = IntroJs();
+
+		intro.onexit(() => {
+			// This will be called when the tour is exited
+			showTwitchDiv = false;
+		});
+
+		intro.oncomplete(() => {
+			// This will be called when the tour is completed
+			showTwitchDiv = false;
+		});
+	});
+
+	onDestroy(() => {
+		if (intro) {
+			// Ensure we don't have lingering event listeners when the component is destroyed
+			intro.exit();
+		}
 	});
 
 	export function startTourLobbyCreationPanel() {
+		showTwitchDiv = true;
+		
 		intro.setOptions({
 			showProgress: true,
 			exitOnEsc: true,
@@ -37,7 +57,7 @@
 				{
 					element: ".twitch-tour",
 					intro:
-						"Finally, choose whether you want to integrate your twitch channel in this lobby. Enter the name of your twitch channel to connect. A viewer in your channel can join the game by entering !play in the chat and vote with the same annotation !A.",
+						"Finally, if you are streaming, you can enable twitch integration to let your viewers vote directly from your chat. Enter the name of your twitch channel. Viewers can join your game by typing !play and vote with commands like !a or !b and !goodbye.",
 					position: "right"
 				}
 			]
