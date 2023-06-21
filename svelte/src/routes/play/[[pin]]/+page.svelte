@@ -28,6 +28,8 @@
 	let roundTime: number;
 	let showFinalWord = writable(false);
 
+	const ghostLimit = 20;
+
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
 
@@ -186,7 +188,7 @@
 
 	{#if players}
 		<!-- limited to 20 players	 -->
-		{#each Object.values(players).slice(0, 20) as player}
+		{#each Object.values(players).slice(0, ghostLimit) as player}
 			<Ghost>
 				<p class="opacity-75">{player}</p>
 			</Ghost>
