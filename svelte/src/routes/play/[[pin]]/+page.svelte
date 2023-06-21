@@ -59,15 +59,14 @@
 	});
 
 	function fetchGameData() {
-
 		// Fetch game data, check if 404, if 404 then redirect to join page
 		fetch(`${env.PUBLIC_URL}/games/${$page.params.pin}`)
 			.then((response) => {
 				if (response.status === 404) {
 					$toastStore.showToast(ToastType.Error, "Room does not exist! Redirecting to join page.");
-					setTimeout(function() {
+					setTimeout(function () {
 						goto(`/join/`);
-					}, delayBeforeRedirectOn404)
+					}, delayBeforeRedirectOn404);
 				}
 				return response.json();
 			})
