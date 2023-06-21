@@ -234,7 +234,7 @@
 
 <style lang="postcss">
 	.panel {
-		@apply flex flex-col font-amatic items-center text-fontcolor text-center h-full w-full mt-15 md: justify-center;
+		@apply flex flex-col font-amatic items-center text-fontcolor text-center h-full w-full mt-15 md: justify-center md: mt-0;
 		max-width: 600px; // max-width of the lobbycreation panel
 	}
 
