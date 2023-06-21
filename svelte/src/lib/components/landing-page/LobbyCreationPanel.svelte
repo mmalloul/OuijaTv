@@ -143,7 +143,7 @@
 					dispatch("close");
 				}}
 			>
-			<Icon icon="zondicons:close-outline" />
+				<Icon icon="zondicons:close-outline" />
 			</button>
 		</div>
 
@@ -299,7 +299,7 @@
 		transition: all 0.2s ease-in-out;
 	}
 
-	#info-button:hover  {
+	#info-button:hover {
 		@apply text-accent;
 		transform: scale(1.05);
 	}
