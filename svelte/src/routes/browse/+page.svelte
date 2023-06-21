@@ -63,7 +63,7 @@
 						</div>
 						<div class="grid-cell">{game.players.length}</div>
 						<div class="grid-cell">
-							<button class="big-button mr-5 w-full" on:click={() => goto(`/play/${game.pin}`)}>
+							<button class="big-button mr-5 w-full" on:click={() => goto(`/join/${game.pin}`)}>
 								{game.pin}
 							</button>
 						</div>
