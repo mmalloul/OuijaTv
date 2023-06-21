@@ -50,13 +50,11 @@ class Game:
 
             print(message)
 
-            match message["type"]:
-                case MessageType.QUIT.value:
-                    self.can_vote = False
-                    print(f"Connection closed by the server.")
-                    self.remove_player_from_active_players_list(self)
-                    player.websocket.close()
-
+            if message["type"] == MessageType.QUIT.value:
+                self.remove_player_from_active_players_list(self)
+                
+                player.websocket.close()
+                print("Connection closed by the server.")
         except Exception as e:
             print(f"Error occurred: {str(e)}")
 

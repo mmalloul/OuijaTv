@@ -35,11 +35,13 @@ class WebSocketClient:
         Check if the WebSocket connection is initialized.
         ...
         """
-        if self.websocket:
-            return True
-        else:
-            print(f"Websocket is not initialized. Player needs to join the game first.")
-            return False
+        initialized = self.websocket is not None
+
+        if (not initialized):
+            print("Websocket is not initialized. Player needs to join the game first.")
+            
+        return initialized
+
         
     async def close(self):
         """
