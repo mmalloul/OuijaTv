@@ -10,23 +10,22 @@
 		<div class="home">
 			<h1>Ouija.tv</h1>
 
-			<h4 class="text-2xl lg:text-5xl">Unleash the mysteries of the paranormal with Ouija.tv!</h4>
+			<h4>Unleash the mysteries of the paranormal with Ouija.tv!</h4>
 
-			<div
-				class="text-start font-montserrat text-center text-xs text-fontcolor max-w-[50ch] sm:text-base lg:text-lg"
-			>
-				<p class="md:px-8">
-					We reinvented the Ouija board for the digital age:<br />
-					<strong>Host</strong> a lobby and <strong>invite</strong> your friends to join your lobby
-					as spirits.<br />
-				</p>
-				<p class="md:px-8 mt-2">
-					You can ask them a question, or let them fill out an empty word. The spirits will guide
-					the seeker to the letters by voting, and spell out their answer one letter at a time.
-				</p>
-				<div
-					class="flex flex-row items-center justify-center space-x-8 font-amatic text-xl lg:text-3xl"
-				>
+			<div class="content">
+				<div class="flex flex-col gap-2">
+					<p class="md:px-8">
+						We reinvented the Ouija board for the digital age:<br />
+						<strong>Host</strong> a lobby and <strong>invite</strong> your friends to join your
+						lobby as spirits.<br />
+					</p>
+
+					<p class="md:px-8 mt-2">
+						You can ask them a question, or let them fill out an empty word. The spirits will guide
+						the seeker to the letters by voting, and spell out their answer one letter at a time.
+					</p>
+				</div>
+				<div class="button-container">
 					<button type="button" class="big-button" on:click={() => (showLobbyCreationPanel = true)}>
 						<p>Host a lobby</p>
 					</button>
@@ -35,12 +34,28 @@
 						<p>Join a lobby</p>
 					</button>
 				</div>
-				<p class="md:px-8 mt-4">
-					<strong>Streamers:</strong> With a seamless integration of Twitch chat, you can engage
-					your viewers in an exciting, interactive experience, where their collective input guides
-					you on your streams!<br />
-					<strong>Solo explorers:</strong> Engage in a spiritual session with our sophisticated AI.
-				</p>
+
+				<div>
+					<h4>Streamers</h4>
+
+					<p class="md:px-8">
+						Through a seamless integration with Twitch chat, you have the incredible opportunity to
+						engage your viewers in a dynamic and interactive journey. As you navigate the Ouija
+						board, their collective input becomes a driving force, guiding you to the letters that
+						spell out their messages.
+					</p>
+				</div>
+
+				<div>
+					<h4>Solo Explorers</h4>
+
+					<p class="md:px-8">
+						In this unique game mode called "Solo," you can connect with different AI characters.
+						Engage in intriguing conversations and experience the uncanny as these AI entities
+						respond through the mystical Ouija board. Choose your character, seek wisdom, explore,
+						and unleash your imagination.
+					</p>
+				</div>
 			</div>
 		</div>
 	{/if}
@@ -55,6 +70,7 @@
 
 	.home {
 		@apply flex flex-col items-center h-full w-full mt-15 md: justify-center;
+		max-width: 800px; // max-width home content
 	}
 
 	h1 {
@@ -65,11 +81,13 @@
 	}
 
 	h4 {
-		@apply text-fontcolor mb-4 text-center;
+		@apply text-fontcolor mb-4 text-center text-2xl lg:text-5xl font-amatic;
 		text-decoration: none;
-		font-family: theme(fontFamily.amatic);
 		line-height: 1.35em;
-		overflow: auto; /* Adds scroll when the content overflows */
+	}
+
+	.content {
+		@apply flex flex-col gap-6 font-montserrat text-center text-xs text-fontcolor sm:text-base lg:text-lg;
 	}
 
 	.top-row {
@@ -78,33 +96,7 @@
 		width: 100%;
 	}
 
-	.custom-button {
-		@apply text-fontcolor text-4xl m-2 border-1;
-		text-decoration: none;
-		text-align: center;
-		font-family: theme(fontFamily.amatic);
-		padding: 0.75em;
-		width: 50%;
-		border-color: #dddddd;
-		transition: all 0.2s ease-in-out;
-		font-size: calc(1em + 1vw); /* Responsive font-size */
-		overflow: auto; /* Adds scroll when the content overflows */
-	}
-
-	.custom-button > p {
-		transition: all 0.2s ease-in-out;
-	}
-
-	.custom-button:hover {
-		@apply cursor-pointer bg-dark opacity-75;
-		border-style: solid;
-	}
-
-	.custom-button:hover > p {
-		@apply text-accent;
-	}
-
-	.custom-button:hover > p {
-		transform: scale(1.05);
+	.button-container {
+		@apply flex flex-row items-center justify-center space-x-8 font-amatic text-xl lg:text-3xl;
 	}
 </style>
