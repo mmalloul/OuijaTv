@@ -27,9 +27,10 @@
 	$: isGameModeMultiplayer = gameMode === gameModes[1];
 
 	$: twitchChannelIsValid =
-		twitchChannel !== null && twitchChannel.length >= 4 && twitchChannel.length <= 25;
+		twitchChannel !== null && twitchChannel.length >= 4 && twitchChannel.length <= 20;
 
 	$: lobbyNameIsEmpty = lobbyName === "";
+	$: lobbyNameTooLong = lobbyName.length > 25;
 	/**
 	 * This is a reactive statement, which means it constantly checks if the input for lobbyname has changed.
 	 * If it has changed it will check the requirements for the lobbyname.
@@ -74,7 +75,7 @@
 
 		// Since our url has to stay simple (/play/[pin]) a lobbyStore has been added.
 		// Without lobbyStore the url would /play?lobbyName=${lobbyName}&gameDuration=${gameDuration}`
-		if (lobbyNameIsValid && gameMode && checkTwitchChannel()) {
+		if (lobbyNameIsValid && !lobbyNameTooLong && gameMode && checkTwitchChannel()) {
 			playerType.set(PlayerType.Host);
 
 			const lobbyData: LobbyData = {
@@ -113,6 +114,10 @@
 					<label for="lobby-name">Name your vessel: </label>
 					{#if lobbyNameIsValid === false}
 						<p class="error-message">Name can only contain alphabetical and numeric characters</p>
+					{/if}
+
+					{#if lobbyNameTooLong === true}
+						<p class="error-message">Name too long</p>
 					{/if}
 
 					{#if lobbyNameIsEmpty === true}
