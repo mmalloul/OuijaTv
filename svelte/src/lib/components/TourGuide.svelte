@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { onDestroy, onMount } from "svelte";
 	import type { IntroJs } from "intro.js";
 
+	export let showTwitchDiv: boolean;
 	let intro: IntroJs;
 
 	onMount(async () => {
@@ -9,28 +10,51 @@
 		await import("intro.js/introjs.css");
 
 		intro = IntroJs();
+
+		intro.onexit(() => {
+			showTwitchDiv = false;
+		});
+
+		intro.oncomplete(() => {
+			showTwitchDiv = false;
+		});
+	});
+
+	onDestroy(() => {
+		if (intro) {
+			intro.exit();
+		}
 	});
 
 	export function startTourLobbyCreationPanel() {
+		showTwitchDiv = true;
+
 		intro.setOptions({
 			showProgress: true,
 			exitOnEsc: true,
 			overlayOpacity: 0.65,
 			steps: [
 				{
-					element: "#lobby-name",
+					element: ".lobby-name-tour",
 					intro: "First, think of a name for your lobby.",
 					position: "right"
 				},
 				{
-					element: "#gameMode",
+					element: ".voting-time-tour",
+					intro: "Next choose the amount of time between each voting round here.",
+					position: "right"
+				},
+				{
+					element: ".game-mode-tour",
 					intro:
 						"Now choose your game mode! Either play multiplayer (compatible with Twitch chat) or go on a solo adventure and ask commune with an AI spirit.",
 					position: "right"
 				},
+
 				{
-					element: "#duration",
-					intro: "Finally, set the amount of time between each voting round here.",
+					element: ".twitch-tour",
+					intro:
+						"Finally, if you are streaming, you can enable twitch integration to let your viewers vote directly from your chat. Enter the name of your twitch channel. Viewers can join your game by typing !play and vote with commands like !a or !b and !goodbye.",
 					position: "right"
 				}
 			]
@@ -78,7 +102,7 @@
 					position: "left"
 				},
 				{
-					element: ".spirit-answer",
+					element: ".spirit-answer > span",
 					intro: "The answer will be built up letter by letter and shown here.",
 					position: "bottom"
 				},
@@ -91,7 +115,7 @@
 				{
 					element: ".link-share",
 					intro: "Share this link with others so they can join your lobby as spirits!",
-					position: "left"
+					position: "top"
 				},
 				{
 					element: "#exit-button",
@@ -146,7 +170,7 @@
 					position: "left"
 				},
 				{
-					element: ".spirit-answer",
+					element: ".spirit-answer > span",
 					intro: "The answer will be built up letter by letter and shown here.",
 					position: "bottom"
 				},
