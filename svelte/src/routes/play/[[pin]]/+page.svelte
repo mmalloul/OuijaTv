@@ -3,7 +3,7 @@
 	import Board from "$lib/components/Board.svelte";
 	import { getContext, onMount, onDestroy } from "svelte";
 	import { Shadow } from "svelte-loading-spinners";
-	import { writable, type Writable } from "svelte/store";
+	import { writable, type Unsubscriber, type Writable } from "svelte/store";
 	import { PlayerType } from "$lib/types/PlayerType";
 	import { page } from "$app/stores";
 	import { toastStore } from "$lib/stores/toast";
@@ -14,10 +14,12 @@
 	import PlayerController from "$lib/components/controllers/PlayerController.svelte";
 	import Icon from "@iconify/svelte";
 	import TourGuide from "$lib/components/TourGuide.svelte";
+	import type { Method } from "@testing-library/svelte";
 
 	const playerType: Writable<PlayerType> = getContext("playerType");
 	const showMenu = getContext<Writable<boolean>>("showMenu");
 	const ghostLimit = 20;
+	const delayBeforeRedirectOn404 = 2000;
 
 	let board: Board;
 	let word: string;
@@ -38,8 +40,10 @@
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
 
+	let unsubscribe: Unsubscriber;
+
 	onMount(() => {
-		page.subscribe((p) => {
+		unsubscribe = page.subscribe((p) => {
 			if ($playerType !== PlayerType.None && p.params.pin != null) {
 				fetchGameData();
 			}
@@ -52,11 +56,21 @@
 
 	onDestroy(() => {
 		showMenu.set(true);
+		unsubscribe();
 	});
 
 	function fetchGameData() {
+		// Fetch game data, check if 404, if 404 then redirect to join page
 		fetch(`${env.PUBLIC_URL}/games/${$page.params.pin}`)
-			.then((response) => response.json())
+			.then((response) => {
+				if (response.status === 404) {
+					$toastStore.showToast(ToastType.Error, "Room does not exist! Redirecting to join page.");
+					setTimeout(function () {
+						goto(`/join/`);
+					}, delayBeforeRedirectOn404);
+				}
+				return response.json();
+			})
 			.then((responseData) => {
 				roundTime = responseData.voting_time;
 				let playerData = responseData.players;
@@ -77,7 +91,7 @@
 			const message = `${username} has joined the game 👻!`;
 			addPlayer(pid, username);
 			refreshPlayerDict();
-			sendToast(message);
+			$toastStore.showToast(ToastType.Success, message);
 			joined = true;
 		}
 	}
@@ -89,7 +103,7 @@
 		delete players[pid];
 		refreshPlayerDict();
 
-		sendToast(message);
+		$toastStore.showToast(ToastType.Success, message);
 	}
 
 	function addPlayer(pid: string, name: string) {
@@ -98,10 +112,6 @@
 
 	function refreshPlayerDict() {
 		players = structuredClone(players);
-	}
-
-	function sendToast(message: string) {
-		$toastStore.showToast(ToastType.Success, message);
 	}
 
 	function onVoteLetter(event: any) {
