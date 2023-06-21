@@ -2,7 +2,7 @@
 	import { goto } from "$app/navigation";
 	import Board from "$lib/components/Board.svelte";
 	import { getContext, onMount, onDestroy } from "svelte";
-
+	import { Shadow } from "svelte-loading-spinners";
 	import { writable, type Writable } from "svelte/store";
 	import { PlayerType } from "$lib/types/PlayerType";
 	import { page } from "$app/stores";
@@ -17,6 +17,8 @@
 
 	const playerType: Writable<PlayerType> = getContext("playerType");
 	const showMenu = getContext<Writable<boolean>>("showMenu");
+	const ghostLimit = 20;
+	const delayBeforeRedirectOn404 = 2000;
 
 	let board: Board;
 	let word: string;
@@ -27,9 +29,12 @@
 	let tourGuide: TourGuide;
 	let roundTime: number;
 	let showFinalWord = writable(false);
+	let joined = false;
 
-	const ghostLimit = 20;
-	const delayBeforeRedirectOn404 = 2000;
+	$: hideGame =
+		($playerType === PlayerType.Host && !pin) ||
+		($playerType === PlayerType.Player && !joined) ||
+		$playerType === PlayerType.None;
 
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
@@ -87,6 +92,7 @@
 			addPlayer(pid, username);
 			refreshPlayerDict();
 			$toastStore.showToast(ToastType.Success, message);
+			joined = true;
 		}
 	}
 
@@ -138,92 +144,96 @@
 	}
 </script>
 
-<div class="page--game game">
-	<div class="game-header">
-		<div class="back-to-menu">
-			<a id="exit-button" href="/"><Icon icon="formkit:arrowleft" />Exit</a>
-		</div>
-		{#if $playerType === PlayerType.Host}
-			<HostController
-				bind:board
-				bind:pin
-				bind:word
-				bind:showFinalWord
-				on:tickReceived={setTick}
-				on:updateWord={setWord}
-				on:joinedReceived={onPlayerJoin}
-				on:playerQuit={onPlayerQuit}
-				on:winningVoteReceived={updateWinningVote}
-				on:noVotesReceived={noVotesReceived}
-			/>
-		{:else if $playerType === PlayerType.Player}
-			<PlayerController
-				bind:board
-				bind:pin
-				bind:word
-				bind:letterVoted
-				bind:canVote
-				bind:showFinalWord
-				on:tickReceived={setTick}
-				on:updateWord={setWord}
-				on:joinedReceived={onPlayerJoin}
-				on:playerQuit={onPlayerQuit}
-				on:winningVoteReceived={updateWinningVote}
-				on:noVotesReceived={noVotesReceived}
-			/>
-		{/if}
+<div class="page--game game" class:hide-component={hideGame}>
+	<div>
+		<div class="game-header">
+			{#if $playerType === PlayerType.Host}
+				<HostController
+					bind:board
+					bind:pin
+					bind:word
+					bind:showFinalWord
+					on:tickReceived={setTick}
+					on:updateWord={setWord}
+					on:joinedReceived={onPlayerJoin}
+					on:playerQuit={onPlayerQuit}
+					on:winningVoteReceived={updateWinningVote}
+					on:noVotesReceived={noVotesReceived}
+				/>
+			{:else if $playerType === PlayerType.Player}
+				<PlayerController
+					bind:board
+					bind:pin
+					bind:word
+					bind:letterVoted
+					bind:canVote
+					bind:showFinalWord
+					on:tickReceived={setTick}
+					on:updateWord={setWord}
+					on:joinedReceived={onPlayerJoin}
+					on:playerQuit={onPlayerQuit}
+					on:winningVoteReceived={updateWinningVote}
+					on:noVotesReceived={noVotesReceived}
+				/>
+			{/if}
 
-		<div class="voting-timer">
-			{#if tick}
-				<span class="timer">Voting ends in: {tick}</span>
+			<div class="voting-timer">
+				{#if tick}
+					<span class="timer">Voting ends in: {tick}</span>
+				{:else}
+					<span class="timer">Voting will start soon...</span>
+				{/if}
+			</div>
+		</div>
+
+		<div
+			class="spirit-answer"
+			class:animate__animated={$showFinalWord}
+			class:tada-then-pulse={$showFinalWord}
+		>
+			{#if word}
+				<span class="tracking-0.5em">
+					{word}
+				</span>
 			{:else}
-				<span class="timer">Voting will start soon...</span>
+				<span> Waiting for answer... </span>
 			{/if}
 		</div>
-	</div>
 
-	<div
-		class="spirit-answer"
-		class:animate__animated={$showFinalWord}
-		class:tada-then-pulse={$showFinalWord}
-	>
-		{#if word}
-			<span class="tracking-0.5em">
-				{word}
-			</span>
-		{:else}
-			<span> Waiting for answer... </span>
+		{#if players}
+			<!-- limited to 20 players	 -->
+			{#each Object.values(players).slice(0, ghostLimit) as player}
+				<Ghost>
+					<p class="opacity-75">{player}</p>
+				</Ghost>
+			{/each}
 		{/if}
+
+		<div id="board" class:hide-component={hideGame}>
+			<Board
+				bind:timeLeft={tick}
+				bind:this={board}
+				bind:isHost
+				bind:canVote
+				{roundTime}
+				on:letterClicked={onVoteLetter}
+			/>
+		</div>
 	</div>
-
-	{#if players}
-		<!-- limited to 20 players	 -->
-		{#each Object.values(players).slice(0, ghostLimit) as player}
-			<Ghost>
-				<p class="opacity-75">{player}</p>
-			</Ghost>
-		{/each}
-	{/if}
-
-	<div id="board">
-		<Board
-			bind:timeLeft={tick}
-			bind:this={board}
-			bind:isHost
-			bind:canVote
-			{roundTime}
-			on:letterClicked={onVoteLetter}
-		/>
-	</div>
-
 	<button type="button" id="info-button" on:click={startTheTour}>
 		<p>
 			<Icon icon="ph:question-light" />
 		</p>
 	</button>
+
+	<TourGuide bind:this={tourGuide} />
 </div>
 
-<TourGuide bind:this={tourGuide} />
+{#if hideGame}
+	<div class="flex items-center justify-center py-74">
+		<Shadow />
+	</div>
+{/if}
 
 <style lang="postcss">
 	@import "animate.css";
