@@ -31,7 +31,7 @@
 
 	export function startTourLobbyCreationPanel() {
 		showTwitchDiv = true;
-		
+
 		intro.setOptions({
 			showProgress: true,
 			exitOnEsc: true,

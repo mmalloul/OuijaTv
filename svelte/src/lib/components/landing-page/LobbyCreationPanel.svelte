@@ -1,4 +1,3 @@
-
 <script lang="ts">
 	import { lobbyStore } from "$lib/stores/lobbyStore";
 	import { PlayerType } from "$lib/types/PlayerType";
@@ -203,7 +202,7 @@
 					</div>
 
 					<div class:opacity-30={!isTwitchInputVisible && !showTwitchDiv}>
-						<div class="flex flex-col ">
+						<div class="flex flex-col">
 							<label for="channel-name">Channel Name:</label>
 
 							<span

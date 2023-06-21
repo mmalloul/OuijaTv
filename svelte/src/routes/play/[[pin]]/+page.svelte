@@ -59,7 +59,7 @@
 
 	onDestroy(() => {
 		showMenu.set(true);
-		
+
 		if (unsubscribe) {
 			unsubscribe();
 		}
