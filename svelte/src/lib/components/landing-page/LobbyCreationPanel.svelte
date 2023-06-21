@@ -107,20 +107,20 @@
 		if (formIsValid) {
 			if (gameMode === soloGameMode) {
 				goto("solo");
-			} else {
-				playerType.set(PlayerType.Host);
-
-				const lobbyData: LobbyData = {
-					lobbyName,
-					gameMode,
-					gameDuration,
-					twitchChannel
-				};
-
-				lobbyStore.set(lobbyData);
-
-				goto("/play");
 			}
+
+			playerType.set(PlayerType.Host);
+
+			const lobbyData: LobbyData = {
+				lobbyName,
+				gameMode,
+				gameDuration,
+				twitchChannel
+			};
+
+			lobbyStore.set(lobbyData);
+
+			goto("/play");
 		}
 	}
 </script>
@@ -152,7 +152,7 @@
 		</div>
 
 		<div class="panel-content">
-			<form class="form" on:submit|preventDefault={handleSubmit} novalidate>
+			<form class="create-form" on:submit|preventDefault={handleSubmit} novalidate>
 				<div class="flex flex-col gap-2">
 					<div class="flex flex-col">
 						<label for="lobby-name">Name your vessel:</label>
@@ -238,7 +238,7 @@
 
 <style lang="postcss">
 	.panel {
-		@apply flex flex-col font-amatic items-center text-fontcolor text-center h-full w-full mt-15 md: mt-50;
+		@apply flex flex-col font-amatic items-center text-fontcolor text-center h-full w-full mt-15 md: justify-center;
 		max-width: 600px; // max-width of the lobbycreation panel
 	}
 
@@ -250,8 +250,8 @@
 		@apply pointer-events-auto flex flex-col justify-center w-full;
 	}
 
-	.form {
-		@apply flex flex-col pointer-events-auto text-fontcolor text-center w-full gap-2 p-2 md: gap-6 p-4;
+	.create-form {
+		@apply flex flex-col pointer-events-auto text-fontcolor text-center w-full gap-2 md: gap-6 md:p-4;
 	}
 
 	h2 {

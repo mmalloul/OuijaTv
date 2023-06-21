@@ -54,7 +54,7 @@
 	}
 
 	.home {
-		@apply flex flex-col items-center h-full w-full mt-15 md: mt-50;
+		@apply flex flex-col items-center h-full w-full mt-15 md: justify-center;
 	}
 
 	h1 {

@@ -94,11 +94,11 @@
 
 <style lang="postcss">
 	.container {
-		@apply flex flex-col items-center mt-15 md: mt-50;
+		@apply flex flex-col items-center md: justify-center;
 	}
 
 	.panel {
-		@apply flex flex-col items-center justify-center font-amatic text-fontcolor text-center w-full text-lg md:text-4xl p-4;
+		@apply flex flex-col items-center justify-center font-amatic text-fontcolor text-center w-full text-lg mt-15  md: mt-0 md:text-4xl md:p-4;
 		max-width: 500px;
 	}
 
@@ -107,7 +107,7 @@
 	}
 
 	.join-form {
-		@apply flex flex-col items-center w-full gap-2 md: gap-4 p-4;
+		@apply flex flex-col items-center w-full gap-2 md:gap-4 md:p-4;
 	}
 
 	.font {
@@ -119,8 +119,9 @@
 	}
 
 	.close-button {
-		@apply text-fontcolor absolute top-0 right-0 text-lg md: text-4xl;
+		@apply text-fontcolor absolute top-0 right-0 text-lg md:text-4xl;
 		text-decoration: none;
+		transition: all 0.2s ease-in-out;
 	}
 
 	.close-button:hover {
