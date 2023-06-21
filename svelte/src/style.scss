@@ -23,6 +23,7 @@ body {
 	@apply lg:mb-10;
 	visibility: hidden;
 	height: 0;
+	max-height: 0;
 }
 
 input {
