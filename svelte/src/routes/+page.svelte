@@ -7,6 +7,8 @@
 
 <div class="page container">
 	{#if !showLobbyCreationPanel}
+		<div class="home">
+			<h1>Ouija.tv</h1>
 		<h1>Ouija.tv</h1>
 		<h4 class="text-2xl lg:text-5xl">Unleash the mysteries of the paranormal with Ouija.tv!</h4>
 
@@ -47,7 +49,11 @@
 
 <style lang="postcss">
 	.container {
-		@apply flex flex-col items-center md: justify-center;
+		@apply flex flex-col items-center;
+	}
+
+	.home {
+		@apply flex flex-col items-center h-full w-full mt-15 md: justify-center;;
 	}
 
 	h1 {
