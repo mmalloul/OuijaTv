@@ -12,19 +12,16 @@
 		intro = IntroJs();
 
 		intro.onexit(() => {
-			// This will be called when the tour is exited
 			showTwitchDiv = false;
 		});
 
 		intro.oncomplete(() => {
-			// This will be called when the tour is completed
 			showTwitchDiv = false;
 		});
 	});
 
 	onDestroy(() => {
 		if (intro) {
-			// Ensure we don't have lingering event listeners when the component is destroyed
 			intro.exit();
 		}
 	});
