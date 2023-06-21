@@ -19,7 +19,10 @@
 </script>
 
 <div class="b-game-card" on:click={handleClick} on:keydown={handleKeyDown} tabindex="0">
-	<div class="b-game-card__cover relative rounded-[50px]" style={`background-image: url(${backgroundImage});`}>
+	<div
+		class="b-game-card__cover relative rounded-[50px]"
+		style={`background-image: url(${backgroundImage});`}
+	>
 		<div class="bg-dark bg-opacity-50 py-2 rounded-t-xl">
 			<div class="name font-medieval">{name}</div>
 			<div class="tag">{tag}</div>
