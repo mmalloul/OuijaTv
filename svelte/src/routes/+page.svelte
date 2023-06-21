@@ -8,7 +8,7 @@
 <div class="page container">
 	{#if !showLobbyCreationPanel}
 		<h1>Ouija.tv</h1>
-		<h4 class="!mb-4 text-2xl lg:text-5xl">
+		<h4 class="text-2xl lg:text-5xl">
 			Unleash the mysteries of the paranormal with Ouija.tv!
 		</h4>
 
@@ -60,11 +60,10 @@
 	}
 
 	h4 {
-		@apply text-fontcolor;
+		@apply text-fontcolor mb-4;
 		text-decoration: none;
 		font-family: theme(fontFamily.amatic);
 		line-height: 1.35em;
-		margin-bottom: 3rem;
 		overflow: auto; /* Adds scroll when the content overflows */
 	}
 
