@@ -200,14 +200,14 @@
 			{/if}
 		</div>
 
-	{#if players}
-		<!-- limited to 20 players	 -->
-		{#each Object.values(players).slice(0, ghostLimit) as player}
-			<Ghost>
-				<p class="opacity-75">{player}</p>
-			</Ghost>
-		{/each}
-	{/if}
+		{#if players}
+			<!-- limited to 20 players	 -->
+			{#each Object.values(players).slice(0, ghostLimit) as player}
+				<Ghost>
+					<p class="opacity-75">{player}</p>
+				</Ghost>
+			{/each}
+		{/if}
 
 		<div id="board">
 			<Board
