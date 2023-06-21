@@ -28,60 +28,105 @@
 	}
 </script>
 
-<div class="page">
-	<ExitButton onExit={(MouseEvent) => Promise.resolve()} />
+<div class="page flex flex-col">
+	<div>
+		<ExitButton onExit={(MouseEvent) => Promise.resolve()} />
+	</div>
 
-	<div class="flex justify-center mt-8 font py-10">
-		<div class="table-container">
-			<table class="w-full">
-				<thead>
-					<tr>
-						<th class="flex justify-start items-center">Game Name</th>
-						<th>Players</th>
-						<th class="flex justify-start items-center">PIN</th>
-						<th>
-							<button on:click={fetchGames} class="refresh-button">
-								<Icon icon="mdi:restart" />
+	<div class="grid-table">
+		<button on:click={fetchGames} class="refresh-button">
+			<Icon icon="mdi:restart" />
+		</button>
+
+		<div class="grid-container header-container">
+			<div class="grid-row header-row">
+				<div class="grid-cell">Game Name</div>
+				<div class="grid-cell">Players</div>
+				<div class="grid-cell">PIN</div>
+			</div>
+		</div>
+		<div class="grid-container body-container overflow-auto">
+			{#if loading}
+				<div class="loader-container">
+					<Circle />
+				</div>
+			{:else if games.length > 0}
+				{#each games as game}
+					<div class="grid-row">
+						<div class="grid-cell">
+							{#if game.twitch_channel}
+								<a href={`https://www.twitch.tv/${game.twitch_channel}`}>
+									<Icon icon="mdi:twitch" class="twitch-icon" />
+								</a>
+							{/if}
+							{game.name}
+						</div>
+						<div class="grid-cell">{game.players.length}</div>
+						<div class="grid-cell">
+							<button class="big-button mr-5 w-full" on:click={() => goto(`/play/${game.pin}`)}>
+								{game.pin}
 							</button>
-						</th>
-					</tr>
-				</thead>
-				{#if loading}
-					<div class="loader-container">
-						<Circle />
+						</div>
 					</div>
-				{:else if games.length > 0}
-					<tbody>
-						{#each games as game}
-							<tr>
-								<td>
-									<div class="flex justify-start items-center">
-										{game.name}
-										{#if game.twitch_channel}
-											<a href={`https://www.twitch.tv/${game.twitch_channel}`}>
-												<Icon icon="mdi:twitch" class="ml-2 twitch-icon" />
-											</a>
-										{/if}
-									</div>
-								</td>
-								<td>{game.players.length}</td>
-								<td>
-									<button class="join-btn" on:click={() => goto(`/play/${game.pin}`)}>
-										{game.pin}
-									</button>
-								</td>
-							</tr>
-						{/each}
-					</tbody>
-				{:else}
-					<p class="pl-4 pt-3">Currently no active vessels...</p>
-				{/if}
-			</table>
+				{/each}
+			{:else}
+				<p class="pl-4 pt-3">Currently no active vessels...</p>
+			{/if}
 		</div>
 	</div>
 </div>
 
 <style lang="postcss">
+	.grid-table {
+		max-width: 600px;
+		@apply flex items-center flex-col relative text-fontcolor font-amatic text-lg w-full mx-auto md: text-4xl;
+	}
+
+	// this is the container for the header
+	.header-container {
+		@apply w-full;
+	}
+
+	// this is the container for the body
+	.body-container {
+		max-height: 70vh; 
+		overflow-y: auto;
+		@apply w-full;
+
+		// This will make sure that on landscape mobile the table looks good.
+		@media (orientation: landscape) and (hover: none) and (pointer: coarse) {
+			max-height: 50vh;
+		}
+	}
+	
+	// this is the container for the grid, so used both for header and body
+	.grid-container {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	// this is the row for the header, so you can adjust styling of the header
+	.header-row {
+		@apply text-lg font-bold mb-4 md: text-4xl;
+	}
+
+	// this is row of the table, adjust accordingly
+	.grid-row {
+		display: grid;
+		// each fr is a column atm there are 3 columns, adjust accordingly
+		grid-template-columns: 1fr 0.5fr 1fr;
+		@apply w-full gap-2 md: gap-6;
+	}
+
+	// this is a cell of a table, adjust accordingly
+	.grid-cell {
+		@apply flex items-center w-full h-full;
+		margin: 0;
+		overflow: hidden; /* Add this line */
+		text-overflow: ellipsis; /* Add this line */
+		white-space: nowrap; /* Add this line */
+	}
+
 	.loader-container {
 		display: flex;
 		justify-content: center;
@@ -90,44 +135,8 @@
 		height: 100px;
 	}
 
-	.table-container {
-		height: 400px;
-		overflow-y: auto;
-		overflow-x: hidden; /* Sometimes x-overflow pops up randomly when refreshing page :( */
-	}
-
-	.table-container::-webkit-scrollbar {
-		width: 10px;
-	}
-
-	.table-container::-webkit-scrollbar-track {
-		background: #f1f1f1;
-	}
-
-	.table-container::-webkit-scrollbar-thumb {
-		background: #888;
-	}
-
-	.table-container::-webkit-scrollbar-thumb:hover {
-		background: #555;
-	}
-
 	div :global(.twitch-icon):hover {
 		color: #b9a3e3;
-	}
-
-	.font {
-		@apply text-fontcolor text-4xl;
-		font-family: theme(fontFamily.amatic);
-	}
-
-	td {
-		text-align: left;
-	}
-
-	th,
-	td {
-		@apply px-4 py-2;
 	}
 
 	.join-btn:hover {
@@ -135,12 +144,12 @@
 	}
 
 	.join-btn {
-		@apply border-1 p-1 rounded;
-		width: 100%;
+		@apply border-1 p-1 rounded w-20 md:w-60;
 	}
 
+	// added absolute to this and its relative to the grid-table, adjust accordingly
 	.refresh-button {
-		@apply flex flex-grow justify-center items-center rounded-md text-lg lg:text-4xl;
+		@apply absolute top-0 right-0 flex justify-center items-center rounded-md text-4xl lg:text-4xl;
 		transition: all 0.2s ease-in-out;
 		text-decoration: none;
 	}
@@ -148,5 +157,22 @@
 	.refresh-button:hover {
 		@apply cursor-pointer bg-accent;
 		transform: scale(1.05);
+	}
+
+	.body-container::-webkit-scrollbar {
+		width: 10px;
+	}
+
+	.body-container::-webkit-scrollbar-track {
+		background: black;
+	}
+
+	.body-container::-webkit-scrollbar-thumb {
+		@apply bg-fontcolor rounded
+		/* border-radius: 10px; */;
+	}
+
+	.body-container::-webkit-scrollbar-thumb:hover {
+		background: #555;
 	}
 </style>
