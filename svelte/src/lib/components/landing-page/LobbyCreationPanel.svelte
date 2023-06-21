@@ -66,7 +66,8 @@
 	 */
 	function validateLobbyName() {
 		const alphaDigitsWhitespace = /^(?=.*\S)[a-zA-Z0-9 ]+$/;
-		return (lobbyNameIsValid = alphaDigitsWhitespace.test(lobbyName) && lobbyName.length >= 4 && lobbyName.length <= 25);
+		return (lobbyNameIsValid =
+			alphaDigitsWhitespace.test(lobbyName) && lobbyName.length >= 4 && lobbyName.length <= 25);
 	}
 
 	/**
@@ -100,8 +101,8 @@
 		}
 	}
 
-		// Since our url has to stay simple (/play/[pin]) a lobbyStore has been added.
-		// Without lobbyStore the url would /play?lobbyName=${lobbyName}&gameDuration=${gameDuration}`
+	// Since our url has to stay simple (/play/[pin]) a lobbyStore has been added.
+	// Without lobbyStore the url would /play?lobbyName=${lobbyName}&gameDuration=${gameDuration}`
 	function handleSubmit() {
 		if (formIsValid) {
 			if (gameMode === soloGameMode) {
