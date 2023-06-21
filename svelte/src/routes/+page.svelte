@@ -35,26 +35,28 @@
 					</button>
 				</div>
 
-				<div>
-					<h4>Streamers</h4>
+				<div class="flex flex-col md:flex-row">
+					<div>
+						<h4>Streamers</h4>
 
-					<p class="md:px-8">
-						Through a seamless integration with Twitch chat, you have the incredible opportunity to
-						engage your viewers in a dynamic and interactive journey. As you navigate the Ouija
-						board, their collective input becomes a driving force, guiding you to the letters that
-						spell out their messages.
-					</p>
-				</div>
+						<p class="md:px-8">
+							Through a seamless integration with Twitch chat, you have the incredible opportunity
+							to engage your viewers in a dynamic and interactive journey. As you navigate the Ouija
+							board, their collective input becomes a driving force, guiding you to the letters that
+							spell out their messages.
+						</p>
+					</div>
 
-				<div>
-					<h4>Solo Explorers</h4>
+					<div>
+						<h4>Solo Explorers</h4>
 
-					<p class="md:px-8">
-						In this unique game mode called "Solo," you can connect with different AI characters.
-						Engage in intriguing conversations and experience the uncanny as these AI entities
-						respond through the mystical Ouija board. Choose your character, seek wisdom, explore,
-						and unleash your imagination.
-					</p>
+						<p class="md:px-8">
+							In this unique game mode called "Solo," you can connect with different AI characters.
+							Engage in intriguing conversations and experience the uncanny as these AI entities
+							respond through the mystical Ouija board. Choose your character, seek wisdom, explore,
+							and unleash your imagination.
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -69,7 +71,7 @@
 	}
 
 	.home {
-		@apply flex flex-col items-center h-full w-full mt-15 md: justify-center;
+		@apply flex flex-col items-center h-full w-full mt-15 md:justify-center;
 		max-width: 800px; // max-width home content
 	}
 

@@ -98,6 +98,7 @@
 		if (formIsValid) {
 			if (gameMode === soloGameMode) {
 				goto("/solo");
+				return;
 			}
 
 			playerType.set(PlayerType.Host);
