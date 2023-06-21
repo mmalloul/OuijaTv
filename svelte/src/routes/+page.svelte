@@ -8,9 +8,7 @@
 <div class="page container">
 	{#if !showLobbyCreationPanel}
 		<h1>Ouija.tv</h1>
-		<h4 class="text-2xl lg:text-5xl">
-			Unleash the mysteries of the paranormal with Ouija.tv!
-		</h4>
+		<h4 class="text-2xl lg:text-5xl">Unleash the mysteries of the paranormal with Ouija.tv!</h4>
 
 		<div
 			class="text-start font-montserrat text-center text-xs text-fontcolor max-w-[50ch] sm:text-base lg:text-lg"
