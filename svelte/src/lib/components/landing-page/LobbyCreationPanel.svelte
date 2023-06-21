@@ -14,12 +14,14 @@
 	let gameDuration = 15; // in seconds
 	let lobbyName = "";
 	let twitchChannel: string | null = null;
+
 	let isTwitchInputVisible = false;
 	let lobbyNameIsValid: boolean;
 	let gameModeIsValid: boolean;
-	let isGameModeMultiplayer: boolean;
 	let twitchChannelIsValid: boolean;
 	let formIsValid = true;
+
+	let isGameModeMultiplayer: boolean;
 	let gameModes: string[] = ["Solo", "Multiplayer"];
 	let soloGameMode: string = gameModes[0];
 	let multiplayerGameMode: string = gameModes[1];
@@ -50,56 +52,44 @@
 	/**
 	 * This function checks if the game mode is valid.
 	 */
-	function validateGameMode() {
-		gameModeIsValid = gameModes.includes(gameMode);
+	function validateGameMode(gameMode: string) {
+		return gameModes.includes(gameMode);
 	}
 
 	/**
 	 * This function checks if the twitch channel is valid.
 	 */
-	function validateTwitchChannel() {
-		twitchChannelIsValid =
-			twitchChannel !== null && twitchChannel.length >= 4 && twitchChannel.length <= 25;
+	function validateTwitchChannel(twitchChannel: string) {
+		return twitchChannel !== null && twitchChannel.length >= 4 && twitchChannel.length <= 25;
 	}
 
 	/**
 	 * This function checks if the lobby name is valid.
 	 */
-	function validateLobbyName() {
+	function validateLobbyName(lobbyName: string) {
 		const alphaDigitsWhitespace = /^(?=.*\S)[a-zA-Z0-9 ]+$/;
-		return (lobbyNameIsValid =
-			alphaDigitsWhitespace.test(lobbyName) && lobbyName.length >= 4 && lobbyName.length <= 25);
+		return alphaDigitsWhitespace.test(lobbyName) && lobbyName.length >= 4 && lobbyName.length <= 25;
 	}
 
 	/**
 	 * This function checks if the twitch channel is valid.
 	 */
 	function checkTwitchChannel() {
-		return isTwitchInputVisible && twitchChannelIsValid ? true : !isTwitchInputVisible;
+		return isTwitchInputVisible ? twitchChannelIsValid : true;
 	}
 
 	/**
 	 * This reactive statement validates the form inputs.
 	 */
 	$: {
-		if (lobbyName && gameMode === soloGameMode) {
-			validateLobbyName();
-			validateGameMode();
+		lobbyNameIsValid = validateLobbyName(lobbyName);
+		gameModeIsValid = validateGameMode(gameMode);
 
-			formIsValid = lobbyNameIsValid && gameModeIsValid;
-		} else if (lobbyName && twitchChannel && gameMode === multiplayerGameMode) {
-			validateLobbyName();
-			validateGameMode();
-			validateTwitchChannel();
-
-			formIsValid = lobbyNameIsValid && gameModeIsValid && checkTwitchChannel();
-		} else {
-			validateLobbyName();
-			validateGameMode();
-			validateTwitchChannel();
-
-			formIsValid = lobbyNameIsValid && gameModeIsValid && checkTwitchChannel();
+		if (twitchChannel && isTwitchInputVisible) {
+			twitchChannelIsValid = validateTwitchChannel(twitchChannel);
 		}
+
+		formIsValid = lobbyNameIsValid && gameModeIsValid && checkTwitchChannel();
 	}
 
 	// Since our url has to stay simple (/play/[pin]) a lobbyStore has been added.
@@ -107,7 +97,8 @@
 	function handleSubmit() {
 		if (formIsValid) {
 			if (gameMode === soloGameMode) {
-				goto("solo");
+				goto("/solo");
+				return;
 			}
 
 			playerType.set(PlayerType.Host);
