@@ -15,12 +15,12 @@
 			<div
 				class="text-start font-montserrat text-center text-xs text-fontcolor max-w-[50ch] sm:text-base lg:text-lg"
 			>
-				<p class="px-8">
+				<p class="md:px-8">
 					We reinvented the Ouija board for the digital age:<br />
 					<strong>Host</strong> a lobby and <strong>invite</strong> your friends to join your lobby
 					as spirits.<br />
 				</p>
-				<p class="px-8 mt-2">
+				<p class="md:px-8 mt-2">
 					You can ask them a question, or let them fill out an empty word. The spirits will guide
 					the seeker to the letters by voting, and spell out their answer one letter at a time.
 				</p>
@@ -35,7 +35,7 @@
 						<p>Join a lobby</p>
 					</button>
 				</div>
-				<p class="px-8 mt-4">
+				<p class="md:px-8 mt-4">
 					<strong>Streamers:</strong> With a seamless integration of Twitch chat, you can engage
 					your viewers in an exciting, interactive experience, where their collective input guides
 					you on your streams!<br />
@@ -65,7 +65,7 @@
 	}
 
 	h4 {
-		@apply text-fontcolor mb-4;
+		@apply text-fontcolor mb-4 text-center;
 		text-decoration: none;
 		font-family: theme(fontFamily.amatic);
 		line-height: 1.35em;
