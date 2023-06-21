@@ -43,20 +43,26 @@
 	let unsubscribe: Unsubscriber;
 
 	onMount(() => {
+		console.log($playerType);
+
 		unsubscribe = page.subscribe((p) => {
-			if ($playerType !== PlayerType.None && p.params.pin != null) {
-				fetchGameData();
+			if (p.params.pin) {
+				if ($playerType !== PlayerType.None) {
+					fetchGameData();
+				} else {
+					goto(`/join/${pin}`);
+				}
 			}
 		});
 		showMenu.set(false);
-		if ($playerType === PlayerType.None) {
-			goto(`/join/${pin}`);
-		}
 	});
 
 	onDestroy(() => {
 		showMenu.set(true);
-		unsubscribe();
+		
+		if (unsubscribe) {
+			unsubscribe();
+		}
 	});
 
 	function fetchGameData() {
