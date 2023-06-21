@@ -28,7 +28,6 @@
 	const dispatch = createEventDispatcher();
 	const playerType = getContext<Writable<PlayerType>>("playerType");
 
-	$: lobbyNameTooLong = lobbyName.length > 25;
 	function startTheTour() {
 		tourGuide.startTourLobbyCreationPanel();
 	}
@@ -67,7 +66,7 @@
 	 */
 	function validateLobbyName() {
 		const alphaDigitsWhitespace = /^(?=.*\S)[a-zA-Z0-9 ]+$/;
-		return (lobbyNameIsValid = alphaDigitsWhitespace.test(lobbyName) && lobbyName.length >= 1);
+		return (lobbyNameIsValid = alphaDigitsWhitespace.test(lobbyName) && lobbyName.length >= 4 && lobbyName.length <= 25);
 	}
 
 	/**
@@ -154,12 +153,9 @@
 						<label for="lobby-name">Name your vessel:</label>
 
 						<span class:invisible={lobbyNameIsValid} class="error-message">
-							Name can only contain alphabetical and numeric characters
+							Alphabetical and numeric characters only (between 4 and 25 characters)
 						</span>
 					</div>
-					{/if}
-						<p class="error-message">Name too long</p>
-					{#if lobbyNameTooLong === true}
 
 					<input
 						type="text"
