@@ -50,13 +50,13 @@
 
 <style lang="postcss">
 	#dropdown-wrapper {
-		@apply text-fontcolor text-4xl;
+		@apply text-fontcolor text-lg md: text-4xl;
 		font-family: theme(fontFamily.amatic);
 		position: relative;
 	}
 
 	#dropdown-box {
-		@apply flex p-4 border-1 border-fontcolor rounded-xl;
+		@apply flex border-1 border-fontcolor rounded-xl p-2 md: p-4;
 	}
 
 	#dropdown-box button {
