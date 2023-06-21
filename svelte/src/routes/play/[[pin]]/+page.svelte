@@ -3,7 +3,7 @@
 	import Board from "$lib/components/Board.svelte";
 	import { getContext, onMount, onDestroy } from "svelte";
 	import { Shadow } from "svelte-loading-spinners";
-	import { writable, type Writable } from "svelte/store";
+	import { writable, type Unsubscriber, type Writable } from "svelte/store";
 	import { PlayerType } from "$lib/types/PlayerType";
 	import { page } from "$app/stores";
 	import { toastStore } from "$lib/stores/toast";
@@ -14,6 +14,7 @@
 	import PlayerController from "$lib/components/controllers/PlayerController.svelte";
 	import Icon from "@iconify/svelte";
 	import TourGuide from "$lib/components/TourGuide.svelte";
+	import type { Method } from "@testing-library/svelte";
 
 	const playerType: Writable<PlayerType> = getContext("playerType");
 	const showMenu = getContext<Writable<boolean>>("showMenu");
@@ -39,7 +40,7 @@
 	$: pin = $page.params.pin;
 	$: isHost = $playerType === PlayerType.Host;
 
-	let unsubscribe = () => {};
+	let unsubscribe: Unsubscriber;
 
 	onMount(() => {
 		unsubscribe = page.subscribe((p) => {
