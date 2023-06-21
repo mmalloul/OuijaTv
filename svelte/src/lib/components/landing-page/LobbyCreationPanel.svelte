@@ -1,3 +1,4 @@
+
 <script lang="ts">
 	import { lobbyStore } from "$lib/stores/lobbyStore";
 	import { PlayerType } from "$lib/types/PlayerType";
@@ -149,7 +150,7 @@
 
 		<div class="panel-content">
 			<form class="create-form" on:submit|preventDefault={handleSubmit} novalidate>
-				<div class="flex flex-col gap-2">
+				<div class="flex flex-col gap-2 lobby-name-tour">
 					<div class="flex flex-col">
 						<label for="lobby-name">Name your vessel:</label>
 
@@ -166,7 +167,7 @@
 					/>
 				</div>
 
-				<div class="flex flex-col gap-2">
+				<div class="flex flex-col gap-2 voting-time-tour">
 					<label for="duration">Voting Time: {gameDuration} seconds</label>
 
 					<input
@@ -179,7 +180,7 @@
 					/>
 				</div>
 
-				<div class="flex flex-col gap-2">
+				<div class="flex flex-col gap-2 game-mode-tour">
 					<label for="gameMode">Game Mode:</label>
 
 					<div id="gameMode">
@@ -187,7 +188,7 @@
 					</div>
 				</div>
 
-				<div class:invisible={!isGameModeMultiplayer} class="flex flex-col gap-2">
+				<div class:invisible={!isGameModeMultiplayer} class="flex flex-col gap-2 twitch-tour">
 					<div class="flex justify-center gap-2">
 						<label for="toggleInput">Twitch integration:</label>
 
@@ -201,7 +202,7 @@
 					</div>
 
 					<div class:opacity-30={!isTwitchInputVisible}>
-						<div class="flex flex-col">
+						<div class="flex flex-col ">
 							<label for="channel-name">Channel Name:</label>
 
 							<span

@@ -18,19 +18,26 @@
 			overlayOpacity: 0.65,
 			steps: [
 				{
-					element: "#lobby-name",
+					element: ".lobby-name-tour",
 					intro: "First, think of a name for your lobby.",
 					position: "right"
 				},
 				{
-					element: "#gameMode",
+					element: ".voting-time-tour",
+					intro: "Next choose the amount of time between each voting round here.",
+					position: "right"
+				},
+				{
+					element: ".game-mode-tour",
 					intro:
 						"Now choose your game mode! Either play multiplayer (compatible with Twitch chat) or go on a solo adventure and ask commune with an AI spirit.",
 					position: "right"
 				},
+
 				{
-					element: "#duration",
-					intro: "Finally, set the amount of time between each voting round here.",
+					element: ".twitch-tour",
+					intro:
+						"Finally, choose whether you want to integrate your twitch channel in this lobby. Enter the name of your twitch channel to connect. A viewer in your channel can join the game by entering !play in the chat and vote with the same annotation !A.",
 					position: "right"
 				}
 			]
@@ -78,7 +85,7 @@
 					position: "left"
 				},
 				{
-					element: ".spirit-answer",
+					element: ".spirit-answer > span",
 					intro: "The answer will be built up letter by letter and shown here.",
 					position: "bottom"
 				},
@@ -91,7 +98,7 @@
 				{
 					element: ".link-share",
 					intro: "Share this link with others so they can join your lobby as spirits!",
-					position: "left"
+					position: "top"
 				},
 				{
 					element: "#exit-button",
@@ -146,7 +153,7 @@
 					position: "left"
 				},
 				{
-					element: ".spirit-answer",
+					element: ".spirit-answer > span",
 					intro: "The answer will be built up letter by letter and shown here.",
 					position: "bottom"
 				},
