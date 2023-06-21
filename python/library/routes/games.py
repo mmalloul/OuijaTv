@@ -24,6 +24,7 @@ async def get_all_games():
             "twitch_channel": game.twitch_channel,
         }
         for key, game in games.items()
+        if len(game.players) > 0
     ]
 
 # Endpoint to retrieve game by specific pin.
