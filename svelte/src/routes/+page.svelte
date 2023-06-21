@@ -7,38 +7,41 @@
 
 <div class="page container">
 	{#if !showLobbyCreationPanel}
-		<h1>Ouija.tv</h1>
-		<h4 class="text-2xl lg:text-5xl">Unleash the mysteries of the paranormal with Ouija.tv!</h4>
+		<div class="home">
+			<h1>Ouija.tv</h1>
 
-		<div
-			class="text-start font-montserrat text-center text-xs text-fontcolor max-w-[50ch] sm:text-base lg:text-lg"
-		>
-			<p class="px-8">
-				We reinvented the Ouija board for the digital age:<br />
-				<strong>Host</strong> a lobby and <strong>invite</strong> your friends to join your lobby as
-				spirits.<br />
-			</p>
-			<p class="px-8 mt-2">
-				You can ask them a question, or let them fill out an empty word. The spirits will guide the
-				seeker to the letters by voting, and spell out their answer one letter at a time.
-			</p>
+			<h4 class="text-2xl lg:text-5xl">Unleash the mysteries of the paranormal with Ouija.tv!</h4>
+
 			<div
-				class="flex flex-row items-center justify-center space-x-8 font-amatic text-xl lg:text-3xl"
+				class="text-start font-montserrat text-center text-xs text-fontcolor max-w-[50ch] sm:text-base lg:text-lg"
 			>
-				<button type="button" class="big-button" on:click={() => (showLobbyCreationPanel = true)}>
-					<p>Host a lobby</p>
-				</button>
+				<p class="md:px-8">
+					We reinvented the Ouija board for the digital age:<br />
+					<strong>Host</strong> a lobby and <strong>invite</strong> your friends to join your lobby
+					as spirits.<br />
+				</p>
+				<p class="md:px-8 mt-2">
+					You can ask them a question, or let them fill out an empty word. The spirits will guide
+					the seeker to the letters by voting, and spell out their answer one letter at a time.
+				</p>
+				<div
+					class="flex flex-row items-center justify-center space-x-8 font-amatic text-xl lg:text-3xl"
+				>
+					<button type="button" class="big-button" on:click={() => (showLobbyCreationPanel = true)}>
+						<p>Host a lobby</p>
+					</button>
 
-				<button type="button" class="big-button" on:click={() => goto("/join")}>
-					<p>Join a lobby</p>
-				</button>
+					<button type="button" class="big-button" on:click={() => goto("/join")}>
+						<p>Join a lobby</p>
+					</button>
+				</div>
+				<p class="md:px-8 mt-4">
+					<strong>Streamers:</strong> With a seamless integration of Twitch chat, you can engage
+					your viewers in an exciting, interactive experience, where their collective input guides
+					you on your streams!<br />
+					<strong>Solo explorers:</strong> Engage in a spiritual session with our sophisticated AI.
+				</p>
 			</div>
-			<p class="px-8 mt-4">
-				<strong>Streamers:</strong> With a seamless integration of Twitch chat, you can engage your
-				viewers in an exciting, interactive experience, where their collective input guides you on
-				your streams!<br />
-				<strong>Solo explorers:</strong> Engage in a spiritual session with our sophisticated AI.
-			</p>
 		</div>
 	{/if}
 
@@ -47,7 +50,11 @@
 
 <style lang="postcss">
 	.container {
-		@apply flex flex-col items-center md: justify-center;
+		@apply flex flex-col items-center;
+	}
+
+	.home {
+		@apply flex flex-col items-center h-full w-full mt-15 md: justify-center;
 	}
 
 	h1 {
@@ -58,7 +65,7 @@
 	}
 
 	h4 {
-		@apply text-fontcolor mb-4;
+		@apply text-fontcolor mb-4 text-center;
 		text-decoration: none;
 		font-family: theme(fontFamily.amatic);
 		line-height: 1.35em;
