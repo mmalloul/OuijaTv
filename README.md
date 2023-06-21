@@ -38,7 +38,7 @@ services:
       - 8000:8000
     environment:
       PUBLIC_API_KEY_OPENAI: <SECRET>
-      PUBLIC_TWITCH_URL: http://chatbot:9000
+      PUBLIC_TWITCH_URL: http://chatbot:25565
 
   chatbot:
     ports:

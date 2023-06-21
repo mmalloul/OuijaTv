@@ -19,7 +19,7 @@ lint-test-job:
   tags:
     - hva
 
-pytest-test-job:
+pytest-test-job-backend:
   stage: test
   before_script:
     - cd python
@@ -36,6 +36,26 @@ pytest-test-job:
     when: always
     reports:
       junit: python/report.xml
+  tags:
+    - hva
+
+pytest-test-job-chatbot:
+  stage: test
+  before_script:
+    - cd chatbot
+    - apt-get update -q -y
+    - apt-get install -y python3-pip
+    - apt-get install -y python3.11-venv
+    - mkdir ./venv/
+    - python3 -m venv ./venv
+
+    - ./venv/bin/pip install -r requirements.txt
+  script:
+    - ./venv/bin/python -m pytest --junitxml=report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: chatbot/report.xml
   tags:
     - hva
 
