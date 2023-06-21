@@ -69,10 +69,11 @@
 						</div>
 					</div>
 				{/each}
-			{:else}
-				<p class="pl-4 pt-3">Currently no active vessels...</p>
 			{/if}
 		</div>
+		{#if !loading && games.length <= 0}
+			<p>Currently no active games...</p>
+		{/if}
 	</div>
 </div>
 
@@ -89,7 +90,7 @@
 
 	// this is the container for the body
 	.body-container {
-		max-height: 70vh; 
+		max-height: 70vh;
 		overflow-y: auto;
 		@apply w-full;
 
@@ -98,7 +99,7 @@
 			max-height: 50vh;
 		}
 	}
-	
+
 	// this is the container for the grid, so used both for header and body
 	.grid-container {
 		display: grid;
@@ -122,9 +123,9 @@
 	.grid-cell {
 		@apply flex items-center w-full h-full;
 		margin: 0;
-		overflow: hidden; /* Add this line */
-		text-overflow: ellipsis; /* Add this line */
-		white-space: nowrap; /* Add this line */
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	.loader-container {
