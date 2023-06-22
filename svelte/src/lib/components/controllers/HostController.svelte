@@ -90,7 +90,7 @@
 	 * Function that sends restart to server when restart button is pressed.
 	 */
 	function onRestartButton() {
-		if (confirm("Do you want to restart the game?") === true) {
+		if (confirm("Do you want to restart the game?")) {
 			showFinalWord.set(false);
 			socketController.sendRestart();
 		}
@@ -138,9 +138,10 @@
 	}
 
 	const exitGame = async (): Promise<void> => {
-		if (confirm("Do you want to stop the game?") === true) {
+		if (confirm("Do you want to stop the game?")) {
 			$toastStore.showToast(ToastType.Success, "You have stopped the game");
 			socketController.closeSocket();
+			goto("/")
 		}
 	};
 </script>
