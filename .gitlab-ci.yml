@@ -91,28 +91,27 @@ sonarqube-check:
   tags:
     - hva
 
-# dependency-scanning-frontend:
-#   image: node:latest
-#   stage: test
-#   script:
-#     - cd /builds/sluitmc/ouija.tv/svelte
-#     - npm install -g npm@latest
-#     - npm install -g snyk
-#     - npm install snyk-to-html -g
-#     - snyk --help
-#     - snyk auth $SNYK_TOKEN
-#     - npm upgrade
-#     - snyk monitor --project-name=$CI_PROJECT_NAME
-#     - snyk test --json | snyk-to-html -o snyk_results.html
-#   tags:
-#     - hva
-#   artifacts:
-#     when: always
-#     paths:
-#       - snyk_results.html
-#   rules:
-#     - if: $CI_PIPELINE_SOURCE == 'staging'
-#     - if: $CI_COMMIT_BRANCH == 'staging'
+dependency-scanning-frontend:
+  image: node:latest
+  stage: test
+  script:
+    - cd /builds/sluitmc/ouija.tv/svelte
+    - npm install -g npm@latest
+    - npm install -g snyk
+    - npm install snyk-to-html -g
+    - snyk --help
+    - snyk auth $SNYK_TOKEN
+    - npm upgrade
+    - snyk monitor --project-name=$CI_PROJECT_NAME
+    - snyk test --json | snyk-to-html -o snyk_results.html
+  tags:
+    - hva
+  artifacts:
+    when: always
+    paths:
+      - snyk_results.html
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'snyk-fix'
 
 build-production:
   stage: build
