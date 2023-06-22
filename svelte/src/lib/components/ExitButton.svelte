@@ -7,7 +7,6 @@
 		if (onExit) {
 			await onExit(event);
 		}
-		await goto("/");
 	};
 </script>
 

@@ -7,7 +7,7 @@ router = APIRouter()
 
 # Endpoint for getting all game data
 @router.get("/games")
-def get_all_games():
+async def get_all_games():
     return [
         {
             "pin": key,
@@ -28,7 +28,7 @@ def get_all_games():
 
 # Endpoint to retrieve game by specific pin.
 @router.get("/games/{pin}")
-def get_game_by_pin(pin: str):
+async def get_game_by_pin(pin: str):
     if pin in games:
         game = games[pin]
         return {
