@@ -111,7 +111,9 @@ dependency-scanning-frontend:
     paths:
       - snyk_results.html
   rules:
-    - if: $CI_COMMIT_BRANCH == 'snyk-fix'
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'staging'
+    - if: $CI_COMMIT_BRANCH == 'production'
 
 build-production:
   stage: build
