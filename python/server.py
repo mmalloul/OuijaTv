@@ -7,22 +7,10 @@ from library.stores.games import items as games
 app = FastAPI()
 
 origins = [
-    "https://ouija.tv",
-    "https://staging.ouija.tv",
-    "https://www.ouija.tv",
-    "https://www.staging.ouija.tv",
-    "wss://www.ouija.tv",
-    "wss://www.staging.ouija.tv",
-    "wss://ouija.tv",
-    "wss://staging.ouija.tv",
-    "http://www.ouija.tv:25565",
-    "https://www.ouija.tv:25565",
-    "http://ouija.tv:25565",
-    "https://ouija.tv:25565",
-    "http://www.ouija.tv:25566",
-    "https://www.ouija.tv:25566",
-    "http://ouija.tv:25566",
-    "https://ouija.tv:25566",
+    "https://ouija.tv", # Frontend prod
+    "https://staging.ouija.tv", # Frontend staging
+    "http://ouija.tv:25565", # Chatbot prod
+    "http://ouija.tv:25566", # Chatbot staging
 ]
 
 app.add_middleware(
