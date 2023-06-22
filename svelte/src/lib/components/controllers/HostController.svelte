@@ -141,7 +141,7 @@
 		if (confirm("Do you want to stop the game?")) {
 			$toastStore.showToast(ToastType.Success, "You have stopped the game");
 			socketController.closeSocket();
-			goto("/")
+			goto("/");
 		}
 	};
 </script>
