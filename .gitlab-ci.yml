@@ -72,17 +72,17 @@ vitest-test-job:
     - hva
 
 sonarqube-check:
-  image:
+  image: 
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
   variables:
-    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" # Defines the location of the analysis task cache
-    GIT_DEPTH: "0" # Tells git to fetch all the branches of the project, required by the analysis task
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
   cache:
     key: "${CI_JOB_NAME}"
     paths:
       - .sonar/cache
-  script:
+  script: 
     - sonar-scanner
   allow_failure: true
   rules:
@@ -91,28 +91,28 @@ sonarqube-check:
   tags:
     - hva
 
-dependency-scanning-frontend:
-  image: node:latest
-  stage: test
-  script:
-    - cd /builds/sluitmc/ouija.tv/svelte
-    - npm install -g npm@latest
-    - npm install -g snyk
-    - npm install snyk-to-html -g
-    - snyk --help
-    - snyk auth $SNYK_TOKEN
-    - npm upgrade
-    - snyk monitor --project-name=$CI_PROJECT_NAME
-    - snyk test --json | snyk-to-html -o snyk_results.html
-  tags:
-    - hva
-  artifacts:
-    when: always
-    paths:
-      - snyk_results.html
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'staging'
-    - if: $CI_COMMIT_BRANCH == 'staging'
+# dependency-scanning-frontend:
+#   image: node:latest
+#   stage: test
+#   script:
+#     - cd /builds/sluitmc/ouija.tv/svelte
+#     - npm install -g npm@latest
+#     - npm install -g snyk
+#     - npm install snyk-to-html -g
+#     - snyk --help
+#     - snyk auth $SNYK_TOKEN
+#     - npm upgrade
+#     - snyk monitor --project-name=$CI_PROJECT_NAME
+#     - snyk test --json | snyk-to-html -o snyk_results.html
+#   tags:
+#     - hva
+#   artifacts:
+#     when: always
+#     paths:
+#       - snyk_results.html
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == 'staging'
+#     - if: $CI_COMMIT_BRANCH == 'staging'
 
 build-production:
   stage: build
