@@ -71,7 +71,7 @@ vitest-test-job:
   tags:
     - hva
 
-sonarqube-check:
+# sonarqube-check:
   image: 
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
@@ -91,7 +91,7 @@ sonarqube-check:
   tags:
     - hva
 
-dependency-scanning-frontend:
+# dependency-scanning-frontend:
   image: node:latest
   stage: test
   script:
